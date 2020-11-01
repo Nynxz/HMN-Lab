@@ -8,9 +8,10 @@ class Controls{
         this.ControlsVector2 = createVector(0,0);
     }
     static refresh(){
-        
+
         //Reset Vector
-        this.ControlsVector2 = {x: 0, y:0};
+        this.ControlsVector2.x = 0;
+        this.ControlsVector2.y = 0;
 
         if(keyIsDown(Controls.ControlsEnum.W)){
             this.ControlsVector2.y = constrain(this.ControlsVector2.y + 1, -1, 1);

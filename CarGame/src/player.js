@@ -12,7 +12,15 @@ class Player{
     }
 
     static move(){
-        Player.playerSprite.position.x += Controls.ControlsVector2.x;
-        Player.playerSprite.position.y -= Controls.ControlsVector2.y;
+
+        //Why should we Normalize here? ! U tell me.
+        let normalVector = Controls.ControlsVector2.normalize()
+        Player.playerSprite.position.x += normalVector.x;
+        Player.playerSprite.position.y -= normalVector.y;
+    }
+
+    static isOnScreen(){
+        if(Player.playerSprite)
+        return true;
     }
 }

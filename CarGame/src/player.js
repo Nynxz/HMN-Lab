@@ -13,10 +13,12 @@ class Player{
 
     static move(){
 
+        this.playerSprite.depth = this.playerSprite.position.y;
+
         //Why should we Normalize here? ! U tell me.
         let normalVector = Controls.ControlsVector2.normalize()
         Player.playerSprite.position.x += normalVector.x;
-        Player.playerSprite.position.y -= normalVector.y;
+        Player.playerSprite.position.y += normalVector.y;
     }
 
     static isOnScreen(){

@@ -28,5 +28,6 @@ function draw() {
 }
 
 function mouseClicked(){
+  Tile.spawnTileAtMouseDEBUG();
   console.log(mainMap);
 }

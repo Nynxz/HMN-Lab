@@ -14,11 +14,11 @@ class Controls{
         this.ControlsVector2.y = 0;
 
         if(keyIsDown(Controls.ControlsEnum.W)){
-            this.ControlsVector2.y = constrain(this.ControlsVector2.y + 1, -1, 1);
+            this.ControlsVector2.y = constrain(this.ControlsVector2.y -= 1, -1, 1);
         }
         
         if(keyIsDown(Controls.ControlsEnum.S)){
-            this.ControlsVector2.y = constrain(this.ControlsVector2.y -= 1, -1, 1);
+            this.ControlsVector2.y = constrain(this.ControlsVector2.y += 1, -1, 1);
         }
         
         if(keyIsDown(Controls.ControlsEnum.D)){

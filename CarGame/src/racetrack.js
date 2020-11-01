@@ -24,6 +24,7 @@ class RaceTrack{
     loadMap(){
         this.loadedMap = this.rawMap.map((row,y) => split(row, '').map((tile,x) => RaceTrack.turnIntoTile(tile, x, y)));
     }
+    
     static turnIntoTile(tile, posx, posy){
         return new TrackTile(tile, posx, posy);
     }

@@ -9,7 +9,7 @@ function setup() {
 
 function preload() {
   
-  carSpriteImage=loadImage("/CarGame/Assets/yellow_car.png");
+  carSpriteImage=loadImage("https://toppng.com/uploads/preview/aston-martin-one77-01-top-down-car-sprite-1156302814774vtgthfmb.png");
 }
 
 function draw() {

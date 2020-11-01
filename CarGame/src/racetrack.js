@@ -34,12 +34,22 @@ class RaceTrack{
 class TrackTile{
     //GameManager.tileSize
     constructor(type, posx, posy){
+        this.type = type;
         this.createTile(posx, posy);
     }
 
     createTile(posx, posy){
-        this.sprite = createSprite((posx + 1) * GameManager.tileSize, (posy + 1) * GameManager.tileSize);
-        this.sprite.addImage(Images.trackGrassImage);
+        this.sprite = createSprite((posx) * GameManager.tileSize + (GameManager.tileSize/2), (posy) * GameManager.tileSize + (GameManager.tileSize/2));
+        
+        switch(this.type){
+            case '0':
+                this.sprite.addImage(Images.trackGrassImage);
+                break;
+
+            case '1':
+                this.sprite.addImage(Images.trackRoadImage);
+                break;
+        }
     }
 }
 

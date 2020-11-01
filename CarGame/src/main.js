@@ -1,13 +1,14 @@
 // let carSpriteImage;
 // let carSprite;
 let mainMap;
+
 function preload() {
   Images.loadAllImages();
 }
 
 function setup() {
   Controls.Init();
-
+  Images.resizeAllImages()
   GameManager.loadBackground();
 
   
@@ -24,4 +25,8 @@ function draw() {
   Player.move();
   
   drawSprites();
+}
+
+function mouseClicked(){
+  console.log(mainMap);
 }

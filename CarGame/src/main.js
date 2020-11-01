@@ -1,17 +1,23 @@
-let carSpriteImage;
-let carSprite;
+// let carSpriteImage;
+// let carSprite;
 
 function preload() {
   Images.loadAllImages();
 }
 
 function setup() {
+  Controls.Init();
+
   GameManager.loadBackground();
+
   Player.InitPlayer();
-  console.log(Player.number);
 }
 
 function draw() {
+  GameManager.loadBackground();
+
+  Controls.refresh();
+  Player.move();
+  
   drawSprites();
 }
-

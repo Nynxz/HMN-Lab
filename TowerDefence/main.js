@@ -9,6 +9,7 @@ function setup() {
 }
 
 function draw() {
+  background("red");
   GameManager.refresh();
   drawSprites();
 }

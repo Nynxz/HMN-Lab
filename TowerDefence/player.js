@@ -11,50 +11,50 @@ class GameManager {
 
     static activePlayer = null;
 
-
-    static clickCoolDown = 1;
-    static clickCurrentCoolDown = 0;
-
     static initGame(){
-        //Make an Instance of a Player - DEBUG 100 100
-        let debugPlayer = new Player("DEBUG", 100, 100, 400, 400);
-
-        //Push that Instance to allPlayers.
-        GameManager.allPlayers.push(debugPlayer);
 
         //Make an Instance of a Player - DEBUG 100 100
-        let debugPlayer1 = new Player("DEBUGDDDDD", 100, 100, 200, 400);
+        let debugPlayer1 = new Player("DEBUG1", 100, 100, 400, 400);
+        let debugPlayer2 = new Player("DEBUG2", 100, 100, 200, 400);
+        let debugPlayer3 = new Player("DEBUG3", 100, 100, 600, 400);
 
         //Push that Instance to allPlayers.
         GameManager.allPlayers.push(debugPlayer1);
-
-        //Make an Instance of a Player - DEBUG 100 100
-        let debugPlayer2 = new Player("DEBUGBBBBBBBB", 100, 100, 600, 400);
-
-        //Push that Instance to allPlayers.
         GameManager.allPlayers.push(debugPlayer2);
+        GameManager.allPlayers.push(debugPlayer3);
+
     }
 
     static refresh(){
-        if(GameManager.activePlayer instanceof Player){
-            GameManager.activePlayer.sprite.shapeColor = 'blue';
-        }
-        if(mouseIsPressed){
-            if(GameManager.clickCurrentCoolDown > 0){
-                GameManager.mouseClicked();
-                GameManager.clickCurrentCoolDown = 1;
+        if(mouseWentDown(LEFT)){
+
+            if(GameManager.activePlayer){
+                console.log("Current Active: ", GameManager.activePlayer.name);
             }
-        } else {
-            GameManager.clickCurrentCoolDown = cons
+            console.log("Current Sprites: ", allSprites.length);
+            console.log("Current Players: ", GameManager.allPlayers.length);
+            console.log("DETECTING CLICK at (x: ", mouseX, "| y: ", mouseY, ")");
+
+
+            GameManager.allPlayers.forEach((player, i) => {
+                if(player.sprite.life <= 0){
+                    GameManager.allPlayers = GameManager.allPlayers.splice(i, 1);
+                } else {
+                    if(player.sprite.overlapPoint(mouseX, mouseY)){
+                        player.sprite.shapeColor = 'grey';
+                        GameManager.activePlayer = player;
+                        console.log("ON PLAYER");
+                    } else {
+                        if(player !== GameManager.activePlayer){
+                            player.sprite.shapeColor = 'purple';
+                        }
+                    }
+                }
+            });
+            
         }
     }
 
-
-    static mouseClicked(){
-        if(GameManager.activePlayer){
-            GameManager.activePlayer.debugMovement(mouseX, mouseY);
-        }
-    }
 
 }
 
@@ -62,38 +62,38 @@ class GameManager {
 class Player {
 
     constructor(_name,_health,_stamina, x, y) {
+
         this.name=_name;
         this.health=_health;
         this.stamina=_stamina;
+
         this.sprite = this.debugCreatePlayer(x, y);
 
-        this.isActive = false;
     }
 
     debugCreatePlayer(x, y){
         let sprite = createSprite(x, y, 64, 64);
         sprite.shapeColor = 'purple';
-        sprite.onMousePressed = this.debugSayName;
         sprite.Parent = this;
+        // sprite.onMousePressed = () => {
+
+        //     //"Unactivate" all Players visually
+        //     GameManager.allPlayers.forEach(player => player.sprite.shapeColor = 'purple');
+            
+        //     //Set active player to this player
+        //     GameManager.activePlayer = this;
+            
+        //     //Visual to show active
+        //     sprite.shapeColor = 'blue'
+        // }
+        sprite.life = 100;
         return sprite;
-    }
 
-    debugSayName(){
-
-        //"Unactivate" all Players
-        GameManager.allPlayers.forEach(e => {
-            e.sprite.shapeColor = 'purple';
-            e.isActive = false;
-        });
-
-        this.Parent.isActive = true;
-        this.Parent.sprite.shapeColor = 'blue';
-
-        GameManager.activePlayer = this.Parent;
     }
 
     debugMovement(xpos, ypos){
         console.log("Moving player to X ", xpos, "   Y ", ypos);
+
         //Get Target Position - Mouse Pos Click
         //Turn into vector from player, normal. mag 1
         //Face that way

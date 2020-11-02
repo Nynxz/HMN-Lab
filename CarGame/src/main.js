@@ -23,11 +23,13 @@ function draw() {
 
   Controls.refresh();
   Player.move();
-  
+  Tile.Refresh();
   drawSprites();
 }
 
 function mouseClicked(){
-  Tile.spawnTileAtMouseDEBUG();
+  for(let i = 0; i < 10; i++){
+    Tile.spawnTileAtMouseDEBUG();
+  }
   console.log(mainMap);
 }

@@ -1,8 +1,18 @@
 function preload() {
 
-  	Images.loadAllImages();
+	  Images.loadAllImages();
+	  grassDebugSpriteImg = loadImage ("/TowerDefence/assets/debug/GrassDebug.png");
 
 }
+
+class GrassDebugSprite {
+    constructor(_length,_width) {
+        this.length = _length;
+		this.width = _width;
+    }
+}
+
+let debugBackground = new GrassDebugSprite(50,50); 
 
 function setup() {
 
@@ -10,7 +20,6 @@ function setup() {
 	background("green");
 	
 	SceneManager.debugNext()
-	
 }
 
 function draw() {
@@ -25,7 +34,6 @@ function draw() {
 		case SceneManager.Scenes.InGame:
 
 			background("green");
-
 			drawSprites();
 		
 			GameManager.refresh();

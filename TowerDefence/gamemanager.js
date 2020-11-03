@@ -6,7 +6,13 @@ class GameManager {
     static activePlayer = null;
 
     static initializeGame(){
-
+        for(let i=0; i<20;i++){
+            for(let j=0;j<20;j++){
+        debugBackground= createSprite(25+i*50,25+j*50);
+        debugBackground.addImage(grassDebugSpriteImg);
+        debugBackground.depth=-2;
+            }
+        }
         //Make an Instance of a Player - DEBUG 100 100
         let debugPlayer1 = new Player("DEBUG1", 200, 400);
         let debugPlayer2 = new Player("DEBUG2", 400, 400);

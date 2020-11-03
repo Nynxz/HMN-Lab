@@ -2,12 +2,15 @@ class Images{
 
     static Player = { SpriteSheets: { Walking :{ }}};
     static Effects = {};
+    static Menu = {};
 
     static loadAllImages(){
         
         Images._loadDebugAssets();
 
         Images._loadEffects();
+
+        Images._loadMenuAssets();
 
     }
 
@@ -32,5 +35,9 @@ class Images{
         Images.Player.SpriteSheets.Stand = loadAnimation(new SpriteSheet('/TowerDefence/assets/debug/player/rpg_sprite_walk_down.png',
             [{'name': 'stand', 'frame' :{'x': 0, 'y' : 0, 'width' : 24, 'height' : 32}}]));
 
+    }
+    static _loadMenuAssets(){
+        Images.Menu.StartButton = loadImage('/TowerDefence/assets/menu/buttons/startGame.png');
+        Images.Menu.OptionsButton = loadImage('/TowerDefence/assets/menu/buttons/optionsButton.png');
     }
 }

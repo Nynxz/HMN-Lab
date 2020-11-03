@@ -1,6 +1,6 @@
 class SceneManager{
 
-    static Scenes = {MainMenu: 0, InGame: 1}
+    static Scenes = {MainMenu: 'mainmenu', OptionsMenu: 'optionsmenu', CreditMenu: 'creditmenu', InGame: 'ingame'}
     static CurrentScene = SceneManager.Scenes.MainMenu;
 
     static debugNext(){

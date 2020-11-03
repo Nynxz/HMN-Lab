@@ -2,6 +2,7 @@ function preload() {
 
 	  Images.loadAllImages();
 	  grassDebugSpriteImg = loadImage ("/TowerDefence/assets/debug/GrassDebug.png");
+	  bushDebugSpriteImg = loadImage ("/TowerDefence/assets/debug/BushDebug.png");
 
 }
 
@@ -13,6 +14,7 @@ class GrassDebugSprite {
 }
 
 let debugBackground = new GrassDebugSprite(50,50); 
+let debugBush = new GrassDebugSprite(50,50); 
 
 function setup() {
 

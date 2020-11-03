@@ -5,7 +5,15 @@ class GameManager {
 
     static activePlayer = null;
 
-    static initializeGame(){
+    static gamePaused = false;
+    static SpriteGroupPaused;
+
+    static initGame(){
+
+        GameManager.allPlayers = [];
+        GameManager.activePlayer = null;
+        GameManager.gamePaused = false;
+        GameManager.SpriteGroupPaused = new Group();
 
         //Make an Instance of a Player - DEBUG 100 100
         let debugPlayer1 = new Player("DEBUG1", 200, 400);
@@ -21,18 +29,12 @@ class GameManager {
 
     static refresh() {
 
-        for(let i = 0; i < GameManager.allPlayers.length; i++){
-            if(GameManager.allPlayers[i].isSelected){
-                GameManager.allPlayers[i]._selected();
-            }
-        }
-
         GameManager.allPlayers.forEach(player => {
             if(player.isSelected)
                 player._selected();
         });
 
-        if(mouseWentUp(LEFT)){
+        if(mouseWentUp(LEFT) && !GameManager.gamePaused){
             if(GameManager.activePlayer){
                 GameManager.activePlayer.sprite.position.x = mouseX;
                 GameManager.activePlayer.sprite.position.y = mouseY;
@@ -43,6 +45,18 @@ class GameManager {
             // fire.addAnimation('fire', Images.Effects.Fire1);
             // fire.scale = 3;
 
+        }
+
+        if(keyWentDown("esc")){
+            if(!GameManager.gamePaused){ 
+                GameManager.SpriteGroupPaused.removeSprites();
+                GameManager.gamePaused = true;
+                Menu.createPauseMenu();
+            } else {
+                GameManager.gamePaused = false;
+                GameManager.SpriteGroupPaused.removeSprites();
+            }
+            console.log("ESC PRESSED");
         }
     }
 }

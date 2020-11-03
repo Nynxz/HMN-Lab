@@ -9,8 +9,8 @@ function setup() {
 	createCanvas(1000, 1000);
 	background("green");
 	
-	SceneManager.debugNext()
-	
+	//SceneManager.debugNext()
+	Menu.createMainMenu();
 }
 
 function draw() {
@@ -18,8 +18,29 @@ function draw() {
 	switch(SceneManager.CurrentScene){
 
 		case SceneManager.Scenes.MainMenu:
+
 			background("blue");
-			drawSprites();	
+
+			drawSprites();
+
+		break;
+
+		case SceneManager.Scenes.OptionsMenu:
+
+			background("grey");
+
+			drawSprites();
+
+			Menu.drawOptionsMenu();
+
+		break;
+
+		case SceneManager.Scenes.CreditMenu:
+
+			background("purple");
+
+			drawSprites();
+
 		break;
 
 		case SceneManager.Scenes.InGame:
@@ -27,9 +48,14 @@ function draw() {
 			background("green");
 
 			drawSprites();
-		
+
 			GameManager.refresh();
 
 		break;
+
+		default:
+			console.log("No Matching Scenes");
 	}
+
+	
 }

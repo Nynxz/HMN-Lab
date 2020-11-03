@@ -17,6 +17,7 @@ class Images{
 
     static _loadEffects(){
         Images.Effects.Fire1 = loadSpriteSheet('/TowerDefence/assets/effects/fire1/fire1_100x.png', 100, 100, 60);
+        Images.Effects.Fire2 = loadSpriteSheet('/TowerDefence/assets/effects/fire1/_46x60test.png', 46, 60, 60);
     }
 
     static _loadDebugAssets(){
@@ -26,7 +27,7 @@ class Images{
     }
 
     static _loadDebugInteractables(){
-        
+
         Images.Interactables.Debug.GenerateTouching = loadImage('/TowerDefence/assets/interactables/generatedebugtouching.png');
         Images.Interactables.Debug.SpendTouching = loadImage('/TowerDefence/assets/interactables/spenddebugtouching.png');
 

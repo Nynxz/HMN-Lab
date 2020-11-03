@@ -4,20 +4,7 @@ class GameManager {
     static allPlayers = [];
 
     static activePlayer = null;
-
-    static initializeGame(){
-        for(let i=0; i<20;i++){
-            for(let j=0;j<20;j++){
-        debugBackground= createSprite(25+i*50,25+j*50);
-        debugBackground.addImage(grassDebugSpriteImg);
-        debugBackground.depth=-2;
-            }
-        }
-        for(let i=0; i<5;i++){
-        debugBush = createSprite(random(25,975), random(25,975));
-        debugBush.addImage(bushDebugSpriteImg);
-        }
-        static gamePaused = false;
+    static gamePaused = false;
     static SpriteGroupPaused;
 
     static initGame(){
@@ -26,6 +13,7 @@ class GameManager {
         GameManager.activePlayer = null;
         GameManager.gamePaused = false;
         GameManager.SpriteGroupPaused = new Group();
+
         //Make an Instance of a Player - DEBUG 100 100
         let debugPlayer1 = new Player("DEBUG1", 200, 400);
         let debugPlayer2 = new Player("DEBUG2", 400, 400);
@@ -36,6 +24,19 @@ class GameManager {
         GameManager.allPlayers.push(debugPlayer2);
         GameManager.allPlayers.push(debugPlayer3);
 
+        for(let i=0; i<20;i++){
+            for(let j=0;j<20;j++){
+                debugBackground= createSprite(25+i*50,25+j*50);
+                debugBackground.addImage(grassDebugSpriteImg);
+                debugBackground.depth=-2;
+            }
+        }
+
+        for(let i=0; i<5;i++){
+            debugBush = createSprite(random(25,975), random(25,975));
+            debugBush.addImage(bushDebugSpriteImg);
+        }
+
     }
 
     static refresh() {
@@ -45,16 +46,16 @@ class GameManager {
                 player._selected();
         });
 
-        if(mouseWentUp(LEFT) && !GameManager.gamePaused){
+        if(mouseWentUp(LEFT) && !GameManager.gamePaused && mouseX < width && mouseY < height && mouseX > 0 && mouseX > 0){
             if(GameManager.activePlayer){
                 GameManager.activePlayer.sprite.position.x = mouseX;
                 GameManager.activePlayer.sprite.position.y = mouseY;
                 console.log("Active Player: ", GameManager.activePlayer.name);
             }
-            // rectMode(CENTER);
-            // let fire = createSprite(mouseX-25, mouseY-25);
-            // fire.addAnimation('fire', Images.Effects.Fire1);
-            // fire.scale = 3;
+            rectMode(CENTER);
+            let fire = createSprite(mouseX, mouseY-25);
+            fire.addAnimation('fire', Images.Effects.Fire2);
+            //fire.scale = 1;
 
         }
 

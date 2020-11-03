@@ -1,18 +1,22 @@
 function preload() {
-  Images.loadAllImages();
+
+  	Images.loadAllImages();
+
 }
 
 function setup() {
-  createCanvas(1000, 1000);
-  background("green");
-  GameManager.initGame();
+
+	createCanvas(1000, 1000);
+	background("green");
+
+	GameManager.initializeGame();
 }
 
 function draw() {
-  
-  background("green");
 
-  drawSprites();
+	background("green");
 
-  GameManager.refresh();
+	drawSprites();
+
+	GameManager.refresh();
 }

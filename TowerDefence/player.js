@@ -1,10 +1,3 @@
-//X Create 1 Player
-//X Put Player on Screen
-// ~ Click Player - Make Active Player 
-//If Active Player - Click Ground - Move POG
-
-
-
 //If clicked do something (bind onMousePressed)
 class Player {
 
@@ -12,35 +5,46 @@ class Player {
 
         this.name=_name;
         this.selected = false;
+
         this.sprite = this.debugCreatePlayer(x, y);
         
     }
 
     debugCreatePlayer(x, y){
 
-        let sprite = createSprite(x, y, 64, 64);
+        //#region  ANIMS
+        let sprite = createSprite(x, y);
 
         sprite.addAnimation('walkup', Images.Player.SpriteSheets.Walking.Up);
         sprite.addAnimation('walkdown', Images.Player.SpriteSheets.Walking.Down);
         sprite.addAnimation('walkleft', Images.Player.SpriteSheets.Walking.Left);
         sprite.addAnimation('walkright', Images.Player.SpriteSheets.Walking.Right);
         sprite.addAnimation('stand', Images.Player.SpriteSheets.Stand);
+        
         sprite.changeAnimation('stand');
 
+        //#endregion
         sprite.Parent = this;
         sprite.scale = 2;
 
         //TODO : This is coupled way too tightly with GameManger, try to decouple
-        sprite.onMousePressed = () => {
-            if(!this.isSelected){
-                console.log("Clicked on :", this.name);
+
+        sprite.onMousePressed = function() {
+
+            if(!this.Parent.isSelected) {
+
+                console.log("Clicked on :", this.Parent.name);
+                
                 GameManager.allPlayers.forEach(player => player.isSelected = false)
-                GameManager.activePlayer = this;
-                this.isSelected = true;
+                
+                GameManager.activePlayer = this.Parent;
+                this.Parent.isSelected = true;
 
             } else {
+
                 GameManager.activePlayer = null;
-                this.isSelected = false;
+                this.Parent.isSelected = false;
+
             }
         }
         return sprite;

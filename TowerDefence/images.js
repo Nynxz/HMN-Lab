@@ -6,7 +6,9 @@ class Images{
     static loadAllImages(){
         
         Images._loadDebugAssets();
+
         Images._loadEffects();
+
     }
 
     static _loadEffects(){

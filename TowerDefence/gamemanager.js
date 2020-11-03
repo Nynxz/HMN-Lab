@@ -5,7 +5,7 @@ class GameManager {
 
     static activePlayer = null;
 
-    static initGame(){
+    static initializeGame(){
 
         //Make an Instance of a Player - DEBUG 100 100
         let debugPlayer1 = new Player("DEBUG1", 200, 400);
@@ -19,10 +19,17 @@ class GameManager {
 
     }
 
-    static refresh(){
+    static refresh() {
+
+        for(let i = 0; i < GameManager.allPlayers.length; i++){
+            if(GameManager.allPlayers[i].isSelected){
+                GameManager.allPlayers[i]._selected();
+            }
+        }
+
         GameManager.allPlayers.forEach(player => {
             if(player.isSelected)
-                player._selected()
+                player._selected();
         });
 
         if(mouseWentUp(LEFT)){
@@ -31,11 +38,11 @@ class GameManager {
                 GameManager.activePlayer.sprite.position.y = mouseY;
                 console.log("Active Player: ", GameManager.activePlayer.name);
             }
-            rectMode(CENTER);
-            let fire = createSprite(mouseX-25, mouseY-25);
-            fire.addAnimation('fire', Images.Effects.Fire1);
-            fire.scale = 3;
-            
+            // rectMode(CENTER);
+            // let fire = createSprite(mouseX-25, mouseY-25);
+            // fire.addAnimation('fire', Images.Effects.Fire1);
+            // fire.scale = 3;
+
         }
     }
 }

@@ -1,15 +1,18 @@
 function preload() {
-
+  Images.loadAllImages();
 }
 
 function setup() {
   createCanvas(1000, 1000);
-  background("red");
+  background("green");
   GameManager.initGame();
 }
 
 function draw() {
-  background("red");
-  GameManager.refresh();
+  
+  background("green");
+
   drawSprites();
+
+  GameManager.refresh();
 }

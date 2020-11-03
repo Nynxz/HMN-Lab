@@ -8,15 +8,28 @@ function setup() {
 
 	createCanvas(1000, 1000);
 	background("green");
-
-	GameManager.initializeGame();
+	
+	SceneManager.debugNext()
+	
 }
 
 function draw() {
 
-	background("green");
+	switch(SceneManager.CurrentScene){
 
-	drawSprites();
+		case SceneManager.Scenes.MainMenu:
+			background("blue");
+			drawSprites();	
+		break;
 
-	GameManager.refresh();
+		case SceneManager.Scenes.InGame:
+
+			background("green");
+
+			drawSprites();
+		
+			GameManager.refresh();
+
+		break;
+	}
 }

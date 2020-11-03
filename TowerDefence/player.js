@@ -1,12 +1,13 @@
 //If clicked do something (bind onMousePressed)
 class Player {
 
-    constructor(_name, x, y) {
+    constructor(_name, _x, _y) {
 
-        this.name=_name;
+        this.name= _name;
+        this.currentTask = null;
         this.selected = false;
 
-        this.sprite = this.debugCreatePlayer(x, y);
+        this.sprite = this.debugCreatePlayer(_x, _y);
         
     }
 

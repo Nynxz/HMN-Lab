@@ -2,6 +2,7 @@ class Images{
 
     static Player = { SpriteSheets: { Walking :{ }}};
     static Effects = {};
+    static Interactables = {Debug : {}};
     static Menu = {};
 
     static loadAllImages(){
@@ -21,6 +22,13 @@ class Images{
     static _loadDebugAssets(){
 
         Images._loadDebugPlayerAnimations();
+        Images._loadDebugInteractables();
+    }
+
+    static _loadDebugInteractables(){
+        
+        Images.Interactables.Debug.GenerateTouching = loadImage('/TowerDefence/assets/interactables/generatedebugtouching.png');
+        Images.Interactables.Debug.SpendTouching = loadImage('/TowerDefence/assets/interactables/spenddebugtouching.png');
 
     }
 

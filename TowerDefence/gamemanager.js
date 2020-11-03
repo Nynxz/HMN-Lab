@@ -58,6 +58,11 @@ class GameManager {
             }
             console.log("ESC PRESSED");
         }
+
+        //Debug Interactable Spawners
+        if(keyWentDown("s")){
+            let spend = new Interactable(Images.Interactables.Debug.SpendTouching, mouseX, mouseY, Interactable.Type.Spend, Interactable.Range.Touching);
+        }
     }
 }
 

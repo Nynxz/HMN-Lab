@@ -12,3 +12,17 @@ class SceneManager{
         }
     }
 }
+
+class GrassDebug {
+    constructor() {
+        this.length = length;
+        this.width = width;
+    }
+    debugCreateBackground() {
+        let debugBackground = createSprite(0,0);
+        debugBackground.addImage("/TowerDefence/assets/debug/GrassDebug.png")
+        console.log(debugBackground);
+    }
+
+}
+

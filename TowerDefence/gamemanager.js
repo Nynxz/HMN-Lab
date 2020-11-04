@@ -8,7 +8,6 @@ class GameManager {
     static SpriteGroupPaused;
 
     static initGame(){
-
         GameManager.allPlayers = [];
         GameManager.activePlayer = null;
         GameManager.gamePaused = false;

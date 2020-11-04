@@ -4,6 +4,7 @@ class Images{
     static Effects = {};
     static Interactables = {Debug : {}};
     static Menu = {};
+    static WallDebug = {};
 
     static loadAllImages(){
         
@@ -12,6 +13,8 @@ class Images{
         Images._loadEffects();
 
         Images._loadMenuAssets();
+
+       
 
     }
 
@@ -24,6 +27,7 @@ class Images{
 
         Images._loadDebugPlayerAnimations();
         Images._loadDebugInteractables();
+        Images._loadDebugWall();
     }
 
     static _loadDebugInteractables(){
@@ -48,5 +52,9 @@ class Images{
     static _loadMenuAssets(){
         Images.Menu.StartButton = loadImage('/TowerDefence/assets/menu/buttons/startGame.png');
         Images.Menu.OptionsButton = loadImage('/TowerDefence/assets/menu/buttons/optionsButton.png');
+    }
+
+    static _loadDebugWall(){
+        Images.WallDebug.WallDebugImg = loadImage('/TowerDefence/assets/DebugWalls.png');
     }
 }

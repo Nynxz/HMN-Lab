@@ -1,8 +1,9 @@
 function preload() {
 
-	  Images.loadAllImages();
-	  grassDebugSpriteImg = loadImage ("/TowerDefence/assets/debug/GrassDebug.png");
-	  bushDebugSpriteImg = loadImage ("/TowerDefence/assets/debug/BushDebug.png");
+	Images.loadAllImages();
+	//grassDebugSpriteImg = loadImage ("/TowerDefence/assets/debug/GrassDebug.png");
+	//bushDebugSpriteImg = loadImage ("/TowerDefence/assets/debug/BushDebug.png");
+	//wallDebugSpriteImg = loadImage ('/TowerDefence/assets/debug/')
 
 }
 

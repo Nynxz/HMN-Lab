@@ -8,7 +8,6 @@ class Player {
         this.selected = false;
 
         this.sprite = this.debugCreatePlayer(_x, _y);
-        
     }
 
     debugCreatePlayer(x, y){
@@ -64,7 +63,4 @@ class Player {
         strokeWeight(6);
         ellipse(this.sprite.position.x + 2, this.sprite.position.y, 72);
     }
-    
 }
-
-

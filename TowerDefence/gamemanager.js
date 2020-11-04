@@ -22,12 +22,12 @@ class GameManager {
     static SpriteGroupPaused;
 
     static initGame(){
-
         GameManager.SpriteGroupPaused = new Group();
         //Make an Instance of a Player - DEBUG 100 100
         let debugPlayer1 = new Player("DEBUG1", 200, 400);
         let debugPlayer2 = new Player("DEBUG2", 400, 400);
         let debugPlayer3 = new Player("DEBUG3", 600, 400);
+        let debugHealthBar = new HealthBar();
 
         //Push that Instance to allPlayers.
         GameManager.allPlayers.push(debugPlayer1);
@@ -37,6 +37,7 @@ class GameManager {
         Map.generateMap();
 
         DebugHelpers.toggleButtons();
+        
     }
 
     static refresh() {

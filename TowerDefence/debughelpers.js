@@ -13,6 +13,7 @@ class DebugHelpers{
 
     static isShowingButtons = false;
     static buttons = [];
+
     static toggleButtons(){
         if(!DebugHelpers.isShowingButtons){
 
@@ -41,5 +42,13 @@ class DebugHelpers{
             buttons = [];
             DebugHelpers.isShowingButtons = true;
         }
+    }
+
+    static drawFPS(){
+        let fps = frameRate();
+        fill(255);
+        noStroke();
+        stroke(0);
+        text("FPS: " + fps.toFixed(2), 10, height - 10);
     }
 }

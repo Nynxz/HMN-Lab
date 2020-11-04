@@ -1,3 +1,5 @@
+p5.disableFriendlyErrors = true; // disables FES
+
 function preload() {
 
 	Images.loadAllImages();
@@ -19,8 +21,8 @@ let debugBackground = new GrassDebugSprite(64,64);
 let debugBush = new GrassDebugSprite(64,64); 
 
 function setup() {
-
-	noSmooth();
+	frameRate(30);
+	//noSmooth();
 
 	//Scale Tiles based on screen size, or screen size based on amount of tiles :eyes:
 	createCanvas(1440, 816);
@@ -67,6 +69,8 @@ function draw() {
 			drawSprites();
 
 			GameManager.refresh();
+
+			DebugHelpers.drawFPS();
 			GameManager.SpriteGroupPaused.draw();
 
 		break;

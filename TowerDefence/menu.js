@@ -49,14 +49,7 @@ class Menu {
             Menu.createCreditMenu();
         };
     
-        // let creditButton = createSprite (width/2, height/4);
-        // creditButton.addImage(/TowerDefence/assets/menu/startGame.png); //find image 
-        // credditButton.scale =.5;
-        // creditButton.onMousePressed = function(){
-        //     allSprites.clear();
-            
-        //     SceneManager.CurrentScene = SceneManager.Scenes.CreditMenu;
-        // }
+    
         
     }
 

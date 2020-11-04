@@ -14,8 +14,9 @@ class HealthBar {
         return sprite;
     }
 
-    refreshHealthBar(xPos, yPos){
+    refreshHealthBar(xPos, yPos, health){
         if(this.sprite){
+            this.sprite.width = health;
             this.sprite.position.x = xPos + this.healthBarXoffset;
             this.sprite.position.y = yPos + this.healthBarYoffset;
         }

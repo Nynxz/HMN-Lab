@@ -4,6 +4,10 @@ class Player {
     constructor(_name, _x, _y) {
 
         this.name= _name;
+        
+        //TODO
+        this.health = 100;
+
         this.currentTask = null;
         this.selected = false;
 
@@ -58,15 +62,33 @@ class Player {
     }
 
     drawInfo(){
-        this.healthBar.refreshHealthBar(this.sprite.position.x, this.sprite.position.y);
+        this.healthBar.refreshHealthBar(this.sprite.position.x, this.sprite.position.y, this.health);
     }
 
+    damage(amount){
+        this.health = constrain(this.health - amount, 0, this.health);
+        if(this.health == 0){
+            this.die();
+        }
+    }
+
+    die(){
+        if(GameManager.activePlayer === this){
+            console.log("Killing Active Player");
+            this.selected = false;
+            GameManager.activePlayer = null;
+            delete this;
+        }
+        this.sprite.remove();
+    }
 
     _selected(){
-        //TODO: MAKE THIS A SPRITE ON EFFECT LAYER
-        noFill();
-        stroke(0, 255, 0);
-        strokeWeight(6);
-        ellipse(this.sprite.position.x + 2, this.sprite.position.y, 72);
+        if(this.health > 0){
+            //TODO: MAKE THIS A SPRITE ON EFFECT LAYER
+            noFill();
+            stroke(0, 255, 0);
+            strokeWeight(6);
+            ellipse(this.sprite.position.x + 2, this.sprite.position.y, 72);
+        }
     }
 }

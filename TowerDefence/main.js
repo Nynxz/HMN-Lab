@@ -1,8 +1,8 @@
 function preload() {
 
 	Images.loadAllImages();
-	//grassDebugSpriteImg = loadImage ("/TowerDefence/assets/debug/GrassDebug.png");
-	//bushDebugSpriteImg = loadImage ("/TowerDefence/assets/debug/BushDebug.png");
+	grassDebugSpriteImg = loadImage ("/TowerDefence/assets/debug/GrassDebug.png");
+	bushDebugSpriteImg = loadImage ("/TowerDefence/assets/debug/BushDebug.png");
 	//wallDebugSpriteImg = loadImage ('/TowerDefence/assets/debug/')
 
 }
@@ -14,13 +14,16 @@ class GrassDebugSprite {
     }
 }
 
-let debugBackground = new GrassDebugSprite(50,50); 
-let debugBush = new GrassDebugSprite(50,50); 
+//WTF IS THIS DOING GUYS
+let debugBackground = new GrassDebugSprite(64,64); 
+let debugBush = new GrassDebugSprite(64,64); 
 
 function setup() {
 
 	noSmooth();
-	createCanvas(1000, 1000);
+
+	//Scale Tiles based on screen size, or screen size based on amount of tiles :eyes:
+	createCanvas(1440, 816);
 	background("green");
 	
 	//SceneManager.debugNext()
@@ -60,9 +63,11 @@ function draw() {
 		case SceneManager.Scenes.InGame:
 
 			background("green");
+			Map.drawFloorTiles()
 			drawSprites();
 
 			GameManager.refresh();
+			GameManager.SpriteGroupPaused.draw();
 
 		break;
 

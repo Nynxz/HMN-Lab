@@ -3,6 +3,7 @@ class Images{
     static Player = { SpriteSheets: { Walking :{ }}};
     static Effects = {};
     static Interactables = {Debug : {}};
+    static Map = {Ground: {}};
     static Menu = {};
     static WallDebug = {};
 
@@ -14,8 +15,7 @@ class Images{
 
         Images._loadMenuAssets();
 
-       
-
+        Images._loadMapAssets();
     }
 
     static _loadEffects(){
@@ -49,12 +49,21 @@ class Images{
             [{'name': 'stand', 'frame' :{'x': 0, 'y' : 0, 'width' : 24, 'height' : 32}}]));
 
     }
+
+    static _loadMapAssets(){
+        //32x32px
+        Images.Map.GrassRegular = loadImage("/TowerDefence/assets/Sprites/Grass02.png");
+        Images.Map.GrassFlower = loadImage("/TowerDefence/assets/Sprites/Grass.png");
+    }
+
+
+
     static _loadMenuAssets(){
         Images.Menu.StartButton = loadImage('/TowerDefence/assets/menu/buttons/startGame.png');
         Images.Menu.OptionsButton = loadImage('/TowerDefence/assets/menu/buttons/optionsButton.png');
     }
 
     static _loadDebugWall(){
-        Images.WallDebug.WallDebugImg = loadImage('/TowerDefence/assets/DebugWalls.png');
+        Images.WallDebug.WallDebugImg = loadImage('/TowerDefence/assets/debug/DebugWalls.png');
     }
 }

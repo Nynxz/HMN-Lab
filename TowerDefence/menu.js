@@ -25,6 +25,8 @@ class Menu {
             SceneManager.CurrentScene = SceneManager.Scenes.InGame;
 
             GameManager.initGame();
+
+            
         };
         
         let optionButton = new MenuButton(Images.Menu.OptionsButton, 1, width/2, (height/4)* 3);
@@ -54,7 +56,7 @@ class Menu {
     }
 
     static createBackButton(toWhere, doWhat){
-        let backButton = new MenuButton(Images.Menu.OptionsButton, 1, (width/4) * 3, (width/4) * 3);
+        let backButton = new MenuButton(Images.Menu.OptionsButton, 1, (width/4) * 3, (height/4) * 3);
         backButton.sprite.onMousePressed = function(){
             allSprites.clear();
             SceneManager.CurrentScene = toWhere;
@@ -64,7 +66,8 @@ class Menu {
     }
     
     static createPauseMenu(){
-
+        console.log("CREATING BACK MENU");
+        
         let back = Menu.createBackButton(SceneManager.Scenes.MainMenu, function(){
             Menu.createMainMenu();
         });
@@ -74,6 +77,7 @@ class Menu {
 
     static createCreditMenu(){
 
+        console.log("CREATING CREDIT MENU");
         let back = Menu.createBackButton(SceneManager.Scenes.MainMenu, function(){
             Menu.createMainMenu();
         });

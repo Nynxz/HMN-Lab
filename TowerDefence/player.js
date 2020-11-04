@@ -27,6 +27,7 @@ class Player {
         //#endregion
         sprite.Parent = this;
         sprite.scale = 2;
+        sprite.depth = GameManager.Layers.PlayerCharacters;
 
         //TODO : This is coupled way too tightly with GameManger, try to decouple
 
@@ -57,6 +58,7 @@ class Player {
 
 
     _selected(){
+        //TODO: MAKE THIS A SPRITE ON EFFECT LAYER
         noFill();
         stroke(0, 255, 0);
         strokeWeight(6);

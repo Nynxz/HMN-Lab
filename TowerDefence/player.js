@@ -13,7 +13,7 @@ class Player {
 
         this.sprite = this.debugCreatePlayer(_x, _y);
 
-        this.healthBar = new HealthBar(200, 20, 0, -50, "red");
+        this.healthBar = new HealthBar(200, 10, 0, -50, "red");
     }
 
     debugCreatePlayer(x, y){
@@ -28,7 +28,7 @@ class Player {
         sprite.addAnimation('stand', Images.Player.SpriteSheets.Stand);
         
         sprite.changeAnimation('stand');
-
+        
         //#endregion
         sprite.Parent = this;
         sprite.scale = 2;
@@ -58,7 +58,32 @@ class Player {
     }
 
     debugMovement(xpos, ypos){
-        console.log("Moving player to X ", xpos, "   Y ", ypos);
+        let walkSpeed = .5;
+        this.sprite.animation.frameDelay = 8;
+        if(keyIsDown(16)){
+            this.sprite.animation.frameDelay = 4;
+            walkSpeed = 8;
+        }
+
+        
+
+        if(keyIsDown(87)){
+            this.sprite.position.y -= walkSpeed;
+            this.sprite.changeAnimation('walkup');
+        } else if (keyIsDown(83)){
+            this.sprite.position.y += walkSpeed;
+            this.sprite.changeAnimation('walkdown');
+        } else if (keyIsDown(65)){
+            this.sprite.position.x -= walkSpeed;
+            this.sprite.changeAnimation('walkleft');
+        } else if (keyIsDown(68)){
+            this.sprite.position.x += walkSpeed;
+            this.sprite.changeAnimation('walkright');
+        } else {
+            this.sprite.changeAnimation('stand');
+        }
+
+        //console.log("Moving player to X ", xpos, "   Y ", ypos);
     }
 
     drawInfo(){
@@ -77,7 +102,7 @@ class Player {
             console.log("Killing Active Player");
             this.selected = false;
             GameManager.activePlayer = null;
-            delete this;
+            delete this;    
         }
         this.sprite.remove();
     }

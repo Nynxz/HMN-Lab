@@ -6,7 +6,7 @@ class Map{
     static tileSize = 16;
 
     static randomValues = [];
-
+    static MapGet;
     static generateMap(){
 
         Map._generateFloorTiles();
@@ -15,16 +15,16 @@ class Map{
 
     static drawFloorTiles(){
 
-//We Generate Random Values, Once to Save
-for(let x=0; x < Map.mapWidth; x++){
-    for(let y=0; y < Map.mapHeight; y++){
-        if(Map.randomValues[x][y] > .2){
-            image(Images.Map.GrassRegular, (x+1) * Map.tileSize - (Map.tileSize),  (y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
-        } else {
-            image(Images.Map.GrassFlower, (x+1) * Map.tileSize - (Map.tileSize),  (y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
+        //We Generate Random Values, Once to Save
+        for(let x=0; x < Map.mapWidth; x++){
+            for(let y=0; y < Map.mapHeight; y++){
+                if(Map.randomValues[x][y] > .2){
+                    image(Images.Map.GrassRegular, (x+1) * Map.tileSize - (Map.tileSize),  (y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
+                } else {
+                    image(Images.Map.GrassFlower, (x+1) * Map.tileSize - (Map.tileSize),  (y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
+                }
+            }
         }
-    }
-}
     }
 
     static _generateFloorTiles(){

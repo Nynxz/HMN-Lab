@@ -27,7 +27,7 @@ class GameManager {
         let debugPlayer1 = new Player("DEBUG1", 200, 400);
         let debugPlayer2 = new Player("DEBUG2", 400, 400);
         let debugPlayer3 = new Player("DEBUG3", 600, 400);
-        let debugHealthBar = new HealthBar();
+        //let debugHealthBar = new HealthBar();
 
         //Push that Instance to allPlayers.
         GameManager.allPlayers.push(debugPlayer1);
@@ -41,8 +41,10 @@ class GameManager {
     }
 
     static refresh() {
+        
 
         GameManager.allPlayers.forEach(player => {
+            player.drawInfo()
             if(player.isSelected)
                 player._selected();
         });

@@ -8,6 +8,8 @@ class Player {
         this.selected = false;
 
         this.sprite = this.debugCreatePlayer(_x, _y);
+
+        this.healthBar = new HealthBar(200, 20, 0, -50, "red");
     }
 
     debugCreatePlayer(x, y){
@@ -53,6 +55,10 @@ class Player {
 
     debugMovement(xpos, ypos){
         console.log("Moving player to X ", xpos, "   Y ", ypos);
+    }
+
+    drawInfo(){
+        this.healthBar.refreshHealthBar(this.sprite.position.x, this.sprite.position.y);
     }
 
 

@@ -1,16 +1,24 @@
 class HealthBar {
-    constructor(_initialHealthBarWidth,_initialHealthBarHeight,_healthBarX,_healthBarY,_color) {
-        this.inititalHealthBarWidth = 50;
-        this.initialHealthBarHeight = 5;
-        this.healthBarX = 500;
-        this.healthBarY = 500;
-        this.color = "green";
-        this.sprite= this.debugCreateHealthBar();
+    constructor(_initialHealthBarWidth, _initialHealthBarHeight, _healthBarXoffset, _healthBarYoffset, _color) {
+        this.inititalHealthBarWidth = _initialHealthBarWidth;
+        this.initialHealthBarHeight = _initialHealthBarHeight;
+        this.healthBarXoffset = _healthBarXoffset;
+        this.healthBarYoffset = _healthBarYoffset;
+        this.color =  _color;
+        this.sprite = this.debugCreateHealthBar();
     }
 
-    debugCreateHealthBar() {
-        let sprite = createSprite(this.healthBarX,this.healthBarY,this.initalHealthBarWidth,this.initialHealthBarHeight);
+    debugCreateHealthBar(xPos, yPos) {
+        let sprite = createSprite(xPos + this.healthBarXoffset, yPos + this.healthBarYoffset,this.initalHealthBarWidth,this.initialHealthBarHeight);
         sprite.shapeColor=this.color;
+        return sprite;
+    }
+
+    refreshHealthBar(xPos, yPos){
+        if(this.sprite){
+            this.sprite.position.x = xPos + this.healthBarXoffset;
+            this.sprite.position.y = yPos + this.healthBarYoffset;
+        }
     }
     debugHealthBarDecrease() {
         if(inititalHealthBarWidth>=10) {

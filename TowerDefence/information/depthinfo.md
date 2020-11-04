@@ -18,4 +18,4 @@ Layers (depth) - We use this to control the layers of Sprites
 
 2 Ground Floor Interactables (tree Nodes, metal Nodes)
 1 Ground Floor Extras (bushes)
-0 Ground Floor (grass)
+0 Ground Floor (grass) - Mostly "Image()" now

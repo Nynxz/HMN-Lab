@@ -21,7 +21,6 @@ class DebugHelpers{
                 Map._generateFloorTiles();
             });
 
-            
             new DebugButton('Damage All Players', 25, 50, () => {
                 GameManager.allPlayers.forEach(player => {
                     player.damage(10);
@@ -35,29 +34,36 @@ class DebugHelpers{
 
             new DebugButton('Spawn Player (Selected Tile)', 25, 100, () => {
                 if(Tile.activeTile){
-                    let player = new Player("Debug Player", Tile.activeTile.pos.x * Map.tileSize, Tile.activeTile.pos.y * Map.tileSize);
+                    let player = new Player("Debug Player" + floor(random(255)), Tile.activeTile.pos.x * Map.tileSize, Tile.activeTile.pos.y * Map.tileSize);
                     GameManager.allPlayers.push(player);
                 }
-
             });
 
-            // let buttonRegenMap = createButton('Regen Floor');
-            // buttonRegenMap.position(25,25);
-            // buttonRegenMap.mousePressed(() => {
-            //     Map._generateFloorTiles();
-            // })
-            // DebugHelpers.buttons.push(buttonRegenMap);
+
+            //Toggle Layers
+            new DebugButton('Toggle Ground Layer', 350, height - 25, () => {
+                GameManager.Layers.GroundFloor.isEnabled = !GameManager.Layers.GroundFloor.isEnabled;
+            });
+            new DebugButton('Toggle Effects Layer', 550, height - 25, () => {
+                GameManager.Layers.Effects.isEnabled = !GameManager.Layers.Effects.isEnabled;
+            });
+
+
+
+
 
 
 
             DebugHelpers.isShowingButtons = true;
         } else {
-            buttons = [];
+            DebugHelpers.buttons = [];
             DebugHelpers.isShowingButtons = true;
         }
     }
 
     static drawFPS(){
+        textAlign(LEFT);
+
         let fps = frameRate();
         fill(255);
         noStroke();

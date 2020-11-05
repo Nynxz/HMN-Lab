@@ -1,3 +1,4 @@
+//IDK ABOUT THIS
 class Interactable{
     
     static Type = {Walk: 'walk', Generate: 'generate', Spend: 'spend'};

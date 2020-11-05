@@ -1,3 +1,5 @@
+//Base Bar class?
+
 class HealthBar {
     constructor(_initialHealthBarWidth, _initialHealthBarHeight, _healthBarXoffset, _healthBarYoffset, _color) {
         this.inititalHealthBarWidth = _initialHealthBarWidth;
@@ -13,7 +15,6 @@ class HealthBar {
         GameManager.Layers.Effects.rect(xPos + this.healthBarXoffset, yPos + this.healthBarYoffset, health, 15)
     }
 
-    //VV this is borked
     debugHealthBarDecrease() {
         if(inititalHealthBarWidth>=10) {
             inititalHealthBarWidth-(initalHealthBarWidth/0.25);

@@ -69,7 +69,7 @@ class Menu {
         console.log("CREATING BACK MENU");
         let back = Menu.createBackButton(SceneManager.Scenes.MainMenu, function(){
             Menu.createMainMenu();
-            GameManager.allPlayers = [];
+            GameManager.allPlayers = [];w
         });
         //Add to a group so we can wipe it easily
         back.sprite.addToGroup(GameManager.SpriteGroupPaused);

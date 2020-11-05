@@ -55,7 +55,6 @@ class Player extends Actor{
 
 
         //TODO : This is coupled way too tightly with GameManger, try to decouple
-
         sprite.onMousePressed = function() {
 
             if(!this.Parent.isSelected) {

@@ -1,5 +1,6 @@
 p5.disableFriendlyErrors = true; // disables FES "FRIENDLY ERROR SYSTEM"
-document.addEventListener('contextmenu', event => event.preventDefault());
+//Disable Default Right Click, Bypass with Shift RightCick
+document.addEventListener('contextmenu', event => event.preventDefault()); 
 function preload() {
 
 	//We load all our assets
@@ -73,7 +74,7 @@ function draw() {
 
 		case SceneManager.Scenes.InGame:
 			GameManager.Layers.Effects.clear();  
-			//Base Background
+			//Base Background	
 			background("green");
 
 			//We Refresh the Game Logic

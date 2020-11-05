@@ -21,7 +21,7 @@ let debugBackground = new GrassDebugSprite(64,64);
 let debugBush = new GrassDebugSprite(64,64); 
 
 function setup() {
-	frameRate(30);
+	//frameRate(30);
 	//noSmooth();
 
 	//Scale Tiles based on screen size, or screen size based on amount of tiles :eyes:

@@ -24,9 +24,9 @@ class GameManager {
     static initGame(){
         GameManager.SpriteGroupPaused = new Group();
 
-        for(let i = 0; i < 1000; i+=50 ){
-            for(let y = 0; y < 1000; y+=50){
-                let player = new Player("Player", i, y)
+        for(let i = 0; i < 3; i++ ){
+            for(let y = 0; y < 3; y++){
+                let player = new Player("Player", random(50,950), random(50,950))
                 GameManager.allPlayers.push(player);
             }
         }

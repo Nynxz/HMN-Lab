@@ -7,6 +7,7 @@ class Player {
         
         //TODO
         this.health = 100;
+        this.stamina = 80;
 
         this.currentTask = null;
         this.selected = false;
@@ -14,6 +15,7 @@ class Player {
         this.sprite = this.debugCreatePlayer(_x, _y);
 
         this.healthBar = new HealthBar(200, 10, 0, -50, "red");
+        this.staminaBar = new StaminaBar(200, 10, 0, -50, "blue");
     }
 
     debugCreatePlayer(x, y){
@@ -88,6 +90,7 @@ class Player {
 
     drawInfo(){
         this.healthBar.refreshHealthBar(this.sprite.position.x, this.sprite.position.y, this.health);
+        this.staminaBar.refreshStaminaBar(this.sprite.position.x,this.sprite.position.y-15,this.stamina);
     }
 
     damage(amount){

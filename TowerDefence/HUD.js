@@ -7,7 +7,7 @@ class HUD {
         this.score=_score;
         this.activePlayerName=_activePlayerName;
         this.color = "black";
-        this.activePlayerHeadingText="Active Player:"
+        this.activePlayerHeadingText = "Active Player:"
         this.activePlayer=Player.name;
         this.HUD = this.drawHUD();
         this.activePlayerHeaderText = this.drawActivePlayerHeader();
@@ -20,6 +20,5 @@ class HUD {
         textSize(50);
         stroke(255);
         text(this.activePlayerHeadingText,900,400);
-
     }
 }

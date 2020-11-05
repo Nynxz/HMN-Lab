@@ -21,18 +21,20 @@ class GameManager {
     static gamePaused = false;
     static SpriteGroupPaused;
 
+    static debugHUD;
+
     static initGame(){
 
         GameManager.SpriteGroupPaused = new Group();
 
-        for(let i = 0; i < 3; i++ ){
-            for(let y = 0; y < 3; y++){
-                let player = new Player("Player", random(50,950), random(50,950))
-                GameManager.allPlayers.push(player);
-            }
-        }
+        // for(let i = 0; i < 3; i++ ){
+        //     for(let y = 0; y < 3; y++){
+        //         let player = new Player("Player", random(50,950), random(50,950))
+        //         GameManager.allPlayers.push(player);
+        //     }
+        // }
 
-        let debugHUD = new HUD(0,0,300,height);
+        GameManager.debugHUD = new HUD(0,0,300,height);
         // //Make an Instance of a Player - DEBUG 100 100
         // let debugPlayer1 = new Player("DEBUG1", 200, 400);
 
@@ -61,6 +63,7 @@ class GameManager {
     }
 
     static refresh() {
+        GameManager.debugHUD.drawActivePlayerHeader();
 
         if(Tile.activeTile){
             Tile.activeTile.markActive();

@@ -25,6 +25,17 @@ class GameManager {
 
         GameManager.SpriteGroupPaused = new Group();
 
+        for(let i = 0; i < 3; i++ ){
+            for(let y = 0; y < 3; y++){
+                let player = new Player("Player", random(50,950), random(50,950))
+                GameManager.allPlayers.push(player);
+            }
+        }
+
+        let debugHUD = new HUD(0,0,300,height);
+        // //Make an Instance of a Player - DEBUG 100 100
+        // let debugPlayer1 = new Player("DEBUG1", 200, 400);
+
         // //Perfomance Test
         // for(let i = 0; i < 1000; i+=50 ){
         //     for(let y = 0; y < 1000; y+=50){
@@ -35,15 +46,13 @@ class GameManager {
         
         //Make an Instance of a Player - DEBUG 100 100
         //let debugPlayer1 = new Player("DEBUG1", 200, 400);
-        //let debugPlayer2 = new Player("DEBUG2", 400, 400);
-        //let debugPlayer3 = new Player("DEBUG3", 600, 400);
+
 
         //let debugHealthBar = new HealthBar();
 
         //Push that Instance to allPlayers.
         //GameManager.allPlayers.push(debugPlayer1);
-        //GameManager.allPlayers.push(debugPlayer2);
-        //GameManager.allPlayers.push(debugPlayer3);
+
 
         Map.generateMap();
 

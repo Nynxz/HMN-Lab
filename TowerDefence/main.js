@@ -29,7 +29,11 @@ function setup() {
 	background("green");
 	
 	//SceneManager.debugNext()
-	Menu.createMainMenu();
+	if(SceneManager.CurrentScene == SceneManager.Scenes.MainMenu){
+		Menu.createMainMenu();
+	} else {
+		GameManager.initGame();
+	}
 }
 
 function draw() {

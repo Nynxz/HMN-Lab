@@ -14,6 +14,7 @@ class Player {
         this.sprite = this.debugCreatePlayer(_x, _y);
 
         this.healthBar = new HealthBar(200, 10, 0, -50, "red");
+        
     }
 
     debugCreatePlayer(x, y){

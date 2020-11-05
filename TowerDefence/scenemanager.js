@@ -1,7 +1,7 @@
 class SceneManager{
 
     static Scenes = {MainMenu: 'mainmenu', OptionsMenu: 'optionsmenu', CreditMenu: 'creditmenu', InGame: 'ingame'}
-    static CurrentScene = SceneManager.Scenes.MainMenu;
+    static CurrentScene = SceneManager.Scenes.InGame;
 
     static debugNext(){
         let button = createSprite(width/2, height/2);

@@ -28,6 +28,19 @@ class DebugHelpers{
                 })
             });
 
+            new DebugButton('Spawn Player (Center)', 25, 75, () => {
+                let player = new Player("Debug Player", width/2, height/2);
+                GameManager.allPlayers.push(player);
+            });
+
+            new DebugButton('Spawn Player (Selected Tile)', 25, 100, () => {
+                if(Tile.activeTile){
+                    let player = new Player("Debug Player", Tile.activeTile.pos.x * Map.tileSize, Tile.activeTile.pos.y * Map.tileSize);
+                    GameManager.allPlayers.push(player);
+                }
+
+            });
+
             // let buttonRegenMap = createButton('Regen Floor');
             // buttonRegenMap.position(25,25);
             // buttonRegenMap.mousePressed(() => {

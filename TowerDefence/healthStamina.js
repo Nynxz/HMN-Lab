@@ -21,6 +21,8 @@ class HealthBar {
             this.sprite.position.y = yPos + this.healthBarYoffset;
         }
     }
+
+    //VV this is borked
     debugHealthBarDecrease() {
         if(inititalHealthBarWidth>=10) {
             inititalHealthBarWidth-(initalHealthBarWidth/0.25);

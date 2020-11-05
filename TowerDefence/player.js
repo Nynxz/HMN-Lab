@@ -1,15 +1,33 @@
-//If clicked do something (bind onMousePressed)
-class Player {
+class Actor{
 
+    //We will use Actors as a "Sprite" wrapper
+    //It will have movement/damage functions to be used by all things that move (Players, Enemies, Animals)
+    constructor(_name, _initialHealth){
+        this.name = _name;
+        this.health = _initialHealth;
+    }
+
+    //#region MOVEMENT
+    placeActorAtPosition(_x, _y){
+        //Move to any x/y position
+    }
+    placeActorAtTileCenter(_tile){
+        //Instant Move to a Tile
+    }
+    moveActorToTile(_tile){
+        //Move using pathfinding
+    }
+    //#endregion
+
+}
+
+class Player extends Actor{
     constructor(_name, _x, _y) {
-
-        this.name= _name;
+        super(_name, 100)
         
         //TODO
-        this.health = 100;
         this.stamina = 80;
 
-        this.currentTask = null;
         this.selected = false;
 
         this.sprite = this.debugCreatePlayer(_x, _y);
@@ -20,21 +38,21 @@ class Player {
 
     debugCreatePlayer(x, y){
 
-        //#region  ANIMS
+        
         let sprite = createSprite(x, y);
-
+        sprite.addToGroup(GameManager.Layers.PlayerCharactersGroup)
+        sprite.Parent = this;
+        sprite.scale = 2;
+        //#region  ANIMS
         sprite.addAnimation('walkup', Images.Player.SpriteSheets.Walking.Up);
         sprite.addAnimation('walkdown', Images.Player.SpriteSheets.Walking.Down);
         sprite.addAnimation('walkleft', Images.Player.SpriteSheets.Walking.Left);
         sprite.addAnimation('walkright', Images.Player.SpriteSheets.Walking.Right);
         sprite.addAnimation('stand', Images.Player.SpriteSheets.Stand);
-        
         sprite.changeAnimation('stand');
-        
         //#endregion
-        sprite.Parent = this;
-        sprite.scale = 2;
-        sprite.depth = GameManager.Layers.PlayerCharacters;
+
+
 
         //TODO : This is coupled way too tightly with GameManger, try to decouple
 
@@ -63,8 +81,11 @@ class Player {
         let walkSpeed = .5;
         this.sprite.animation.frameDelay = 8;
         if(keyIsDown(16)){
+            this.stamina = constrain(this.stamina - 1, 0, 100);
             this.sprite.animation.frameDelay = 4;
-            walkSpeed = 8;
+            walkSpeed = 6;
+        } else if(this.stamina < 100) {
+            this.stamina = constrain(this.stamina += 1, 0, 100)
         }
 
         
@@ -89,8 +110,11 @@ class Player {
     }
 
     drawInfo(){
-        this.healthBar.refreshHealthBar(this.sprite.position.x, this.sprite.position.y, this.health);
-        this.staminaBar.refreshStaminaBar(this.sprite.position.x,this.sprite.position.y-15,this.stamina);
+
+        GameManager.Layers.Effects.noStroke();
+
+        this.healthBar.refreshHealthBar(this.sprite.position.x, this.sprite.position.y + 20, this.health);
+        this.staminaBar.refreshStaminaBar(this.sprite.position.x,this.sprite.position.y,this.stamina);
     }
 
     damage(amount){
@@ -105,18 +129,25 @@ class Player {
             console.log("Killing Active Player");
             this.selected = false;
             GameManager.activePlayer = null;
-            delete this;    
+            
         }
+
+        GameManager.allPlayers.forEach((player, i) =>{
+            if(player === this){
+                GameManager.allPlayers.splice(i, 1);
+            }   
+        })
+
         this.sprite.remove();
     }
 
     _selected(){
         if(this.health > 0){
             //TODO: MAKE THIS A SPRITE ON EFFECT LAYER
-            noFill();
-            stroke(0, 255, 0);
-            strokeWeight(6);
-            ellipse(this.sprite.position.x + 2, this.sprite.position.y, 72);
+            GameManager.Layers.Effects.noFill();
+            GameManager.Layers.Effects.stroke(0, 255, 0);
+            GameManager.Layers.Effects.strokeWeight(6);
+            GameManager.Layers.Effects.ellipse(this.sprite.position.x + 2, this.sprite.position.y, 72);
         }
     }
 }

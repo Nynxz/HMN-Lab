@@ -30,6 +30,7 @@ class GameManager {
                 GameManager.allPlayers.push(player);
             }
         }
+        let debugHUD = new HUD(0,0,300,height);
         // //Make an Instance of a Player - DEBUG 100 100
         // let debugPlayer1 = new Player("DEBUG1", 200, 400);
         // let debugPlayer2 = new Player("DEBUG2", 400, 400);

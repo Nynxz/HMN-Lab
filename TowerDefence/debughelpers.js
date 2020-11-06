@@ -18,7 +18,11 @@ class DebugHelpers{
         if(!DebugHelpers.isShowingButtons){
 
             new DebugButton('Regen Floor', 25, 25, () => {
-                Map._generateFloorTiles();
+                
+                //Map._generateFloorTiles();
+                Map._generateAndyGrid();
+                GameManager.pathfinding.loadGrid(Map.floorTiles, 0, 0, false);
+                //GameManager.activePlayer.path = [];
             });
 
             new DebugButton('Damage All Players', 25, 50, () => {
@@ -28,13 +32,13 @@ class DebugHelpers{
             });
 
             new DebugButton('Spawn Player (Center)', 25, 75, () => {
-                let player = new Player("Debug Player", width/2, height/2);
+                let player = new Player("Debug Player", floor(random(255)), width/2, height/2);
                 GameManager.allPlayers.push(player);
             });
 
             new DebugButton('Spawn Player (Selected Tile)', 25, 100, () => {
-                if(Tile.activeTile){
-                    let player = new Player("Debug Player" + floor(random(255)), Tile.activeTile.pos.x * Map.tileSize, Tile.activeTile.pos.y * Map.tileSize);
+                if(Map.activeTile){
+                    let player = new Player("Debug Player", floor(random(255)), Map.activeTile.pos.x * Map.tileSize + Map.tileSize/2, Map.activeTile.pos.y * Map.tileSize);
                     GameManager.allPlayers.push(player);
                 }
             });
@@ -42,22 +46,19 @@ class DebugHelpers{
 
             //Toggle Layers
             new DebugButton('Toggle Ground Layer', 350, height - 25, () => {
-                GameManager.Layers.GroundFloor.isEnabled = !GameManager.Layers.GroundFloor.isEnabled;
+                LayerManager.Layers.GroundFloor.isEnabled = !LayerManager.Layers.GroundFloor.isEnabled;
             });
             new DebugButton('Toggle Effects Layer', 550, height - 25, () => {
-                GameManager.Layers.Effects.isEnabled = !GameManager.Layers.Effects.isEnabled;
+                LayerManager.Layers.Effects.isEnabled = !LayerManager.Layers.Effects.isEnabled;
             });
 
-
-
-
-
-
+           
 
             DebugHelpers.isShowingButtons = true;
         } else {
+            DebugHelpers.buttons.forEach(button => button.remove());
             DebugHelpers.buttons = [];
-            DebugHelpers.isShowingButtons = true;
+            DebugHelpers.isShowingButtons = false;
         }
     }
 
@@ -69,5 +70,22 @@ class DebugHelpers{
         noStroke();
         stroke(0);
         text("FPS: " + fps.toFixed(2), 10, height - 10);
+    }
+
+
+    static removeElementFromArraryBackwards(arr, elem){
+        for(let i = arr.length - 1; i >= 0; i--){
+            if(arr[i] === elem){
+                arr.splice(i, 1);
+            }
+        }
+    }
+
+    static pathingHeuristic(a, b){
+
+        //let d = dist(a.x, a.y, b.x, b.y);
+        let d = abs(a.y- a.x) + abs(b.y - b.x);
+        //console.log(d)
+        return d;
     }
 }

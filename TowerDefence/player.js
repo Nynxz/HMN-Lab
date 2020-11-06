@@ -20,10 +20,33 @@ class Actor{
     //#endregion
 
 }
+class PathingActor extends Actor{
 
-class Player extends Actor{
-    constructor(_name, _x, _y) {
-        super(_name, 100)
+    constructor(_map, _name, _initalHealth, _startV2){
+        super(_name, _initalHealth);
+
+        this.map = _map;
+        this.start = {x: _startV2.x, y: _startV2.y};
+
+        this.openedSet = [];
+        this.closedSet = [];
+
+        this.end;
+
+        this.path = [];
+
+        console.log("ACTOR MAP", this.map.length)
+
+        this.generating = true;
+    }
+
+   
+}
+
+class Player extends PathingActor {
+    constructor(_name, _health, _x, _y) {
+        let tile = Map.getTileAtWorldPosition( _x, _y);
+        super(Map.floorTiles, _name, 100, {x: tile.pos.x, y: tile.pos.y});
         
         //TODO
         this.stamina = 80;
@@ -31,16 +54,79 @@ class Player extends Actor{
         this.selected = false;
 
         this.sprite = this.debugCreatePlayer(_x, _y);
-
         this.healthBar = new HealthBar(200, 10, 0, -50, "red");
         this.staminaBar = new StaminaBar(200, 10, 0, -50, "blue");
+
+        this.currentTarget = 0;
+
+        this.nextPoint = {x: _x, y: _y};
+        this.pathIndex = 0;
+        this.walking = false;
+
+        this.baseY;
+    }
+
+    andyMovement(){
+       
+        //check if Knight is close to their next movement point
+        //console.log(this.sprite.position.x)
+        //console.log(this.nextPoint.x)
+
+        if (Math.abs(this.sprite.position.x - this.nextPoint.x) + Math.abs(this.sprite.position.y - this.nextPoint.y) < 0.1 && this.path.length > 1) {
+
+            this.pathIndex += 1;
+            if (this.pathIndex == this.path.length) { 
+                //this means we have reached the end
+                //generate a new random goal for our knight to get to.
+                // goal.x = Math.random() * 800;
+                // goal.y = Math.random() * 600;
+                
+                // //calculate path to new goal
+                // path = pathfinding.findPath(knight.position.x, knight.position.y, goal.x, goal.y);
+                this.pathIndex = 0;
+                this.path = []
+                
+                this.nextPoint.x = this.sprite.position.x;
+                this.nextPoint.y = this.sprite.position.y;
+                this.sprite.velocity.x = 0;
+                this.sprite.velocity.y = 0;
+                this.walking = false;
+                
+            } else if(this.walking){
+
+                //next point is first index of array
+                this.nextPoint = this.path[this.pathIndex];
+
+                this.sprite.velocity.x = (this.nextPoint.x - this.sprite.position.x)/15;
+                this.sprite.velocity.y = (this.nextPoint.y - this.sprite.position.y)/15;
+                
+            } 
+        }
+
+    
+    }
+
+    pathingMovement(_speed){
+        
+        if(this.path.length > 0){
+            let tile = this.path[this.path.length - 1];
+            if(dist(this.sprite.position.x, this.sprite.position.y, tile.pos.x* Map.tileSize + Map.tileSize/2 , tile.pos.y * Map.tileSize + Map.tileSize/2) > 1){
+                this.sprite.attractionPoint(3, tile.pos.x * Map.tileSize + Map.tileSize/2, tile.pos.y * Map.tileSize + Map.tileSize/2)
+            } else {
+                console.log("POPPING")
+                this.path.pop();
+            }
+            //console.log("TARGET: ")
+            //console.log(tile);
+        }
+
     }
 
     debugCreatePlayer(x, y){
 
         
         let sprite = createSprite(x, y);
-        sprite.addToGroup(GameManager.Layers.PlayerCharactersGroup)
+        sprite.addToGroup(LayerManager.Layers.PlayerCharactersGroup)
         sprite.Parent = this;
         sprite.scale = 2;
         //#region  ANIMS
@@ -56,7 +142,7 @@ class Player extends Actor{
 
         //TODO : This is coupled way too tightly with GameManger, try to decouple
         sprite.onMousePressed = function() {
-
+            console.log(GameManager)
             if(!this.Parent.isSelected) {
 
                 console.log("Clicked on :", this.Parent.name);
@@ -77,6 +163,7 @@ class Player extends Actor{
     }
 
     debugMovement(xpos, ypos){
+        
         let walkSpeed = .5;
         this.sprite.animation.frameDelay = 8;
         if(keyIsDown(16)){
@@ -87,22 +174,24 @@ class Player extends Actor{
             this.stamina = constrain(this.stamina += 1, 0, 100)
         }
 
-        
 
-        if(keyIsDown(87)){
-            this.sprite.position.y -= walkSpeed;
-            this.sprite.changeAnimation('walkup');
-        } else if (keyIsDown(83)){
-            this.sprite.position.y += walkSpeed;
-            this.sprite.changeAnimation('walkdown');
-        } else if (keyIsDown(65)){
-            this.sprite.position.x -= walkSpeed;
-            this.sprite.changeAnimation('walkleft');
-        } else if (keyIsDown(68)){
-            this.sprite.position.x += walkSpeed;
+        if (this.sprite.velocity.x > 0.2){
+            //this.sprite.position.x += walkSpeed;
+            console.log(this.sprite.velocity.x)
             this.sprite.changeAnimation('walkright');
+        }else if (this.sprite.velocity.x < -0.1){
+            //this.sprite.position.x -= walkSpeed;
+            this.sprite.changeAnimation('walkleft');
         } else {
             this.sprite.changeAnimation('stand');
+        }
+        
+        if(this.sprite.velocity.y < -0.1){
+            //this.sprite.position.y -= walkSpeed;
+            this.sprite.changeAnimation('walkup');
+        } else if (this.sprite.velocity.y > 0.1){
+            //this.sprite.position.y += walkSpeed;
+            this.sprite.changeAnimation('walkdown');
         }
 
         //console.log("Moving player to X ", xpos, "   Y ", ypos);
@@ -110,7 +199,7 @@ class Player extends Actor{
 
     drawInfo(){
 
-        GameManager.Layers.Effects.noStroke();
+        LayerManager.Layers.Effects.noStroke();
 
         this.healthBar.refreshHealthBar(this.sprite.position.x, this.sprite.position.y + 20, this.health);
         this.staminaBar.refreshStaminaBar(this.sprite.position.x,this.sprite.position.y,this.stamina);
@@ -143,10 +232,10 @@ class Player extends Actor{
     _selected(){
         if(this.health > 0){
             //TODO: MAKE THIS A SPRITE ON EFFECT LAYER
-            GameManager.Layers.Effects.noFill();
-            GameManager.Layers.Effects.stroke(0, 255, 0);
-            GameManager.Layers.Effects.strokeWeight(6);
-            GameManager.Layers.Effects.ellipse(this.sprite.position.x + 2, this.sprite.position.y, 72);
+            LayerManager.Layers.Effects.noFill();
+            LayerManager.Layers.Effects.stroke(0, 255, 0);
+            LayerManager.Layers.Effects.strokeWeight(6);
+            LayerManager.Layers.Effects.ellipse(this.sprite.position.x + 2, this.sprite.position.y, 72);
         }
     }
 }

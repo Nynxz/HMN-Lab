@@ -69,10 +69,10 @@ class Menu {
         console.log("CREATING BACK MENU");
         let back = Menu.createBackButton(SceneManager.Scenes.MainMenu, function(){
             Menu.createMainMenu();
-            GameManager.allPlayers = [];w
+            GameManager.allPlayers = [];
         });
         //Add to a group so we can wipe it easily
-        back.sprite.addToGroup(GameManager.SpriteGroupPaused);
+        back.sprite.addToGroup(LayerManager.Layers.PauseMenuGroup);
     }
 
     static createCreditMenu(){
@@ -81,7 +81,7 @@ class Menu {
         let back = Menu.createBackButton(SceneManager.Scenes.MainMenu, function(){
             Menu.createMainMenu();
         });
-        back.sprite.addToGroup(GameManager.SpriteGroupPaused);
+        back.sprite.addToGroup(LayerManager.Layers.PauseMenuGroup);
 
     }
     

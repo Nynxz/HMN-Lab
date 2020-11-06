@@ -10,9 +10,9 @@ class HealthBar {
     }
 
     refreshHealthBar(xPos, yPos, health){        
-        GameManager.Layers.Effects.fill('red');
-        GameManager.Layers.Effects.rectMode(CENTER);
-        GameManager.Layers.Effects.rect(xPos + this.healthBarXoffset, yPos + this.healthBarYoffset, health, 15)
+        LayerManager.Layers.Effects.fill('red');
+        LayerManager.Layers.Effects.rectMode(CENTER);
+        LayerManager.Layers.Effects.rect(xPos + this.healthBarXoffset, yPos + this.healthBarYoffset, health, 15)
     }
 
     debugHealthBarDecrease() {
@@ -36,9 +36,9 @@ class StaminaBar {
     }
 
     refreshStaminaBar(xPos, yPos, stamina){
-        GameManager.Layers.Effects.fill('blue');
-        GameManager.Layers.Effects.rectMode(CENTER);
-        GameManager.Layers.Effects.rect(xPos + this.staminaBarXoffset, yPos + this.staminaBarYoffset, stamina, 15)
+        LayerManager.Layers.Effects.fill('blue');
+        LayerManager.Layers.Effects.rectMode(CENTER);
+        LayerManager.Layers.Effects.rect(xPos + this.staminaBarXoffset, yPos + this.staminaBarYoffset, stamina, 15)
     }
 
     staminaBarDecrease() {

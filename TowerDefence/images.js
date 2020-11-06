@@ -54,6 +54,8 @@ class Images{
         //32x32px
         Images.Map.GrassRegular = loadImage("/TowerDefence/assets/Sprites/Grass02.png");
         Images.Map.GrassFlower = loadImage("/TowerDefence/assets/Sprites/Grass.png");
+
+        Images.Map.Wall = loadImage("/TowerDefence/assets/Sprites/Wall.png");
     }
 
 
@@ -65,5 +67,7 @@ class Images{
 
     static _loadDebugWall(){
         Images.WallDebug.WallDebugImg = loadImage('/TowerDefence/assets/debug/DebugWalls.png');
+        Images.WallDebug.Lava = loadImage("/TowerDefence/assets/debug/debugLava.png");
+
     }
 }

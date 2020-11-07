@@ -6,6 +6,7 @@ class Images{
     static Map = {Ground: {}};
     static Menu = {};
     static WallDebug = {};
+    static MapEditor = {};
 
     static loadAllImages(){
         
@@ -28,6 +29,7 @@ class Images{
         Images._loadDebugPlayerAnimations();
         Images._loadDebugInteractables();
         Images._loadDebugWall();
+        Images._loadMapEditorAssets();
     }
 
     static _loadDebugInteractables(){
@@ -63,11 +65,21 @@ class Images{
     static _loadMenuAssets(){
         Images.Menu.StartButton = loadImage('/TowerDefence/assets/menu/buttons/startGame.png');
         Images.Menu.OptionsButton = loadImage('/TowerDefence/assets/menu/buttons/optionsButton.png');
+        Images.Menu.EditorButton = loadImage('/TowerDefence/assets/menu/buttons/editorButton.png');
+        
+        Images.Menu.LavaStartButton = loadImage('/TowerDefence/assets/menu/buttons/greenLavaStartButton.png');
     }
 
     static _loadDebugWall(){
         Images.WallDebug.WallDebugImg = loadImage('/TowerDefence/assets/debug/DebugWalls.png');
         Images.WallDebug.Lava = loadImage("/TowerDefence/assets/debug/debugLava.png");
+
+    }
+
+    static _loadMapEditorAssets(){
+        Images.MapEditor.BlankButton = loadImage('/TowerDefence/assets/MapEditor/basePaintButton.png');
+        Images.MapEditor.WallButton = loadImage('/TowerDefence/assets/MapEditor/WallPaintButton.png');
+        
 
     }
 }

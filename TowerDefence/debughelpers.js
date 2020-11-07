@@ -43,6 +43,10 @@ class DebugHelpers{
                 }
             });
 
+            new DebugButton('Recalculate ', 25, 125, () => {
+                GameManager.pathfinding.loadGrid(Map.floorTiles, 0, 0, false);
+            });
+
 
             //Toggle Layers
             new DebugButton('Toggle Ground Layer', 350, height - 25, () => {
@@ -52,6 +56,11 @@ class DebugHelpers{
                 LayerManager.Layers.Effects.isEnabled = !LayerManager.Layers.Effects.isEnabled;
             });
 
+            new DebugButton('Toggle Buttons', width/2, 25, () => {
+                
+                DebugHelpers.toggleButtons();
+            });
+            DebugHelpers.buttons.pop();
            
 
             DebugHelpers.isShowingButtons = true;

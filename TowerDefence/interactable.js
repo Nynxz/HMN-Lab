@@ -1,4 +1,21 @@
 //IDK ABOUT THIS
+class RawTile{
+    static Type = {Grass: 'grass', Flower: 'flower', Wall: 'wall'};
+    constructor(_type){
+        switch(_type){
+
+            case RawTile.Type.Grass:
+                this.image = Images.Map.GrassRegular;
+                this.passable = true;
+            break;
+
+            case RawTile.Type.Wall:
+                this.image = Images.WallDebug.Lava;
+                this.passable = false;
+            break;
+        }
+    }
+}
 class Interactable{
     
     static Type = {Walk: 'walk', Generate: 'generate', Spend: 'spend'};

@@ -1,7 +1,7 @@
 class SceneManager{
 
-    static Scenes = {MainMenu: 'mainmenu', OptionsMenu: 'optionsmenu', CreditMenu: 'creditmenu', InGame: 'ingame'}
-    static CurrentScene = SceneManager.Scenes.InGame;
+    static Scenes = {MainMenu: 'mainmenu', OptionsMenu: 'optionsmenu', CreditMenu: 'creditmenu', MapEditor: 'mapeditor', InGame: 'ingame'}
+    static CurrentScene = SceneManager.Scenes.MainMenu;
 
     //THIS IS FUCKED
     static debugNext(){

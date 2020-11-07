@@ -66,6 +66,7 @@ class LayerManager{
     }
 
     static clearLayers(){
+        
         LayerManager.Layers.Effects.clear();  
         LayerManager.Layers.GroundFloorExtras.clear();
     }

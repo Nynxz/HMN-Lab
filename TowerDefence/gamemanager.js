@@ -9,15 +9,13 @@ class GameManager {
     static gamePaused = false;
     
     //TODO MOVE?
-    static SpriteGroupPaused;
     static debugHUD;   
 
     //#region GAME HOOKS
     static initGame(){
-
+        GameManager.gamePaused = false;
         LayerManager.initLayers()
 
-        GameManager.SpriteGroupPaused = new Group();
         GameManager.debugHUD = new HUD(0,0,300,height);
 
         //16, 32, 48
@@ -77,7 +75,7 @@ class GameManager {
                 
                 //let playerTile = Map.getTileAtWorldPosition(GameManager.activePlayer.sprite.x, GameManager.activePlayer.sprite.y);
                 GameManager.activePlayer.path = GameManager.pathfinding.findPath(GameManager.activePlayer.sprite.position.x, GameManager.activePlayer.sprite.position.y, mouseX, mouseY);
-        
+                GameManager.activePlayer.pathIndex = 0;
                 GameManager.activePlayer.walking = true;
                 GameManager.activePlayer.nextPoint = GameManager.activePlayer.path[0];
                 GameManager.activePlayer.sprite.position.x =  GameManager.activePlayer.nextPoint.x;

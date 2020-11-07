@@ -64,6 +64,8 @@ class Player extends PathingActor {
         this.walking = false;
 
         this.baseY;
+        // this.test = new Player("Test", 100, 50, 50);
+        // console.log(this);
     }
 
     andyMovement(){
@@ -72,7 +74,7 @@ class Player extends PathingActor {
         //console.log(this.sprite.position.x)
         //console.log(this.nextPoint.x)
 
-        if (Math.abs(this.sprite.position.x - this.nextPoint.x) + Math.abs(this.sprite.position.y - this.nextPoint.y) < 0.1 && this.path.length > 1) {
+        if (Math.abs(this.sprite.position.x - this.nextPoint.x) + Math.abs(this.sprite.position.y - this.nextPoint.y) < 1 && this.path.length > 1) {
 
             this.pathIndex += 1;
             if (this.pathIndex == this.path.length) { 
@@ -101,10 +103,14 @@ class Player extends PathingActor {
                 this.sprite.velocity.y = (this.nextPoint.y - this.sprite.position.y)/15;
                 
             } 
+        } else if(this.pathIndex == 0 && this.path.length > 0){
+            this.nextPoint = this.path[0];
+            this.sprite.velocity.x = (this.nextPoint.x - this.sprite.position.x)/15;
+            this.sprite.velocity.y = (this.nextPoint.y - this.sprite.position.y)/15;
         }
 
     
-    }
+    } 
 
     pathingMovement(_speed){
         
@@ -177,7 +183,6 @@ class Player extends PathingActor {
 
         if (this.sprite.velocity.x > 0.2){
             //this.sprite.position.x += walkSpeed;
-            console.log(this.sprite.velocity.x)
             this.sprite.changeAnimation('walkright');
         }else if (this.sprite.velocity.x < -0.1){
             //this.sprite.position.x -= walkSpeed;

@@ -6,25 +6,51 @@ class Tile{
 
     constructor(_arrayToStore, _x, _y, _rand){
 
-        //Assign an id to a tile
-        this.id = Tile.tileCount++;
-        this.pos = {x: _x, y: _y};
-        _arrayToStore[_y][_x] = this;
+        if(_rand === undefined && _y === undefined){
+            //_x is now a tile
+            let tile = _x;
+            this.pos = tile.pos;
+            _arrayToStore[tile.pos.y][tile.pos.x] = this;
 
-        //TODO: MOVE TO FUNCTION?
-        if(_rand > .2){
-            this.type = 'grass';
-            LayerManager.Layers.GroundFloor.image(Images.Map.GrassRegular, (_x+1) * Map.tileSize - (Map.tileSize),  (_y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
-            this.passable = true;
-        } else if (_rand > .6) {
-            LayerManager.Layers.GroundFloor.image(Images.Map.GrassFlower, (_x+1) * Map.tileSize - (Map.tileSize),  (_y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
-            this.type = 'flower'
-            this.passable = true;
-        } else {
-            LayerManager.Layers.GroundFloor.image(Images.WallDebug.Lava, (_x+1) * Map.tileSize - (Map.tileSize),  (_y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
-            this.type = 'lava'
-            this.passable = false;
+            switch(tile.type){
+                case "grass":
+                    this.type = 'grass';
+                    LayerManager.Layers.GroundFloor.image(Images.Map.GrassRegular, (this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
+                    this.passable = true;
+                    break;
+                case "flower":
+                    this.type = 'flower';
+                    LayerManager.Layers.GroundFloor.image(Images.Map.GrassFlower, (this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
+                    this.passable = true;
+                    break;
+                case "lava":
+                    this.type = 'lava';
+                    LayerManager.Layers.GroundFloor.image(Images.WallDebug.Lava, (this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
+                    this.passable = false;
+                    break;
+            }
+        }else {
+            //Assign an id to a tile
+            this.id = Tile.tileCount++;
+            this.pos = {x: _x, y: _y};
+            _arrayToStore[_y][_x] = this;
+
+            //TODO: MOVE TO FUNCTION?
+            if(_rand < .6){
+                this.type = 'grass';
+                LayerManager.Layers.GroundFloor.image(Images.Map.GrassRegular, (_x+1) * Map.tileSize - (Map.tileSize),  (_y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
+                this.passable = true;
+            } else if (_rand < 1) {
+                LayerManager.Layers.GroundFloor.image(Images.Map.GrassFlower, (_x+1) * Map.tileSize - (Map.tileSize),  (_y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
+                this.type = 'flower'
+                this.passable = true;
+            } else {
+                LayerManager.Layers.GroundFloor.image(Images.WallDebug.Lava, (_x+1) * Map.tileSize - (Map.tileSize),  (_y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
+                this.type = 'lava'
+                this.passable = false;
+            }
         }
+
 
         this.debugActive = false;
     }
@@ -65,6 +91,7 @@ class Map{
     //We put other generation methods in here
     static generateMap(_tileSize, _width, _height){
 
+        this.tileCount = 0;
         Map.tileSize = _tileSize;
         Map.mapWidth = _width/Map.tileSize;
         Map.mapHeight = _height/Map.tileSize;
@@ -81,9 +108,9 @@ class Map{
 
         //Magic? :eyes: - grabs the tile from the 2d array 
         //TODO: Add some security checks maybe.. 
-        console.log("FLOOR TILES")
-        console.log(Map.floorTiles);
-        console.log(_x, " ", _y)
+        // console.log("FLOOR TILES")
+        // console.log(Map.floorTiles);
+        // console.log(_x, " ", _y)
         let tile = Map.floorTiles[floor(_y / Map.tileSize)][floor( _x / Map.tileSize)];
 
         return tile;

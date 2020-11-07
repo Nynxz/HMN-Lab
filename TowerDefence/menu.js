@@ -20,7 +20,7 @@ class Menu {
 
         //These are buttons, we pass in an Image, "scale", position, then bind function to onMousePressed
 
-        let startButton = new MenuButton(Images.Menu.StartButton, .5, width/2, height/4)
+        let startButton = new MenuButton(Images.Menu.LavaStartButton, 3, width/2, height/4)
         startButton.sprite.onMousePressed = function() {
 
             allSprites.clear();
@@ -48,6 +48,24 @@ class Menu {
             SceneManager.CurrentScene = SceneManager.Scenes.CreditMenu;
             Menu.createCreditMenu();
         };
+
+        let mapEditorButton = new MenuButton(Images.Menu.EditorButton, 2, width/2, height/2);
+        mapEditorButton.sprite.onMousePressed = function(){
+
+            GameManager.initGame();
+
+            //Load Map Editor
+            LayerManager.clearLayers();
+            LayerManager.Layers.PauseMenuGroup.clear();
+            LayerManager.Layers.GroundFloor.clear();
+            LayerManager.Layers.PlayerCharactersGroup.clear();
+            
+            allSprites.clear();
+            SceneManager.CurrentScene = SceneManager.Scenes.MapEditor;
+            console.log("LOADING MAP EDITOR");
+
+            MapEditor.createButtons();
+        }
 
     }
 

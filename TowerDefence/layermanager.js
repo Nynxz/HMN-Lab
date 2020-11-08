@@ -9,7 +9,9 @@ class LayerManager{
         LayerManager.Layers.GroundFloorExtras = createGraphics(1440, 816);
         LayerManager.Layers.GroundFloorExtras.isEnabled = true;
 
-        LayerManager.Layers.GroundFloorInteractables
+        LayerManager.Layers.GroundFloorInteractables = createGraphics(1440, 816);
+        LayerManager.Layers.GroundFloorInteractables.isEnabled = true;
+
         LayerManager.Layers.HouseFloor
         LayerManager.Layers.HouseWalls
         LayerManager.Layers.HouseInteractables
@@ -39,7 +41,9 @@ class LayerManager{
         if(LayerManager.Layers.GroundFloorExtras.isEnabled){
             image(LayerManager.Layers.GroundFloorExtras, 0, 0);
         }
-        //LayerManager.Layers.GroundFloorInteractables
+        if(LayerManager.Layers.GroundFloorInteractables.isEnabled){
+            image(LayerManager.Layers.GroundFloorInteractables, 0, 0);
+        }
         //LayerManager.Layers.HouseFloor
         //LayerManager.Layers.HouseWalls
         //LayerManager.Layers.HouseInteractables

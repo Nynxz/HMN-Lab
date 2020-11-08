@@ -2,8 +2,8 @@
 let debugPActor, debugPActor2, debugPActor3, debugPActor4, debugPActor5, debugPActor6;
 
 class PathingPoint extends Tile{
-    constructor(_arrayToStore, _x, _y, _rand){
-        super(_arrayToStore, _x, _y, _rand);
+    constructor(_arrayToStore, _tileToPlace){
+        super(_arrayToStore, _tileToPlace);
         this.Path ={
             id: 0,
             x: 0,

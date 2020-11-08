@@ -9,23 +9,23 @@ class RawTile{
         switch(_type){
             
             case RawTile.Type.Grass:
-                this.image = Images.Map.GrassRegular;
+                this.image = 'Images.Map.GrassRegular';
                 this.passable = true;
             break;
 
             case RawTile.Type.Wall:
-                this.image = Images.WallDebug.Lava;
+                this.image = 'Images.WallDebug.Lava';
                 this.passable = false;
             break;
 
             case RawTile.Type.Tree:
-                this.image = Images.Interactables.Tree1;
+                this.image = 'Images.Interactables.Tree1';
                 this.passable = true;
             break;
             
             case RawTile.Debug.Spend:
                 this.node = new Interactable(Interactable.NodeTypes.GENERATE, 1, 1, Interactable.Alignment.CENTER);
-                this.image = Images.Interactables.Debug.SpendTouching;
+                this.image = 'Images.Interactables.Debug.SpendTouching';
                 this.passable = false;
         }
     }

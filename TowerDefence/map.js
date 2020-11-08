@@ -11,12 +11,19 @@ class Tile{
             this.passable = _tileToPlace.passable
             this.image = _tileToPlace.image;
             _arrayToStore[this.pos.y][this.pos.x] = this;
-            LayerManager.Layers.GroundFloor.image(this.image, (this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
+            LayerManager.Layers.GroundFloor.image(eval(this.image), (this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
             
-            //Tile is a Node
+            //Tile has a Node
             if(_tileToPlace.node){
-                //this.node = _tileToPlace.node;
+                this.node = _tileToPlace.node;
+                LayerManager.Layers.GroundFloorInteractables.image(eval(_tileToPlace.node.image), (this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
+            } else {
+                LayerManager.Layers.GroundFloorInteractables.erase();
+                LayerManager.Layers.GroundFloorInteractables.rect((this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
+                //LayerManager.Layers.GroundFloorInteractables.image(eval(_tileToPlace.image), (this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
+                LayerManager.Layers.GroundFloorInteractables.noErase();
             }
+            
 
         this.debugActive = false;
     }

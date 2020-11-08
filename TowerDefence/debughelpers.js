@@ -50,8 +50,11 @@ class DebugHelpers{
             new DebugButton('Toggle Ground Layer', 350, height - 25, () => {
                 LayerManager.Layers.GroundFloor.isEnabled = !LayerManager.Layers.GroundFloor.isEnabled;
             });
-            new DebugButton('Toggle Effects Layer', 550, height - 25, () => {
+            new DebugButton('Toggle Effects Layer', 500, height - 25, () => {
                 LayerManager.Layers.Effects.isEnabled = !LayerManager.Layers.Effects.isEnabled;
+            });
+            new DebugButton('Toggle Interactable Layer', 650, height - 25, () => {
+                LayerManager.Layers.GroundFloorInteractables.isEnabled = !LayerManager.Layers.GroundFloorInteractables.isEnabled;
             });
 
             new DebugButton('Toggle Buttons', width/2, 25, () => {

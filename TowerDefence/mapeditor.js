@@ -12,11 +12,15 @@ class MapEditor{
         
         if(mouseDown(RIGHT) && MapEditor.tileToPlace && !keyIsDown(17)){
             let tile = Map.getTileAtWorldPosition(mouseX, mouseY);
-            if(tile && tile.type != MapEditor.tileToPlace.type){
+            if(tile){
                 let x = tile.pos.x;
                 let y = tile.pos.y;
                 MapEditor.tileToPlace.pos = {x: tile.pos.x, y: tile.pos.y};
-                Map.floorTiles[y][x] = new PathingPoint(Map.floorTiles, MapEditor.tileToPlace);
+                MapEditor.tileToPlace.node = MapEditor.itemToPlace;
+              
+                let newTile = new PathingPoint(Map.floorTiles, MapEditor.tileToPlace);
+
+                Map.floorTiles[y][x] = newTile;
             }
         }
     }
@@ -34,8 +38,13 @@ class MapEditor{
         let TreeButton = new MenuButton(Images.MapEditor.Tree1Button, 1, width - 100, 500);
         TreeButton.sprite.onMousePressed = function(){
             Map.activeTile = null;
-            MapEditor.tileToPlace = new RawTile(RawTile.Type.Tree);
-            console.log(MapEditor.tileToPlace);
+            if(MapEditor.itemToPlace != null){
+                console.log("OFF")
+                MapEditor.itemToPlace = null
+            } else {
+                MapEditor.itemToPlace = new RawTile(RawTile.Type.Tree);
+                console.log(MapEditor.tileToPlace);
+            }
         }
         
         let BlankButton = new MenuButton(Images.MapEditor.BlankButton, 1, width - 100, 600);
@@ -60,11 +69,11 @@ class MapEditor{
                     delete temp.id;
                     delete temp.Path;
                     delete temp.debugActive;
-                    delete temp.image;
+                    //delete temp.image;
                     map[y].push(temp);
                 })
             })
-            saveJSON(map, mapInputs.value());
+            saveJSON(map, mapInputs.value(), true);
         });
         
         new DebugButton('Load Map', width - 250, height - 50, () => {

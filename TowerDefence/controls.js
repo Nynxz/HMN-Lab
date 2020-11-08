@@ -28,6 +28,9 @@ class Controls{
                     } else {
                         Map.activeTile = tile;
                     }
+                    if(tile.node){
+                        console.log(tile.node)
+                    }
                     tile.debugActive = true;
                 }
             }

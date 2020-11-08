@@ -235,7 +235,6 @@ class Player extends PathingActor {
 
     _selected(){
         if(this.health > 0){
-            //TODO: MAKE THIS A SPRITE ON EFFECT LAYER
             LayerManager.Layers.Effects.noFill();
             LayerManager.Layers.Effects.stroke(0, 255, 0);
             LayerManager.Layers.Effects.strokeWeight(6);

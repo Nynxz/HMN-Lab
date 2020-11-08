@@ -137,6 +137,9 @@ class GameManager {
            // let spend = new Interactable(Images.Interactables.Debug.SpendTouching, mouseX, mouseY, Interactable.Type.Spend, Interactable.Range.Touching);
         }
     }
+    static refreshHUD() {
+        
+    }
     //#endregion
 }
     

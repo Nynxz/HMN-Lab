@@ -25,6 +25,14 @@ class MapEditor{
             MapEditor.tileToPlace = new RawTile(RawTile.Type.Wall);
             console.log(MapEditor.tileToPlace);
         }
+        
+        let BlankButton = new MenuButton(Images.MapEditor.BlankButton, 1, width - 100, 600);
+        BlankButton.sprite.onMousePressed = function(){
+            Map.activeTile = null;
+            console.log("WALL BOIS");
+            MapEditor.tileToPlace = new RawTile(RawTile.Type.Grass);
+            console.log(MapEditor.tileToPlace);
+        }
 
         let mapInputs = createInput('');
         mapInputs.position(width - 150, height - 50);

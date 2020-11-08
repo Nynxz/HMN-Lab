@@ -1,5 +1,5 @@
 class HUD {
-    constructor(_xOffset,_yOffset,_containerWidth,_containerHeight,_score,_activePlayerName,_color,_activePlayerHeadingText) {
+    constructor(_xOffset,_yOffset,_containerWidth,_containerHeight,_score,_activePlayerName,_color,_activePlayerHeadingText,_debugClock) {
         this.xOffset = _xOffset;
         this.yOffset = _yOffset;
         this.containerWidth = _containerWidth;
@@ -11,6 +11,10 @@ class HUD {
         this.activePlayer= GameManager.activePlayer;
         this.HUD = this.drawHUD();
         this.activePlayerHeaderText = this.drawActivePlayerHeader();
+     //   this.debugClock = this.drawGameClock();
+        this.hr = 0;
+        this.min1 = 0;
+        this.min2 = 0;
     }
     drawHUD() {
         let HUD = createSprite(width-(this.containerWidth/2),height-this.containerHeight/2,this.containerWidth,this.containerHeight);
@@ -26,5 +30,12 @@ class HUD {
         text("Health" + " " + hp,width-300,75);
         let stam = GameManager.activePlayer ? GameManager.activePlayer.stamina : " NO PLAYER";
         text("Stamina" + " " + stam,width-300,125);
+    }
+
+   drawGameClock() {
+      textAlign(LEFT);
+        textSize(15);
+        fill(255);
+        text(this.hr + ":" + this.min1 + this.min2,width-300,200);
     }
 }

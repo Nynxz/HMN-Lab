@@ -239,7 +239,7 @@ class Player extends PathingActor {
             LayerManager.Layers.Effects.noFill();
             LayerManager.Layers.Effects.stroke(0, 255, 0);
             LayerManager.Layers.Effects.strokeWeight(6);
-            LayerManager.Layers.Effects.ellipse(this.sprite.position.x + 2, this.sprite.position.y, 72);
+            LayerManager.Layers.Effects.image(Images.PlayerSelected.PlayerSelectedImage,this.sprite.position.x -28, this.sprite.position.y+25,60);
         }
     }
 }

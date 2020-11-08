@@ -7,6 +7,7 @@ class Images{
     static Menu = {};
     static WallDebug = {};
     static MapEditor = {};
+    static PlayerSelected = {};
 
     static loadAllImages(){
         
@@ -17,6 +18,8 @@ class Images{
         Images._loadMenuAssets();
 
         Images._loadMapAssets();
+        
+        Images._loadPlayerSelectedImage();
     }
 
     static _loadEffects(){
@@ -81,5 +84,9 @@ class Images{
         Images.MapEditor.BlankButton = loadImage('/TowerDefence/assets/MapEditor/basePaintButton.png');
         Images.MapEditor.WallButton = loadImage('/TowerDefence/assets/MapEditor/WallPaintButton.png');
         Images.MapEditor.Tree1Button = loadImage('/TowerDefence/assets/MapEditor/TreePaintButton.png');
+    }
+
+    static _loadPlayerSelectedImage() {
+        Images.PlayerSelected.PlayerSelectedImage = loadImage('/TowerDefence/assets/Sprites/playerSelectShadow.png')
     }
 }

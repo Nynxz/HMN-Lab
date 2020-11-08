@@ -18,7 +18,6 @@ class DebugHelpers{
         if(!DebugHelpers.isShowingButtons){
 
             new DebugButton('Regen Floor', 25, 25, () => {
-                
                 //Map._generateFloorTiles();
                 Map._generateAndyGrid();
                 GameManager.pathfinding.loadGrid(Map.floorTiles, 0, 0, false);
@@ -46,7 +45,6 @@ class DebugHelpers{
             new DebugButton('Recalculate ', 25, 125, () => {
                 GameManager.pathfinding.loadGrid(Map.floorTiles, 0, 0, false);
             });
-
 
             //Toggle Layers
             new DebugButton('Toggle Ground Layer', 350, height - 25, () => {

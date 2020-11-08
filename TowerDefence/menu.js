@@ -59,7 +59,7 @@ class Menu {
             LayerManager.Layers.PauseMenuGroup.clear();
             LayerManager.Layers.GroundFloor.clear();
             LayerManager.Layers.PlayerCharactersGroup.clear();
-            
+
             allSprites.clear();
             SceneManager.CurrentScene = SceneManager.Scenes.MapEditor;
             console.log("LOADING MAP EDITOR");

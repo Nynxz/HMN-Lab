@@ -1,9 +1,13 @@
 //IDK ABOUT THIS
 class RawTile{
-    static Type = {Grass: 'grass', Flower: 'flower', Wall: 'wall'};
-    constructor(_type){
-        switch(_type){
+    static Type = {Grass: 'grass', Flower: 'flower', Wall: 'wall', Tree: 'tree'};
 
+    static Debug = {Spend: 'spend'};
+    
+    constructor(_type){
+        this.type = _type;
+        switch(_type){
+            
             case RawTile.Type.Grass:
                 this.image = Images.Map.GrassRegular;
                 this.passable = true;
@@ -13,19 +17,29 @@ class RawTile{
                 this.image = Images.WallDebug.Lava;
                 this.passable = false;
             break;
+
+            case RawTile.Type.Tree:
+                this.image = Images.Interactables.Tree1;
+                this.passable = true;
+            break;
+            
+            case RawTile.Debug.Spend:
+                this.node = new Interactable(Interactable.NodeTypes.GENERATE, 1, 1, Interactable.Alignment.CENTER);
+                this.image = Images.Interactables.Debug.SpendTouching;
+                this.passable = false;
         }
     }
 }
 class Interactable{
-    
-    static Type = {Walk: 'walk', Generate: 'generate', Spend: 'spend'};
-    static Range = {Touching: 'touching', Short: 'short', Far: 'far'};
 
-    constructor(img, _x, _y, _type, _range){
-       this.sprite = createSprite(_x, _y);
-       this.sprite.addImage(img);
-       this.sprite.depth = 0
-       this.type = _type;
-       this.range = _range;
+    static NodeTypes = {SPEND: "spend", GENERATE: "generate", SPENDANDGENERATE: "spendandgenerate"}
+    static Alignment = {BOTTOMCENTER: "bottomcenter", CENTER: "center"};
+
+    constructor(_type, _sizeX, _sizeY, _alignment){
+        this.type = _type;
+        this.size = {x: _sizeX, y: _sizeY};
+        this.alignment = _alignment;
+
+        this.children = [];
     }
 }

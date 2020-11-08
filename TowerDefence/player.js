@@ -180,7 +180,6 @@ class Player extends PathingActor {
             this.stamina = constrain(this.stamina += 1, 0, 100)
         }
 
-
         if (this.sprite.velocity.x > 0.2){
             //this.sprite.position.x += walkSpeed;
             this.sprite.changeAnimation('walkright');

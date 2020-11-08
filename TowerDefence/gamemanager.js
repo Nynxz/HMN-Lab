@@ -1,38 +1,44 @@
 class GameManager {
 
-    
-    
     //Array of all Players Active
     static allPlayers = [];
-
     static activePlayer = null;
+
+
     static gamePaused = false;
     
     //TODO MOVE?
     static debugHUD;   
 
-    //#region GAME HOOKS
+    //We call this once to initalise the main game.
     static initGame(){
+        //Reset Pause to False
         GameManager.gamePaused = false;
+
+        //Init the Layers
         LayerManager.initLayers()
 
+        //Create a HUD
         GameManager.debugHUD = new HUD(0,0,300,height);
 
-        //16, 32, 48
+        //Generate a Map
+        //16, 24, 48 
         Map.generateMap(24, width, height);
 
+        //Toggle Debug Buttons
         DebugHelpers.toggleButtons();
-        
-        console.log("MAP: " , Map.floorTiles);
-
+    
+        //We Create a pathfinding instance
         GameManager.pathfinding = new Pathfinding();
+
+        //We load the map we generated from Map.generateMap
         GameManager.pathfinding.loadGrid(Map.floorTiles, 0, 0, false);
 
-        console.log(GameManager.pathfinding.nodes);
     }
 
     static refreshGame() {
 
+        //If we have an Active Tile, mark it
         if(Map.activeTile){
             Map.activeTile.markActive();
         }
@@ -47,15 +53,26 @@ class GameManager {
         //     })
         // });
         
+        //For Each Player
         GameManager.allPlayers.forEach(player => {
+            
+            //Draw their HP/Stamina Bar
             player.drawInfo();
-            player.debugMovement();
+            
+            player.debugMovement(); //UNUSED MOVE ANIMS
+
+            //We call movement, this will move them if they have a path loaded
             player.andyMovement()
+            
             //player.debugRefresh();
             //player.pathingMovement(1);
+
+            //If the player is selected, mark it
             if(player.isSelected)
                 player._selected();
         });
+
+
  
         //TODO: MOVE TO CONTROLS
         if(keyDown(17) && mouseWentDown(LEFT) && !GameManager.gamePaused && mouseX < width && mouseY < height && mouseX > 0 && mouseX > 0){

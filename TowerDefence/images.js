@@ -37,6 +37,7 @@ class Images{
         Images.Interactables.Debug.GenerateTouching = loadImage('/TowerDefence/assets/interactables/generatedebugtouching.png');
         Images.Interactables.Debug.SpendTouching = loadImage('/TowerDefence/assets/interactables/spenddebugtouching.png');
 
+        Images.Interactables.Tree1 = loadImage('/TowerDefence/assets/interactables/tree_1.png');
     }
 
     static _loadDebugPlayerAnimations(){
@@ -79,7 +80,6 @@ class Images{
     static _loadMapEditorAssets(){
         Images.MapEditor.BlankButton = loadImage('/TowerDefence/assets/MapEditor/basePaintButton.png');
         Images.MapEditor.WallButton = loadImage('/TowerDefence/assets/MapEditor/WallPaintButton.png');
-        
-
+        Images.MapEditor.Tree1Button = loadImage('/TowerDefence/assets/MapEditor/TreePaintButton.png');
     }
 }

@@ -21,13 +21,15 @@ class Controls{
             let s = SceneManager.CurrentScene;
             if(s == SceneManager.Scenes.InGame || s == SceneManager.Scenes.MapEditor){
                 let tile = Map.getTileAtWorldPosition(mouseX, mouseY);
-                //Toggle Tile on and off
-                if(Map.activeTile == tile){
-                    Map.activeTile = null
-                } else {
-                    Map.activeTile = tile;
+                    
+                if(tile){//Toggle Tile on and off
+                    if(Map.activeTile == tile){
+                        Map.activeTile = null
+                    } else {
+                        Map.activeTile = tile;
+                    }
+                    tile.debugActive = true;
                 }
-                tile.debugActive = true;
             }
         }
 

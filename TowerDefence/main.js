@@ -1,7 +1,7 @@
-p5.disableFriendlyErrors = true; // disables FES "FRIENDLY ERROR SYSTEM"
+
+//p5.disableFriendlyErrors = true; // disables FES "FRIENDLY ERROR SYSTEM"
 //Disable Default Right Click, Bypass with Shift RightCick, why we do this? because right click is cool
 document.addEventListener('contextmenu', event => event.preventDefault()); 
-
 
 function preload() {
 	
@@ -31,10 +31,13 @@ function setup() {
 
 function draw() {
 
+	//Refresh the Controls
 	Controls.refresh();
 
+	//Depending on the Current Scene
 	switch(SceneManager.CurrentScene){
 
+		//Main Menu Loop
 		case SceneManager.Scenes.MainMenu:
 			//Placeholders
 			background("blue");
@@ -43,6 +46,7 @@ function draw() {
 		
 		break;
 
+		//Options Menu Loop
 		case SceneManager.Scenes.OptionsMenu:
 			//Placeholders
 			background("grey");
@@ -53,6 +57,7 @@ function draw() {
 
 		break;
 
+		//Credits Menu Loop
 		case SceneManager.Scenes.CreditMenu:
 			//Placeholders
 			background("purple");
@@ -61,6 +66,7 @@ function draw() {
 
 		break;
 
+		//In Game Loop
 		case SceneManager.Scenes.InGame:
 
 			LayerManager.clearLayers();
@@ -79,6 +85,7 @@ function draw() {
 
 		break;
 
+		//Map Editor Loop
 		case SceneManager.Scenes.MapEditor:
 			
 			background('black');
@@ -90,6 +97,8 @@ function draw() {
 		break;
 
 		default:
+			//You fucked something up if youre seeing this in console.
 			console.log("No Matching Scenes");
 	}
+	
 }

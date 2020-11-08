@@ -1,6 +1,9 @@
 class MapEditor{
 
     static tileToPlace;
+    
+    static itemToPlace;
+
 
     static refresh(){
         if(Map.activeTile){
@@ -9,9 +12,12 @@ class MapEditor{
         
         if(mouseDown(RIGHT) && MapEditor.tileToPlace && !keyIsDown(17)){
             let tile = Map.getTileAtWorldPosition(mouseX, mouseY);
-            let x = tile.pos.x;
-            let y = tile.pos.y;
-            Map.floorTiles[y][x] = new PathingPoint(Map.floorTiles, x, y, 1.1);
+            if(tile && tile.type != MapEditor.tileToPlace.type){
+                let x = tile.pos.x;
+                let y = tile.pos.y;
+                MapEditor.tileToPlace.pos = {x: tile.pos.x, y: tile.pos.y};
+                Map.floorTiles[y][x] = new PathingPoint(Map.floorTiles, MapEditor.tileToPlace);
+            }
         }
     }
 
@@ -21,15 +27,20 @@ class MapEditor{
         let WallButton = new MenuButton(Images.MapEditor.WallButton, 1, width - 100, 400);
         WallButton.sprite.onMousePressed = function(){
             Map.activeTile = null;
-            console.log("WALL BOIS");
             MapEditor.tileToPlace = new RawTile(RawTile.Type.Wall);
+            console.log(MapEditor.tileToPlace);
+        }
+
+        let TreeButton = new MenuButton(Images.MapEditor.Tree1Button, 1, width - 100, 500);
+        TreeButton.sprite.onMousePressed = function(){
+            Map.activeTile = null;
+            MapEditor.tileToPlace = new RawTile(RawTile.Type.Tree);
             console.log(MapEditor.tileToPlace);
         }
         
         let BlankButton = new MenuButton(Images.MapEditor.BlankButton, 1, width - 100, 600);
         BlankButton.sprite.onMousePressed = function(){
             Map.activeTile = null;
-            console.log("WALL BOIS");
             MapEditor.tileToPlace = new RawTile(RawTile.Type.Grass);
             console.log(MapEditor.tileToPlace);
         }
@@ -39,7 +50,9 @@ class MapEditor{
 
 
         new DebugButton('Export Map', width - 250, height - 25, () => {
+
             let map = []
+            console.log(Map.floorTiles);
             Map.floorTiles.forEach((col, y) => {
                 map.push([]);
                 col.forEach(tile =>{
@@ -47,7 +60,7 @@ class MapEditor{
                     delete temp.id;
                     delete temp.Path;
                     delete temp.debugActive;
-
+                    delete temp.image;
                     map[y].push(temp);
                 })
             })

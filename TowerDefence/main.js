@@ -103,6 +103,7 @@ function draw() {
 			LayerManager.drawActiveLayers();
 
 			DebugHelpers.drawFPS();
+			
 			GameManager.debugHUD.drawActivePlayerHeader();
 			GameManager.debugHUD.refreshHUD();
 			//GameManager.SpriteGroupPaused.draw();
@@ -117,7 +118,7 @@ function draw() {
 			GameManager.refreshGame();
 			MapEditor.refresh();
 			LayerManager.drawActiveLayers();
-			drawSprites();
+			//drawSprites();
 		break;
 
 		default:

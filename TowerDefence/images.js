@@ -1,6 +1,7 @@
 class Images{
 
     static Player = { SpriteSheets: { Walking :{ }}};
+    static Zombies = {Regular : {}};
     static Effects = {};
     static Interactables = {Debug : {}};
     static Map = {Ground: {}};
@@ -33,6 +34,7 @@ class Images{
         Images._loadDebugInteractables();
         Images._loadDebugWall();
         Images._loadMapEditorAssets();
+        Images._loadZombieAnimations();
     }
 
     static _loadDebugInteractables(){
@@ -56,6 +58,16 @@ class Images{
 
     }
 
+    static _loadZombieAnimations(){
+        Images.Zombies.Regular.Up = loadSpriteSheet('/TowerDefence/assets/zombie/zombieup.png', 48, 64, 3);
+        Images.Zombies.Regular.Down = loadSpriteSheet('/TowerDefence/assets/zombie/zombiedown.png', 48, 64, 3);
+        Images.Zombies.Regular.Left = loadSpriteSheet('/TowerDefence/assets/zombie/zombieleft.png', 48, 64, 3);
+        Images.Zombies.Regular.Right = loadSpriteSheet('/TowerDefence/assets/zombie/zombieright.png', 48, 64, 3);
+
+        //Load A single Frame As Animation - TODO: Idle Animation
+        Images.Zombies.Regular.Stand = loadAnimation(new SpriteSheet('/TowerDefence/assets/zombie/zombiedown.png',
+        [{'name': 'stand', 'frame' :{'x': 1, 'y' : 0, 'width' : 48, 'height' : 64}}]));
+    }
     static _loadMapAssets(){
         //32x32px
         Images.Map.GrassRegular = loadImage("/TowerDefence/assets/Sprites/Grass02.png");

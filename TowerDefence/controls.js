@@ -18,20 +18,22 @@ class Controls{
 
         //Click
         if(mouseWentDown(LEFT)){
+            Map.activeTile = new Array();
             let s = SceneManager.CurrentScene;
             if(s == SceneManager.Scenes.InGame || s == SceneManager.Scenes.MapEditor){
                 let tile = Map.getTileAtWorldPosition(mouseX, mouseY);
-                    
-                if(tile){//Toggle Tile on and off
-                    if(Map.activeTile == tile){
-                        Map.activeTile = null
-                    } else {
-                        Map.activeTile = tile;
+
+                if(tile){//If we have a tile
+                    Map.activeTile = new Array();
+                    Map.activeTile.push(tile);
+
+                    if(tile.parentNode){
+                        Map.activeTile.push(tile.parentNode);
                     }
-                    if(tile.node){
-                        console.log(tile.node)
-                    }
+
                     tile.debugActive = true;
+                } else {
+                    Map.activeTile = new Array();
                 }
             }
         }
@@ -41,8 +43,9 @@ class Controls{
 
         //Debug //Space
         if(keyWentDown(32)){
-            console.log(Map.floorTiles);
-            console.log(GameManager.allPlayers); 
+            GameManager.allZombies.push(new Zombie("Zombie", 100, mouseX, mouseY));
+            console.log(Map.activeTile);
+            //console.log(GameManager.allPlayers); 
         }
     }
 

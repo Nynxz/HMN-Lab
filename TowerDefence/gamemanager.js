@@ -4,6 +4,7 @@ class GameManager {
     static allPlayers = [];
     static activePlayer = null;
 
+    static allZombies = [];
 
     static gamePaused = false;
     
@@ -39,8 +40,12 @@ class GameManager {
     static refreshGame() {
 
         //If we have an Active Tile, mark it
-        if(Map.activeTile){
-            Map.activeTile.markActive();
+        if(Map.activeTile.length > 0){
+            if(frameCount % 120 == 0)
+                //console.log(Map.activeTile);
+            Map.activeTile.forEach(element => {
+                element.markActive();
+            });
         }
 
         //MULTI SELECT KINDA
@@ -72,22 +77,28 @@ class GameManager {
                 player._selected();
         });
 
+        GameManager.allZombies.forEach(zombie => {
+            zombie.moveZombie();
+        })
+
 
  
         //TODO: MOVE TO CONTROLS
         if(keyDown(17) && mouseWentDown(LEFT) && !GameManager.gamePaused && mouseX < width && mouseY < height && mouseX > 0 && mouseX > 0){
 
-            //TODO: Implement a "getSprite" or "getActor" or something, stop using onMousePressed for selection of players
+            // //TODO: Implement a "getSprite" or "getActor" or something, stop using onMousePressed for selection of players
             let tile = Map.getTileAtWorldPosition(mouseX, mouseY);
-            //Toggle Tile on and off
-            if(Map.activeTile == tile){
-                Map.activeTile = null
-            } else {
-                Map.activeTile = tile;
-            }
-            tile.debugActive = true;
+            console.log(tile);
 
-            console.log(Map.activeTile);
+            // //Toggle Tile on and off
+            // if(Map.activeTile == tile){
+            //     Map.activeTile = null
+            // } else {
+            //     Map.activeTile = tile;
+            // }
+            // tile.debugActive = true;
+
+            //console.log(Map.activeTile);
             if(GameManager.activePlayer){
                 
                 //let playerTile = Map.getTileAtWorldPosition(GameManager.activePlayer.sprite.x, GameManager.activePlayer.sprite.y);

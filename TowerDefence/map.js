@@ -6,26 +6,59 @@ class Tile{
 
     constructor(_arrayToStore, _tileToPlace){
 
+            this.tileToPlace = _tileToPlace;
             this.pos = _tileToPlace.pos;
             this.type = _tileToPlace.type;
             this.passable = _tileToPlace.passable
             this.image = _tileToPlace.image;
-            _arrayToStore[this.pos.y][this.pos.x] = this;
+            this.arrayToStore = _arrayToStore;
+            this.arrayToStore[this.pos.y][this.pos.x] = this;
+            
             LayerManager.Layers.GroundFloor.image(eval(this.image), (this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
-            
-            //Tile has a Node
-            if(_tileToPlace.node){
-                this.node = _tileToPlace.node;
-                LayerManager.Layers.GroundFloorInteractables.image(eval(_tileToPlace.node.image), (this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
-            } else {
-                LayerManager.Layers.GroundFloorInteractables.erase();
-                LayerManager.Layers.GroundFloorInteractables.rect((this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
-                //LayerManager.Layers.GroundFloorInteractables.image(eval(_tileToPlace.image), (this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
-                LayerManager.Layers.GroundFloorInteractables.noErase();
-            }
-            
+           
 
         this.debugActive = false;
+    }
+
+    getChildrenNodes(){
+                    //DEBUG FOR MULTI BLOCK //TODO: REMOVE
+                    let xWidth = 3;
+                    let yHeight = 6;
+        
+                    //Tile has a Node
+                    if(this.tileToPlace.node){
+                        console.log(this);
+                        this.passable = false;
+                        this.node = this.tileToPlace.node;
+                        this.node.children = [];
+             
+        
+                        LayerManager.Layers.GroundFloorInteractables.imageMode(CORNER);
+                        //eval(this.node.image)
+                        LayerManager.Layers.GroundFloorInteractables.image(Images.Interactables.Tree1, (this.pos.x+1) * Map.tileSize - (Map.tileSize * xWidth/3 * 2),  (this.pos.y+1) * Map.tileSize - (Map.tileSize * yHeight), Map.tileSize * xWidth, Map.tileSize * yHeight);
+                        console.log("GOT PAST IMAGE DRAW")
+                        for(let _y = 0; _y < yHeight; _y++){
+                            if(_y != 0){
+                                //Tiles Directly Above Above
+                                this.arrayToStore[this.pos.y - _y][this.pos.x].parentNode = this;
+                                this.node.children.push(this.arrayToStore[this.pos.y - _y][this.pos.x]);
+                            }
+                            for(let _x = 1; _x < xWidth-1; _x++){
+        
+                                //Tiles to Left and Right
+                                this.arrayToStore[this.pos.y - _y][this.pos.x + _x].parentNode = this;
+                                this.arrayToStore[this.pos.y - _y][this.pos.x - _x].parentNode = this;
+        
+                                this.node.children.push(this.arrayToStore[this.pos.y - _y][this.pos.x + _x]);
+                                this.node.children.push(this.arrayToStore[this.pos.y - _y][this.pos.x - _x]);
+                            }
+                        }
+                    } else {
+                        //LayerManager.Layers.GroundFloorInteractables.erase();
+                        //LayerManager.Layers.GroundFloorInteractables.rect((this.pos.x+1) * Map.tileSize - (Map.tileSize * xWidth/3 * 2),  (this.pos.y+1) * Map.tileSize - (Map.tileSize * yHeight), Map.tileSize * xWidth, Map.tileSize * yHeight);
+                        //LayerManager.Layers.GroundFloorInteractables.image(eval(_tileToPlace.image), (this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
+                        //LayerManager.Layers.GroundFloorInteractables.noErase();
+                    }
     }
 
     //We use this to mark the selected squares as active
@@ -58,7 +91,7 @@ class Map{
     static mapHeight;
 
     //Current Selected Tile
-    static activeTile = false;
+    static activeTile = [];
 
     //Array to Store Current Tiles
     static floorTiles = [];

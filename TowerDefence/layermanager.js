@@ -41,9 +41,7 @@ class LayerManager{
         if(LayerManager.Layers.GroundFloorExtras.isEnabled){
             image(LayerManager.Layers.GroundFloorExtras, 0, 0);
         }
-        if(LayerManager.Layers.GroundFloorInteractables.isEnabled){
-            image(LayerManager.Layers.GroundFloorInteractables, 0, 0);
-        }
+
         //LayerManager.Layers.HouseFloor
         //LayerManager.Layers.HouseWalls
         //LayerManager.Layers.HouseInteractables
@@ -55,13 +53,17 @@ class LayerManager{
             LayerManager.Layers.PlayerCharactersGroup.draw();
         }
 
+        if(LayerManager.Layers.GroundFloorInteractables.isEnabled){
+            image(LayerManager.Layers.GroundFloorInteractables, 0, 0);
+        }
+
         if(LayerManager.Layers.Effects.isEnabled){
             image(LayerManager.Layers.Effects, 0, 0);
         }
 
-        //if(LayerManager.Layers.Master.isEnabled){
-            //image(LayerManager.Layers.Master, 0, 0);
-        //}
+        // if(LayerManager.Layers.Master.isEnabled){
+        //     image(LayerManager.Layers.Master, 0, 0);
+        // }
 
         LayerManager.Layers.PauseMenuGroup.draw();
         

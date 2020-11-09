@@ -52,7 +52,7 @@ class HUD {
               console.log("day");
               text("DAY TIME",width-300,220);
             }
-            if(this.hr>12) {
+            if(this.hr>=12) {
               console.log("night");
               text("NIGHTIME",width-300,220);
             }

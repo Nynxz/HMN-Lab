@@ -19,8 +19,12 @@ class Actor {
   //#endregion
 }
 class PathingActor extends Actor {
+
+  static idCount = 0;
+  static Actors = [];
   constructor(_map, _name, _initalHealth, _startV2) {
     super(_name, _initalHealth);
+
 
     this.map = _map;
     this.start = { x: _startV2.x, y: _startV2.y };
@@ -43,15 +47,19 @@ class Player extends PathingActor {
     let tile = Map.getTileAtWorldPosition(_x, _y);
     super(Map.floorTiles, _name, 100, { x: tile.pos.x, y: tile.pos.y });
 
+    this.id = PathingActor.idCount;
+    PathingActor.idCount++;
+    PathingActor.Actors.push(this);
+
     //TODO
     this.stamina = 80;
 
     this.selected = false;
 
     this.sprite = this.debugCreatePlayer(_x, _y, 2); //2 = initial ammo
-    this.healthBar = new HealthBar(200, 10, 0, -50, "red");
-    this.staminaBar = new StaminaBar(200, 10, 0, -50, "blue");
-    this.currentTarget = 0;
+    this.healthBar = new StatsBar(this.health, 200, 10, 0, -50, "red");
+    this.staminaBar = new StatsBar(this.stamina, 200, 10, 0, -70, "blue");
+    this.currentTask = null;
 
     this.nextPoint = { x: _x, y: _y };
     this.pathIndex = 0;
@@ -64,11 +72,32 @@ class Player extends PathingActor {
     this.projectile=this.shootAmmo();
   }
 
+  doWork(){
+    if(this.currentTask != null){
+      if(dist(this.sprite.position.x, this.sprite.position.y, (this.currentTask.pos.x * Map.tileSize) + (Map.tileSize/2), (this.currentTask.pos.y* Map.tileSize) + (Map.tileSize/2)) < 25){
+        if(frameCount % 60 == 0){
+          if(this.currentTask.node.effect.resource == "wood"){
+            GameManager.resources.Wood += this.currentTask.node.effect.amount
+          }
+        }
+      }
+    }
+  }
+
+  WWfindPath(x, y){
+    let obj = {
+        type: 'find',
+        from: this.id,
+        payload: {x1: this.sprite.position.x, y1: this.sprite.position.y, x2: x, y2: y}
+    }
+    GameManager.pathfindingWorkerPlayer.postMessage(obj);
+}
+
   andyMovement() {
     //check if Knight is close to their next movement point
     //console.log(this.sprite.position.x)
     //console.log(this.nextPoint.x)
-
+    this.doWork();
     if (
       Math.abs(this.sprite.position.x - this.nextPoint.x) +
         Math.abs(this.sprite.position.y - this.nextPoint.y) <
@@ -106,31 +135,7 @@ class Player extends PathingActor {
       this.sprite.velocity.x = (this.nextPoint.x - this.sprite.position.x) / 15;
       this.sprite.velocity.y = (this.nextPoint.y - this.sprite.position.y) / 15;
     }
-  }
-
-  pathingMovement(_speed) {
-    if (this.path.length > 0) {
-      let tile = this.path[this.path.length - 1];
-      if (
-        dist(
-          this.sprite.position.x,
-          this.sprite.position.y,
-          tile.pos.x * Map.tileSize + Map.tileSize / 2,
-          tile.pos.y * Map.tileSize + Map.tileSize / 2
-        ) > 1
-      ) {
-        this.sprite.attractionPoint(
-          3,
-          tile.pos.x * Map.tileSize + Map.tileSize / 2,
-          tile.pos.y * Map.tileSize + Map.tileSize / 2
-        );
-      } else {
-        console.log("POPPING");
-        this.path.pop();
-      }
-      //console.log("TARGET: ")
-      //console.log(tile);
-    }
+    this._playAnimations();
   }
 
   debugCreatePlayer(x, y) {
@@ -165,16 +170,8 @@ class Player extends PathingActor {
     return sprite;
   }
 
-  debugMovement(xpos, ypos) {
-    let walkSpeed = 0.5;
+  _playAnimations(){
     this.sprite.animation.frameDelay = 8;
-    if (keyIsDown(16)) {
-      this.stamina = constrain(this.stamina - 1, 0, 100);
-      this.sprite.animation.frameDelay = 4;
-      walkSpeed = 6;
-    } else if (this.stamina < 100) {
-      this.stamina = constrain((this.stamina += 1), 0, 100);
-    }
 
     if (this.sprite.velocity.x > 0.2) {
       //this.sprite.position.x += walkSpeed;
@@ -193,19 +190,17 @@ class Player extends PathingActor {
       //this.sprite.position.y += walkSpeed;
       this.sprite.changeAnimation("walkdown");
     }
-
-    //console.log("Moving player to X ", xpos, "   Y ", ypos);
   }
 
   drawInfo() {
     LayerManager.Layers.Effects.noStroke();
 
-    this.healthBar.refreshHealthBar(
+    this.healthBar.refreshBar(
       this.sprite.position.x,
-      this.sprite.position.y + 20,
+      this.sprite.position.y,
       this.health
     );
-    this.staminaBar.refreshStaminaBar(
+    this.staminaBar.refreshBar(
       this.sprite.position.x,
       this.sprite.position.y,
       this.stamina

@@ -49,14 +49,16 @@ class LayerManager{
 
         //LayerManager.Layers.PlayerTools
 
-        if(LayerManager.Layers.PlayerCharactersGroup.isEnabled){
-            LayerManager.Layers.PlayerCharactersGroup.draw();
-        }
+
 
         if(LayerManager.Layers.GroundFloorInteractables.isEnabled){
             image(LayerManager.Layers.GroundFloorInteractables, 0, 0);
         }
 
+        if(LayerManager.Layers.PlayerCharactersGroup.isEnabled){
+            LayerManager.Layers.PlayerCharactersGroup.draw();
+        }
+        
         if(LayerManager.Layers.Effects.isEnabled){
             image(LayerManager.Layers.Effects, 0, 0);
         }

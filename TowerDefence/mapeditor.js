@@ -13,7 +13,7 @@ class MapEditor{
             })
         }
         
-        if(mouseWentDown(RIGHT) && MapEditor.tileToPlace && !keyIsDown(17)){
+        if(mouseDown(RIGHT)  && !keyIsDown(17)){
             let tile = Map.getTileAtWorldPosition(mouseX, mouseY);
             if(tile){
                 let x = tile.pos.x;
@@ -38,6 +38,7 @@ class MapEditor{
             console.log(MapEditor.tileToPlace);
         }
         WallButton.sprite.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
+
         let TreeButton = new MenuButton(Images.MapEditor.Tree1Button, 1, width - 100, 500);
         TreeButton.sprite.onMousePressed = function(){
             Map.activeTile = [];
@@ -50,6 +51,7 @@ class MapEditor{
             }
         }
         TreeButton.sprite.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
+
         let BlankButton = new MenuButton(Images.MapEditor.BlankButton, 1, width - 100, 600);
         BlankButton.sprite.onMousePressed = function(){
             Map.activeTile = [];
@@ -63,59 +65,17 @@ class MapEditor{
 
 
         new DebugButton('Export Map', width - 250, height - 25, () => {
-
-            let map = []
-            console.log(Map.floorTiles);
-            Map.floorTiles.forEach((col, y) => {
-                map.push([]);
-                col.forEach(tile =>{
-                    let temp = tile;
-                    delete temp.id;
-                    delete temp.Path;
-                    delete temp.debugActive;
-                    delete temp.parentNode;
-                    if(temp.tileToPlace.node){
-                        delete temp.tileToPlace.node.children;
-
-                    }
-                    delete temp.arrayToStore;
-                    if(temp.node){
-                        delete temp.node.children;
-                    }
-                    //delete temp.image;
-                    map[y].push(temp);
-                })
-            })
-            console.log(map);
-            saveJSON(map, mapInputs.value(), true);
+            DebugHelpers.ExportMap();
         });
         
+
         new DebugButton('Load Map', width - 250, height - 50, () => {
-            loadJSON('/TowerDefence/maps/' + mapInputs.value() + '.json', (map) => {
-                
-                Map.pathGrid = new Array();
-        
-                for (let y = 0; y < Map.mapHeight; y++) {
-                    Map.pathGrid.push([]);
-                    for (let x = 0; x < Map.mapWidth; x++) {
-                            Map.pathGrid[y].push(new PathingPoint(Map.pathGrid, map[y][x]));
-                    }
-                }
-                        
-                //Optimisation TODO, check in above loop for a node that needs children, if node, push to an array
-                //loop through array of known nodes that require children
-                for (let y = 0; y < Map.mapHeight; y++) {
-                    for (let x = 0; x < Map.mapWidth; x++) {
-                        Map.pathGrid[y][x].getChildrenNodes();         
-                    }
-                }
-                
-        
-                Map.floorTiles =  Map.pathGrid;
-            });
+            DebugHelpers.loadMap();
 
             //Map.pathGrid.forEach(tile => tile.getChildrenNodes());
 
         });
     }
+
+
 }

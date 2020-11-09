@@ -15,6 +15,10 @@ class HUD {
         this.min1 = 0;
         this.min2 = 0;
     }
+
+    drawResources(){
+      text("Wood: " + GameManager.resources.Wood,width-300,300);
+    }
     drawHUD() {
         let HUD = createSprite(width-(this.containerWidth/2),height-this.containerHeight/2,this.containerWidth,this.containerHeight);
         HUD.shapeColor=this.color;
@@ -49,11 +53,11 @@ class HUD {
               this.hr++;
             }
             if(this.hr<12) {
-              console.log("day");
+              //console.log("day");
               text("DAY TIME",width-300,220);
             }
             if(this.hr>=12) {
-              console.log("night");
+              //console.log("night");
               text("NIGHTIME",width-300,220);
             }
             if(this.hr==24){
@@ -64,5 +68,6 @@ class HUD {
     }
     refreshHUD() {
         this.drawGameClock();
+        this.drawResources();
     }
 }

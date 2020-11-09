@@ -1,19 +1,33 @@
 class Zombie extends PathingActor{
+    static allZombies = [];
     constructor(_name, _health, _x, _y) {
         let tile = Map.getTileAtWorldPosition( _x, _y);
         super(Map.floorTiles, _name, 100, {x: tile.pos.x, y: tile.pos.y});
+        this.id = PathingActor.idCount;
+        PathingActor.idCount++;
+        PathingActor.Actors.push(this);
 
         this.sprite = this.createZombie(_x, _y);
         
         
         this.currentTarget = 0;
-
+        this.path = [];
         this.nextPoint = {x: _x, y: _y};
         this.pathIndex = 0;
         GameManager.allZombies.push(this);
-        this.findPlayer();
+        this.findingPath = true;
+
+        this.WWfindPlayer();
     }
 
+    WWfindPlayer(){
+        let obj = {
+            type: 'find',
+            from: this.id,
+            payload: {x1: this.sprite.position.x, y1: this.sprite.position.y, x2: GameManager.allPlayers[0].sprite.position.x, y2: GameManager.allPlayers[0].sprite.position.y}
+        }
+        GameManager.pathfindingWorker.postMessage(obj);
+    }
 
     createZombie(x, y){
         console.log("Creating Zombie");
@@ -33,52 +47,55 @@ class Zombie extends PathingActor{
         return sprite;
     }
 
-    findPlayer(){
-        if(GameManager.allPlayers){
-            console.log("FINDING PATH")
-            let path = GameManager.pathfinding.findPath(this.sprite.position.x, this.sprite.position.y, GameManager.allPlayers[0].sprite.position.x, GameManager.allPlayers[0].sprite.position.y);
-            this.path = path;
-            if(this.path.length > 0){
-                console.log("FOUND PATH");
-                this.walking = true;
-                this.nextPoint = this.path[0];
-                this.sprite.position.x =  this.nextPoint.x;
-                this.sprite.position.y =  this.nextPoint.y;
-            }
-        }
-    }
-
     moveZombie(){
-        if(!GameManager.gamePaused)
+        //TODO: MOVE THIS
+        if(GameManager.allPlayers.length > 0)
+        if(dist(this.sprite.position.x, this.sprite.position.y, GameManager.allPlayers[0].sprite.position.x, GameManager.allPlayers[0].sprite.position.y) < 25){
+            GameManager.allPlayers[0].damage(0.001);
+        }    
+        
+        if(!GameManager.gamePaused && this.path)
         if (Math.abs(this.sprite.position.x - this.nextPoint.x) + Math.abs(this.sprite.position.y - this.nextPoint.y) < 1 && this.path.length > 1) {
-            
+
             this.pathIndex += 1;
             if (this.pathIndex == this.path.length) { 
+                
                 this.pathIndex = 0;
                 this.path = []
                 
-                this.nextPoint.x = this.sprite.position.x;
-                this.nextPoint.y = this.sprite.position.y;
-                this.sprite.velocity.x = 0;
-                this.sprite.velocity.y = 0;
-                this.walking = false;
-                
-            } else if(this.walking){
+                this.nextPoint = {x: this.sprite.position.x, y: this.sprite.position.y};
+                this.sprite.velocity ={x: 0, y: 0};
 
+                this.walking = false;
+                this.WWfindPlayer();
+                this.findingPath = false;
+            } else if(this.walking){
+                
                 //next point is first index of array
                 this.nextPoint = this.path[this.pathIndex];
-
-                this.sprite.velocity.x = (this.nextPoint.x - this.sprite.position.x)/15;
-                this.sprite.velocity.y = (this.nextPoint.y - this.sprite.position.y)/15;
+                this.sprite.velocity = {
+                    x: (this.nextPoint.x - this.sprite.position.x)/15,
+                    y: (this.nextPoint.y - this.sprite.position.y)/15
+                }
                 
-            } 
-        } else if(this.pathIndex == 0 && this.path.length > 0){
+            }
+        } else if(this.pathIndex == 0 && this.path.length > 0 && this.findingPath == false){
+            if(dist(this.sprite.position.x, this.sprite.position.y, GameManager.allPlayers[0].sprite.position.x, GameManager.allPlayers[0].sprite.position.y) > 25){
+                this.WWfindPlayer();
+                this.findingPath = true;
+            }
+            this.pathIndex = 0;
             this.nextPoint = this.path[0];
-            this.sprite.velocity.x = (this.nextPoint.x - this.sprite.position.x)/15;
-            this.sprite.velocity.y = (this.nextPoint.y - this.sprite.position.y)/15;
+            this.sprite.velocity = {
+                x: (this.nextPoint.x - this.sprite.position.x)/15,
+                y: (this.nextPoint.y - this.sprite.position.y)/15
+            }
         }
         
+        this._playAnimations();
+    }
 
+    _playAnimations(){
         this.sprite.animation.frameDelay = 8;
 
         if (this.sprite.velocity.x > 0.2){

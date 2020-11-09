@@ -1,6 +1,6 @@
 class Images{
 
-    static Player = { SpriteSheets: { Walking :{ }}};
+    static Player = {SpriteSheets: { Walking :{ }}};
     static Zombies = {Regular : {}};
     static Effects = {};
     static Interactables = {Debug : {}};
@@ -21,6 +21,7 @@ class Images{
         Images._loadMapAssets();
         
         Images._loadPlayerSelectedImage();
+        
     }
 
     static _loadEffects(){

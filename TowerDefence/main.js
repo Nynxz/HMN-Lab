@@ -30,7 +30,7 @@ let debugBush = new GrassDebugSprite(64,64);
 
 
 function setup() {
-
+	
 	//TODO: MAKE SETTING
 	createCanvas(1440, 816);
 	background("green");
@@ -118,6 +118,7 @@ function draw() {
 			GameManager.refreshGame();
 			MapEditor.refresh();
 			LayerManager.drawActiveLayers();
+			GameManager.debugHUD.refreshHUD();
 			//drawSprites();
 		break;
 

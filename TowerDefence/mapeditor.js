@@ -4,7 +4,7 @@ class MapEditor{
     
     static itemToPlace;
 
-
+    static mapInputs;
     static refresh(){
 
         if(Map.activeTile.length > 0){
@@ -25,11 +25,15 @@ class MapEditor{
                 newTile.getChildrenNodes();
                 Map.floorTiles[y][x] = newTile;
             }
+
         }
     }
 
 
     static createButtons(){
+
+        MapEditor.mapInputs = createInput('');
+        MapEditor.mapInputs.position(width - 150, height - 50);
         
         let WallButton = new MenuButton(Images.MapEditor.WallButton, 1, width - 100, 400);
         WallButton.sprite.onMousePressed = function(){
@@ -60,8 +64,6 @@ class MapEditor{
         }
         BlankButton.sprite.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
 
-        let mapInputs = createInput('');
-        mapInputs.position(width - 150, height - 50);
 
 
         new DebugButton('Export Map', width - 250, height - 25, () => {
@@ -79,3 +81,4 @@ class MapEditor{
 
 
 }
+

@@ -20,7 +20,7 @@ class DebugHelpers{
             new DebugButton('Regen Floor', 25, 25, () => {
                 //Map._generateFloorTiles();
                 Map._generateAndyGrid();
-                GameManager.pathfinding.loadGrid(Map.floorTiles, 0, 0, false);
+                //GameManager.pathfinding.loadGrid(Map.floorTiles, 0, 0, false);
                 //GameManager.activePlayer.path = [];
             });
 
@@ -137,11 +137,11 @@ class DebugHelpers{
                 })
             })
             console.log(map);
-            saveJSON(map, mapInputs.value(), true);
+            saveJSON(map, MapEditor.mapInputs.value(), true);
     }
 
     static loadMap(){
-        loadJSON('/TowerDefence/maps/' + mapInputs.value() + '.json', (map) => {
+        loadJSON('/TowerDefence/maps/' + MapEditor.mapInputs.value() + '.json', (map) => {
                 
             Map.pathGrid = new Array();
     

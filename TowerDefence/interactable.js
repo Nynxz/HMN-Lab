@@ -47,3 +47,13 @@ class Interactable{
         this.children = [];
     }
 }
+
+/*
+            case RawTile.Type.Tree:
+                this.image = 'Images.Interactables.Tree1';
+                this.effect.type = RawTile.EFFECT.Generate;
+                this.effect.resource = 'wood';
+                this.effect.amount = 1;
+                this.passable = true;
+            break;
+*/

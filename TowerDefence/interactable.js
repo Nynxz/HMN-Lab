@@ -2,10 +2,11 @@
 class RawTile{
     static Type = {Grass: 'grass', Flower: 'flower', Wall: 'wall', Tree: 'tree'};
 
-    static Debug = {Spend: 'spend'};
+    static EFFECT = {Spend: 'spend', Generate: 'generate'};
     
     constructor(_type){
         this.type = _type;
+        this.effect = {};
         switch(_type){
             
             case RawTile.Type.Grass:
@@ -20,6 +21,9 @@ class RawTile{
 
             case RawTile.Type.Tree:
                 this.image = 'Images.Interactables.Tree1';
+                this.effect.type = RawTile.EFFECT.Generate;
+                this.effect.resource = 'wood';
+                this.effect.amount = 1;
                 this.passable = true;
             break;
             

@@ -37,13 +37,13 @@ class DebugHelpers{
 
             new DebugButton('Spawn Player (Selected Tile)', 25, 100, () => {
                 if(Map.activeTile){
-                    let player = new Player("Debug Player", floor(random(255)), Map.activeTile.pos.x * Map.tileSize + Map.tileSize/2, Map.activeTile.pos.y * Map.tileSize);
+                    let player = new Player("Debug Player", floor(random(255)), Map.activeTile[0].pos.x * Map.tileSize + Map.tileSize/2, Map.activeTile[0].pos.y * Map.tileSize);
                     GameManager.allPlayers.push(player);
                 }
             });
 
             new DebugButton('Recalculate ', 25, 125, () => {
-                GameManager.pathfinding.loadGrid(Map.floorTiles, 0, 0, false);
+                DebugHelpers.RecalculatePathing();
             });
 
             //Toggle Layers
@@ -97,5 +97,68 @@ class DebugHelpers{
         let d = abs(a.y- a.x) + abs(b.y - b.x);
         //console.log(d)
         return d;
+    }
+
+    static RecalculatePathing(){
+        //GameManager.pathfinding.loadGrid(Map.floorTiles, 0, 0, false);
+                
+        let obj = {
+            type: 'load',
+            from: 'main',
+            payload: {grid: Map.floorTiles}
+        }
+        
+        GameManager.pathfindingWorker.postMessage(obj);
+        GameManager.pathfindingWorkerPlayer.postMessage(obj);
+
+        GameManager.allZombies.forEach(zombie => zombie.WWfindPlayer());
+    }
+
+    static exportMap(){
+        let map = []
+            console.log(Map.floorTiles);
+            Map.floorTiles.forEach((col, y) => {
+                map.push([]);
+                col.forEach(tile =>{
+                    let temp = tile;
+                    delete temp.id;
+                    delete temp.Path;
+                    delete temp.parentNode;
+                    if(temp.tileToPlace.node){
+                        delete temp.tileToPlace.node.children;
+
+                    }
+                    delete temp.arrayToStore;
+                    if(temp.node){
+                        delete temp.node.children;
+                    }
+                    //delete temp.image;
+                    map[y].push(temp);
+                })
+            })
+            console.log(map);
+            saveJSON(map, mapInputs.value(), true);
+    }
+
+    static loadMap(){
+        loadJSON('/TowerDefence/maps/' + mapInputs.value() + '.json', (map) => {
+                
+            Map.pathGrid = new Array();
+    
+            for (let y = 0; y < Map.mapHeight; y++) {
+                Map.pathGrid.push([]);
+                for (let x = 0; x < Map.mapWidth; x++) {
+                        Map.pathGrid[y].push(new PathingPoint(Map.pathGrid, map[y][x]));
+                }
+            }       
+            //Optimisation TODO, check in above loop for a node that needs children, if node, push to an array
+            //loop through array of known nodes that require children
+            for (let y = 0; y < Map.mapHeight; y++) {
+                for (let x = 0; x < Map.mapWidth; x++) {
+                    Map.pathGrid[y][x].getChildrenNodes();         
+                }
+            }    
+            Map.floorTiles =  Map.pathGrid;
+        });
     }
 }

@@ -30,7 +30,7 @@ let debugBush = new GrassDebugSprite(64,64);
 
 
 function setup() {
-
+	
 	//TODO: MAKE SETTING
 	createCanvas(1440, 816);
 	background("green");
@@ -103,6 +103,7 @@ function draw() {
 			LayerManager.drawActiveLayers();
 
 			DebugHelpers.drawFPS();
+			
 			GameManager.debugHUD.drawActivePlayerHeader();
 			GameManager.debugHUD.refreshHUD();
 			//GameManager.SpriteGroupPaused.draw();
@@ -117,7 +118,8 @@ function draw() {
 			GameManager.refreshGame();
 			MapEditor.refresh();
 			LayerManager.drawActiveLayers();
-			drawSprites();
+			GameManager.debugHUD.refreshHUD();
+			//drawSprites();
 		break;
 
 		default:

@@ -26,7 +26,7 @@ class Menu {
             allSprites.clear();
             SceneManager.CurrentScene = SceneManager.Scenes.InGame;
             GameManager.initGame();
-
+            MapEditor.createButtons();
         };
         
         let optionButton = new MenuButton(Images.Menu.OptionsButton, 1, width/2, (height/4)* 3);

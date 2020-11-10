@@ -60,8 +60,7 @@ class Player extends PathingActor {
     this.baseY;
     // this.test = new Player("Test", 100, 50, 50);
     // console.log(this);
-    this.ammo = _ammo;
-    this.projectile=this.shootAmmo();
+    this.ammo = 2;
   }
 
   andyMovement() {
@@ -212,18 +211,6 @@ class Player extends PathingActor {
     );
   }
 
-  shootAmmo() {
-    if (keyDown(LEFT_ARROW)) {
-      let projectile = createSprite(this.debugCreatePlayer.x, this.debugCreatePlayer.y, 5, 5);
-      projectile.setSpeed(10, this.debugCreatePlayer.x);
-      this.ammo--;
-      console.log("pew pew");
-    }
-    if ((this.ammo = 0)) {
-      console.log("no ammo!");
-    }
-  }
-
   damage(amount) {
     this.health = constrain(this.health - amount, 0, this.health);
     if (this.health == 0) {
@@ -249,9 +236,6 @@ class Player extends PathingActor {
 
   _selected() {
     if (this.health > 0) {
-      LayerManager.Layers.Effects.noFill();
-      LayerManager.Layers.Effects.stroke(0, 255, 0);
-      LayerManager.Layers.Effects.strokeWeight(6);
       LayerManager.Layers.Effects.image(
         Images.PlayerSelected.PlayerSelectedImage,
         this.sprite.position.x - 28,

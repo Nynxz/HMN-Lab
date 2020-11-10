@@ -70,7 +70,15 @@ class GameManager {
             //If the player is selected, mark it
             if(player.isSelected)
                 player._selected();
-        });
+                if (keyIsDown(37)) {
+                    let projectile = createSprite(activePlayer.sprite.x, activePlayer.sprite.y, 50, 50);
+                    projectile.setSpeed(5,5);
+                    this.ammo--;
+                  }
+                  if ((this.ammo = 0)) {
+                    console.log("no ammo!");
+                  }
+            });
 
 
  

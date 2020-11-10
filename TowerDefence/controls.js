@@ -21,10 +21,10 @@ class Controls{
             let s = SceneManager.CurrentScene;
             if(s == SceneManager.Scenes.InGame || s == SceneManager.Scenes.MapEditor){
                 let tile = Map.getTileAtWorldPosition(mouseX, mouseY);
+                console.log(tile)
                 if(tile && !Map.activeTile.includes(tile)){//If we have a tile
                     Map.activeTile = new Array();
                     Map.activeTile.push(tile);
-
                     if(tile.parentNode){
                         Map.activeTile.push(tile.parentNode);
                     }

@@ -1,6 +1,6 @@
 //IDK ABOUT THIS
 class RawTile{
-    static Type = {Grass: 'grass', Flower: 'flower', Wall: 'wall', Tree: 'tree'};
+    static Type = {Grass: 'grass', Flower: 'flower', Wall: 'wall', Tree: 'tree', Spike: 'spike'};
 
     static EFFECT = {Spend: 'spend', Generate: 'generate'};
     
@@ -20,10 +20,12 @@ class RawTile{
             break;
 
             case RawTile.Type.Tree:
-                this.image = 'Images.Interactables.Tree1';
-                this.effect.type = RawTile.EFFECT.Generate;
-                this.effect.resource = 'wood';
-                this.effect.amount = 1;
+                this.info = new Interactable('Images.Interactables.Tree1', 3, 6, Interactable.Alignment.BOTTOMCENTER, "Interactable.ChopTree(1)");
+                this.passable = true;
+            break;
+
+            case RawTile.Type.Spike:
+                this.info = new Interactable('Images.Interactables.Spike1', 1, 1, Interactable.Alignment.BOTTOMCENTER, "Interactable.ChopTree(1)");
                 this.passable = true;
             break;
             
@@ -36,15 +38,23 @@ class RawTile{
 }
 class Interactable{
 
-    static NodeTypes = {SPEND: "spend", GENERATE: "generate", SPENDANDGENERATE: "spendandgenerate"}
     static Alignment = {BOTTOMCENTER: "bottomcenter", CENTER: "center"};
 
-    constructor(_type, _sizeX, _sizeY, _alignment){
-        this.type = _type;
+    constructor(_image, _sizeX, _sizeY, _alignment, _effect){
+        
+        this.image = _image;
         this.size = {x: _sizeX, y: _sizeY};
+        this.effect = _effect; //Pass in a function to call
+        //NOT YET IMPLEMENTED
         this.alignment = _alignment;
 
-        this.children = [];
+        
+    }
+
+    //EFFECTS
+    //We use this to pass around as strings and eval
+    static ChopTree(amount){
+        GameManager.resources.Wood += amount;
     }
 }
 

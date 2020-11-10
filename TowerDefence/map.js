@@ -17,7 +17,6 @@ class Tile{
             LayerManager.Layers.GroundFloor.image(eval(this.image), (this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
            
 
-        this.debugActive = false;
     }
 
     getChildrenNodes(){
@@ -35,15 +34,15 @@ class Tile{
         
                         LayerManager.Layers.GroundFloorInteractables.imageMode(CORNER);
                         //eval(this.node.image)
-                        LayerManager.Layers.GroundFloorInteractables.image(Images.Interactables.Tree1, (this.pos.x+1) * Map.tileSize - (Map.tileSize * xWidth/3 * 2),  (this.pos.y+1) * Map.tileSize - (Map.tileSize * yHeight), Map.tileSize * xWidth, Map.tileSize * yHeight);
+                        LayerManager.Layers.GroundFloorInteractables.image(eval(this.node.info.image), (this.pos.x+1) * Map.tileSize - (Map.tileSize * this.node.info.size.x/3 * 2),  (this.pos.y+1) * Map.tileSize - (Map.tileSize * this.node.info.size.y), Map.tileSize * this.node.info.size.x, Map.tileSize * this.node.info.size.y);
                         console.log("GOT PAST IMAGE DRAW")
-                        for(let _y = 0; _y < yHeight; _y++){
+                        for(let _y = 0; _y < this.node.info.size.y; _y++){
                             if(_y != 0){
                                 //Tiles Directly Above Above
                                 this.arrayToStore[this.pos.y - _y][this.pos.x].parentNode = this;
                                 this.node.children.push(this.arrayToStore[this.pos.y - _y][this.pos.x]);
                             }
-                            for(let _x = 1; _x < xWidth-1; _x++){
+                            for(let _x = 1; _x < this.node.info.size.x-1; _x++){
         
                                 //Tiles to Left and Right
                                 this.arrayToStore[this.pos.y - _y][this.pos.x + _x].parentNode = this;
@@ -54,9 +53,28 @@ class Tile{
                             }
                         }
                     } else {
+                        // for(let _y = 0; _y < yHeight; _y++){
+                        //     if(_y != 0){
+                        //         //Tiles Directly Above Above
+                        //         if(this.arrayToStore[this.pos.y - _y])
+                        //         delete this.arrayToStore[this.pos.y - _y][this.pos.x].parentNode;
+                        //     }
+                        //     for(let _x = 1; _x < xWidth-1; _x++){
+        
+                        //         //Tiles to Left and Right
+                        //         if(this.arrayToStore[this.pos.y - _y]){
+                        //             if(this.arrayToStore[this.pos.y - _y][this.pos.x + _x])
+                        //             delete this.arrayToStore[this.pos.y - _y][this.pos.x + _x].parentNode;
+                        //             if(this.arrayToStore[this.pos.y - _y][this.pos.x - _x])
+                        //             delete this.arrayToStore[this.pos.y - _y][this.pos.x - _x].parentNode;
+                        //         }
+                                
+                        //     }
+                        // }
+                        //this.node = null;
                         //LayerManager.Layers.GroundFloorInteractables.erase();
                         //LayerManager.Layers.GroundFloorInteractables.rect((this.pos.x+1) * Map.tileSize - (Map.tileSize * xWidth/3 * 2),  (this.pos.y+1) * Map.tileSize - (Map.tileSize * yHeight), Map.tileSize * xWidth, Map.tileSize * yHeight);
-                        //LayerManager.Layers.GroundFloorInteractables.image(eval(_tileToPlace.image), (this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
+                        //LayerManager.Layers.GroundFloorInteractables.image(eval(this.tileToPlace.image), (this.pos.x+1) * Map.tileSize - (Map.tileSize),  (this.pos.y+1) * Map.tileSize - (Map.tileSize), Map.tileSize, Map.tileSize);
                         //LayerManager.Layers.GroundFloorInteractables.noErase();
                     }
     }
@@ -161,6 +179,7 @@ class Map{
                 let rand = random(0,1)
                 let tileToPlace= new RawTile(RawTile.Type.Grass);
                 tileToPlace.pos = {x: _x, y: _y}
+                tileToPlace.worldPos = {x: (_x * Map.tileSize) + (Map.tileSize/2), y:(_y * Map.tileSize) + (Map.tileSize/2)}
                 Map.floorTiles[_y].push(new PathingPoint(Map.floorTiles, tileToPlace));
             }
         }

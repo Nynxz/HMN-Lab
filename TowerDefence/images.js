@@ -9,6 +9,7 @@ class Images{
     static WallDebug = {};
     static MapEditor = {};
     static PlayerSelected = {};
+    static Shop = {};
 
     static loadAllImages(){
         
@@ -22,6 +23,7 @@ class Images{
         
         Images._loadPlayerSelectedImage();
         
+        Images._loadShopAssets();
     }
 
     static _loadEffects(){
@@ -44,6 +46,7 @@ class Images{
         Images.Interactables.Debug.SpendTouching = loadImage('/TowerDefence/assets/interactables/spenddebugtouching.png');
 
         Images.Interactables.Tree1 = loadImage('/TowerDefence/assets/interactables/tree_1.png');
+        Images.Interactables.Spike1 = loadImage('/TowerDefence/assets/Tiles/Spikes/spike1.png');
     }
 
     static _loadDebugPlayerAnimations(){
@@ -97,9 +100,16 @@ class Images{
         Images.MapEditor.BlankButton = loadImage('/TowerDefence/assets/MapEditor/basePaintButton.png');
         Images.MapEditor.WallButton = loadImage('/TowerDefence/assets/MapEditor/WallPaintButton.png');
         Images.MapEditor.Tree1Button = loadImage('/TowerDefence/assets/MapEditor/TreePaintButton.png');
+        Images.MapEditor.SpikeButton = loadImage('/TowerDefence/assets/MapEditor/SpikePaintButton.png');
     }
 
     static _loadPlayerSelectedImage() {
         Images.PlayerSelected.PlayerSelectedImage = loadImage('/TowerDefence/assets/Sprites/playerSelectShadow.png')
+    }
+
+    static _loadShopAssets(){
+        Images.Shop.ShopTabLeft = loadImage('/TowerDefence/assets/shop/shoptableft.png');
+        Images.Shop.ShopButtonBarricade = loadImage('/TowerDefence/assets/shop/barricadeButton.png');
+        Images.Shop.ShopButtonSpikes = loadImage('/TowerDefence/assets/shop/spikeButton.png');
     }
 }

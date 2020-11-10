@@ -6,19 +6,17 @@ class Controls{
     }
 
     static refresh(){
-        
+        let s = SceneManager.CurrentScene;
 
         //Pause
         if(keyWentDown(Controls.KeyBinds.Pause)){
-            let s = SceneManager.CurrentScene;
             if(s == SceneManager.Scenes.InGame || s == SceneManager.Scenes.MapEditor){
                 Menu.createPauseMenu();
             }
         }
 
         //Click
-        if(mouseWentDown(LEFT)){
-            let s = SceneManager.CurrentScene;
+        if(mouseWentDown(LEFT) && keyDown(17)){
             if(s == SceneManager.Scenes.InGame || s == SceneManager.Scenes.MapEditor){
                 let tile = Map.getTileAtWorldPosition(mouseX, mouseY);
                 console.log(tile)
@@ -35,7 +33,7 @@ class Controls{
         }
 
         if(mouseWentDown(RIGHT)){
-            let s = SceneManager.CurrentScene;
+    
             if(s == SceneManager.Scenes.InGame || s == SceneManager.Scenes.MapEditor){
                 if(GameManager.activePlayer){
                     let tile = Map.getTileAtWorldPosition(mouseX, mouseY);

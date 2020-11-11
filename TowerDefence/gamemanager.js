@@ -86,7 +86,6 @@ class GameManager {
 
         //We load the map we generated from Map.generateMap
         //GameManager.pathfinding.loadGrid(Map.floorTiles, 0, 0, false);
-
     }
 
     static refreshGame() {
@@ -110,23 +109,17 @@ class GameManager {
             //If the player is selected, mark it
             if(player.isSelected)
                 player._selected();
-                if (keyIsDown(37)) {
-                    let projectile = createSprite(GameManager.activePlayer.sprite.position.x, GameManager.activePlayer.sprite.position.y, 50, 50);
+                if(keyIsDown(37)&& GameManager.activePlayer) {
+                let projectile = createSprite(GameManager.activePlayer.sprite.position.x, GameManager.activePlayer.sprite.position.y, 50, 50);
+                    //We need to draw to a layer
                     projectile.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
-                    projectile.setSpeed(5,5);
-                    this.ammo--;
-                  }
-                  if ((this.ammo = 0)) {
-                    console.log("no ammo!");
-                  }
+                }
             });
 
         GameManager.allZombies.forEach(zombie => {
             zombie.moveZombie();
         })
 
-
- 
         //TODO: MOVE TO CONTROLS
         // if(keyDown(17) && mouseWentDown(LEFT) && !GameManager.gamePaused && mouseX < width && mouseY < height && mouseX > 0 && mouseX > 0){
         //TODO: Implement a "getSprite" or "getActor" or something, stop using onMousePressed for selection of players
@@ -164,8 +157,7 @@ class GameManager {
            // let spend = new Interactable(Images.Interactables.Debug.SpendTouching, mouseX, mouseY, Interactable.Type.Spend, Interactable.Range.Touching);
         }
     }
-    static refreshHUD() {
-        
+    static refreshHUD() {   
     }
     //#endregion
 }

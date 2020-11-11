@@ -34,8 +34,18 @@ class Tile{
         
                         LayerManager.Layers.GroundFloorInteractables.imageMode(CORNER);
                         //eval(this.node.image)
-                        LayerManager.Layers.GroundFloorInteractables.image(eval(this.node.info.image), (this.pos.x+1) * Map.tileSize - (Map.tileSize * this.node.info.size.x/3 * 2),  (this.pos.y+1) * Map.tileSize - (Map.tileSize * this.node.info.size.y), Map.tileSize * this.node.info.size.x, Map.tileSize * this.node.info.size.y);
-                        console.log("GOT PAST IMAGE DRAW")
+                        if(this.node.info.alignment == Interactable.Alignment.BOTTOMCENTER){
+                            LayerManager.Layers.GroundFloorInteractables.image(eval(this.node.info.image),
+                            (this.pos.x+1) * Map.tileSize - (Map.tileSize * this.node.info.size.y) + Map.tileSize,
+                            (this.pos.y+1) * Map.tileSize - (Map.tileSize * this.node.info.size.y), Map.tileSize * this.node.info.size.x, Map.tileSize * this.node.info.size.y);
+                            console.log("GOT PAST IMAGE DRAW")
+                        } else {
+                            LayerManager.Layers.GroundFloorInteractables.image(eval(this.node.info.image),
+                            (this.pos.x+1) * Map.tileSize - (Map.tileSize * this.node.info.size.y),
+                            (this.pos.y+1) * Map.tileSize - (Map.tileSize * this.node.info.size.y), Map.tileSize * this.node.info.size.x, Map.tileSize * this.node.info.size.y);
+                            console.log("GOT PAST IMAGE DRAW")
+                        }
+
                         for(let _y = 0; _y < this.node.info.size.y; _y++){
                             if(_y != 0){
                                 //Tiles Directly Above Above

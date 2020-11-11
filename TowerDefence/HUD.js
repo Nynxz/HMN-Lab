@@ -18,6 +18,8 @@ class HUD {
 
     drawResources(){
       text("Wood: " + GameManager.resources.Wood,width-300,300);
+      text("Rock: " + GameManager.resources.Rock,width-300,350);
+      text("Iron: " + GameManager.resources.Iron,width-300,400);
     }
     
     drawHUD() {

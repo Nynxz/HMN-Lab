@@ -29,6 +29,16 @@ self.addEventListener('message', function(e) {
             }
             postMessage(obj);
         break;
+
+        case 'findHorde':
+            let _path = _findPath(payload.x1, payload.y1, payload.x2, payload.y2);
+            let obj = {
+                type: 'findHorde',
+                from: from,
+                path: _path,
+            }
+            postMessage(obj);
+        break;
     }
 }, false);
 

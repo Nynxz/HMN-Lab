@@ -45,6 +45,31 @@ class MapEditor{
         }
         SpikeButton.sprite.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
 
+        let RockButton = new MenuButton(Images.MapEditor.RockButton, 1, width - 100, 200);
+        RockButton.sprite.onMousePressed = function(){
+            Map.activeTile = [];
+            if(MapEditor.itemToPlace != null){
+                console.log("OFF")
+                MapEditor.itemToPlace = null
+            } else {
+                MapEditor.itemToPlace = new RawTile(RawTile.Type.Rock);
+                console.log(MapEditor.tileToPlace);
+            }
+        }
+        RockButton.sprite.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
+
+        let FurnaceButton = new MenuButton(Images.MapEditor.FurnaceButton, 1, width - 100, 100);
+        FurnaceButton.sprite.onMousePressed = function(){
+            Map.activeTile = [];
+            if(MapEditor.itemToPlace != null){
+                console.log("OFF")
+                MapEditor.itemToPlace = null
+            } else {
+                MapEditor.itemToPlace = new RawTile(RawTile.Type.Furnace);
+                console.log(MapEditor.tileToPlace);
+            }
+        }
+        FurnaceButton.sprite.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
 
         
         let WallButton = new MenuButton(Images.MapEditor.WallButton, 1, width - 100, 400);
@@ -77,7 +102,7 @@ class MapEditor{
         BlankButton.sprite.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
 
 
-        MapEditor.debugLoadSaveMapButtons();
+        
 
     }
 
@@ -85,14 +110,13 @@ class MapEditor{
 
         MapEditor.mapInputs = createInput('');
         MapEditor.mapInputs.position(width - 150, height - 50);
-
+        DebugHelpers.buttons.push(MapEditor.mapInputs);
         new DebugButton('Export Map', width - 250, height - 25, () => {
             DebugHelpers.exportMap();
         });
         
         new DebugButton('Load Map', width - 250, height - 50, () => {
-            DebugHelpers.loadMap();
-
+            DebugHelpers.loadMap(MapEditor.mapInputs.value());
             //Map.pathGrid.forEach(tile => tile.getChildrenNodes());
 
         });

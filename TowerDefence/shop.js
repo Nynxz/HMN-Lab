@@ -5,7 +5,13 @@ class Shop{
     static isShopTabOpen = false;
     static ShopButtons = [];
 
+    static currentShopSelection;
+
     static initShop(){
+        Shop.ShopButtons = [];
+        Shop.isShopTabOpen = false;
+        Shop.currentShopSelection = null;
+        Shop.drawGrid();
         let padding = 25
         Shop.ShopTab = createSprite(175 + padding, height+100);
         Shop.ShopTab.addToGroup(LayerManager.Layers.HUDGroup);
@@ -20,12 +26,16 @@ class Shop{
                 Shop.ShopButtons.forEach((button,x) => {
                     button.sprite.position.y += movementDifference;
                 });
+                Shop.currentShopSelection = null;
+                LayerManager.Layers.Grid.isEnabled = false;
             } else {
                 Shop.ShopTab.position.y -= movementDifference;
                 Shop.isShopTabOpen = true;
                 Shop.ShopButtons.forEach((button,x) => {
                     button.sprite.position.y -= movementDifference;
                 });
+                LayerManager.Layers.Grid.isEnabled = true;
+                
             }
         }
         Shop.ShopTab.debug = true;
@@ -55,6 +65,27 @@ class Shop{
             } 
         });
     }
+
+    static refreshShopSelection(){
+        if(Shop.currentShopSelection){
+           
+            LayerManager.Layers.HUDLayer.imageMode(CENTER);
+            LayerManager.Layers.HUDLayer.image(eval(Shop.currentShopSelection.info.image), mouseX, mouseY, Map.tileSize, Map.tileSize);
+        }
+    }
+
+    static drawGrid(){
+        let cols = width /Map.tileSize
+        let rows = height /Map.tileSize
+        LayerManager.Layers.Grid.stroke(0, 0, 0, 55);
+        for(let y = 0; y < rows; y++){
+            for (let x = 0; x < cols; x++) {
+                
+                LayerManager.Layers.Grid.line(Map.tileSize * (x +1), 0,  Map.tileSize * (x +1), height);           
+            }
+            LayerManager.Layers.Grid.line(0, Map.tileSize * (y +1),  width, Map.tileSize * (y +1));           
+        }
+    }
 }
 
 class ShopButton{
@@ -64,8 +95,9 @@ class ShopButton{
         this.cost = _cost;
         this.sprite = createSprite(-100, -100);
         this.sprite.addImage(this.img);
-        this.sprite.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
+        this.sprite.addToGroup(LayerManager.Layers.HUDGroup);
         this.sprite.onMouseReleased = () => {
+            Shop.currentShopSelection = this.itemToPlace;
             console.log("Cost: ", this.cost, "| Item to Place: ", this.itemToPlace);
         };
         Shop.ShopButtons.push(this);

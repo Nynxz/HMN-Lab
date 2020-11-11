@@ -31,6 +31,9 @@ function setup() {
 		//remove it from the buttons array so we dont remove it on toggle
 		DebugHelpers.buttons.pop();
 	}
+
+	DebugHelpers.toggleButtons();
+	MapEditor.debugLoadSaveMapButtons();
 }
 
 function draw() {

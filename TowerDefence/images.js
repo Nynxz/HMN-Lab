@@ -25,6 +25,12 @@ class Images{
         Images._loadPlayerSelectedImage();
         
         Images._loadShopAssets();
+
+        Images._loadSoundEffects();
+    }
+
+    static _loadSoundEffects(){
+        //Import Sound
     }
 
     static _loadEffects(){
@@ -53,6 +59,8 @@ class Images{
 
         Images.Interactables.Tree1 = loadImage('/TowerDefence/assets/interactables/tree_1.png');
         Images.Interactables.Spike1 = loadImage('/TowerDefence/assets/Tiles/Spikes/spike1.png');
+        Images.Interactables.Rock = loadImage('/TowerDefence/assets/Tiles/Rock_Pile.png');
+        Images.Interactables.Furnace = loadImage('/TowerDefence/assets/interactables/furnace.png');
     }
 
     static _loadDebugPlayerAnimations(){
@@ -108,6 +116,8 @@ class Images{
         Images.MapEditor.WallButton = loadImage('/TowerDefence/assets/MapEditor/WallPaintButton.png');
         Images.MapEditor.Tree1Button = loadImage('/TowerDefence/assets/MapEditor/TreePaintButton.png');
         Images.MapEditor.SpikeButton = loadImage('/TowerDefence/assets/MapEditor/SpikePaintButton.png');
+        Images.MapEditor.RockButton = loadImage('/TowerDefence/assets/MapEditor/RockPaintButton.png');
+        Images.MapEditor.FurnaceButton = loadImage('/TowerDefence/assets/MapEditor/FurnacePaintButton.png');
     }
 
     static _loadPlayerSelectedImage() {

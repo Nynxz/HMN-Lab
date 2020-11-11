@@ -13,10 +13,12 @@ class GameManager {
 
     static pathfindingWorker;
 
-    static resources = {Wood: 0}
+    static resources = {Wood: 50, Rock: 0, Iron: 0}
 
     //We call this once to initalise the main game.
     static initGame(){
+
+        
 
         //TODO: MOVE TO THREADMANAGER?
         GameManager.pathfindingWorkerPlayer = new Worker('pathfindingwebworker.js');
@@ -58,6 +60,10 @@ class GameManager {
                         PathingActor.Actors[e.data.from].sprite.position.y =  PathingActor.Actors[e.data.from].nextPoint.y;
                     }
                 break;
+                case 'findHorde':
+                    //console.log('eData:', e.data.path)
+                    Horde.allHordes[e.data.from].hordePath = e.data.path;
+                break;
             }
 			//console.log("VALUE: ", e.data);
         }, false);
@@ -76,10 +82,11 @@ class GameManager {
         //16, 24, 48 
         Map.generateMap(24, width, height);
 
-        //Toggle Debug Buttons
-        DebugHelpers.toggleButtons();
+   
     
         Shop.initShop();
+
+        DebugHelpers.loadMap('lv1');
 
         //We Create a pathfinding instance
         //GameManager.pathfinding = new Pathfinding();
@@ -90,6 +97,34 @@ class GameManager {
     }
 
     static refreshGame() {
+        Shop.refreshShopSelection();
+
+        if(frameCount % 1 == 0 && mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height){
+            let tile = Map.getTileAtWorldPosition(mouseX, mouseY);
+            if(tile.parentNode || tile.node){
+                LayerManager.Layers.HUDLayer.fill(255,255,255, 100);
+                LayerManager.Layers.HUDLayer.rect(mouseX, mouseY-50, 200, 100);
+                let typeStr = tile.node ? tile.node.type : tile.parentNode.node.type
+                LayerManager.Layers.HUDLayer.fill(0,0,0, 255);
+                LayerManager.Layers.HUDLayer.text("Type: " + typeStr, mouseX + 10, mouseY-35)
+                switch(typeStr){
+                    case 'spike':
+                        LayerManager.Layers.HUDLayer.text("Info: Deals Damage to \n Players & Zombies", mouseX + 10, mouseY-15);
+                    break;
+                    case 'tree':
+                        LayerManager.Layers.HUDLayer.text("Info: Generates Wood", mouseX + 10, mouseY-15);
+                    break;
+                    case 'furnace':
+                        LayerManager.Layers.HUDLayer.text("Info: Turns 1 Wood & \n 1 Rock into 1 Iron", mouseX + 10, mouseY-15);
+                    break;
+                    case 'rock':
+                        LayerManager.Layers.HUDLayer.text("Info: Generates Rock", mouseX + 10, mouseY-15);
+                    break;
+                }
+
+            }
+            //console.log(tile);
+        }
 
         //If we have an Active Tile, mark it
         if(Map.activeTile.length > 0){
@@ -118,20 +153,32 @@ class GameManager {
             //If the player is selected, mark it
             if(player.isSelected)
                 player._selected();
-                if(keyIsDown(37)&& GameManager.activePlayer && frameCount % 2 == 0) {
+                if(keyIsDown(37)&& GameManager.activePlayer && frameCount % 12 == 0) {
                 let projectile = createSprite(GameManager.activePlayer.sprite.position.x, GameManager.activePlayer.sprite.position.y, 50, 50);
                     projectile.addImage(Images.Weapons.Bullets.Basic);
                     projectile.rotateToDirection  = true;
                     //We need to draw to a layer
                     projectile.addToGroup(LayerManager.Layers.BulletsGroup);
                     projectile.attractionPoint(3, mouseX, mouseY)
+                    projectile.setCollider("circle", 0,0, 16);
+                    projectile.debug = true;
                 }
             });
 
         GameManager.allZombies.forEach(zombie => {
             zombie.moveZombie();
             zombie.drawInfo();
-        })
+        });
+
+
+        LayerManager.Layers.PlayerCharactersGroup.overlap(LayerManager.Layers.BulletsGroup, (actor, bullet) => {
+            if(actor.Parent instanceof Zombie){
+                console.log("HITTING")
+                actor.Parent.damage(15);
+                bullet.life = 1;
+            }
+           
+        });
 
         LayerManager.Layers.BulletsGroup.forEach(bullet => {
             let tile = Map.getTileAtWorldPosition(bullet.position.x, bullet.position.y);

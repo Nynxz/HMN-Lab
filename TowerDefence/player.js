@@ -82,6 +82,8 @@ class Player extends PathingActor {
   }
 
   WWfindPath(x, y){
+    this.walking = false;
+    this.sprite.velocity = {x: 0, y: 0};
     let obj = {
         type: 'find',
         from: this.id,

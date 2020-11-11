@@ -1,6 +1,6 @@
 //IDK ABOUT THIS
 class RawTile{
-    static Type = {Grass: 'grass', Flower: 'flower', Wall: 'wall', Tree: 'tree', Spike: 'spike'};
+    static Type = {Grass: 'grass', Flower: 'flower', Wall: 'wall', Tree: 'tree', Spike: 'spike', Rock: 'rock', Furnace: 'furnace'};
 
     static EFFECT = {Spend: 'spend', Generate: 'generate'};
     
@@ -20,15 +20,25 @@ class RawTile{
             break;
 
             case RawTile.Type.Tree:
-                this.info = new Interactable('Images.Interactables.Tree1', 5, 8, Interactable.Alignment.BOTTOMCENTER, "Interactable.ChopTree(1)");
+                this.info = new Interactable('Images.Interactables.Tree1', 3, 3, Interactable.Alignment.BOTTOMCENTER, "Interactable.ChopTree(1)");
                 this.passable = true;
             break;
 
             case RawTile.Type.Spike:
-                this.info = new Interactable('Images.Interactables.Spike1', 1, 1, Interactable.Alignment.BOTTOMCENTER, "actor.damage(1)");
+                this.info = new Interactable('Images.Interactables.Spike1', 1, 1, Interactable.Alignment.CENTER, "actor.damage(1)");
                 this.passable = true;
             break;
-            
+
+            case RawTile.Type.Rock:
+                this.info = new Interactable('Images.Interactables.Rock', 3, 3, Interactable.Alignment.BOTTOMCENTER, "Interactable.MineRock(1)")
+                this.passable = false;
+            break;
+
+            case RawTile.Type.Furnace:
+                this.info = new Interactable('Images.Interactables.Furnace', 3, 3, Interactable.Alignment.BOTTOMCENTER, "Interactable.SmeltRockIntoIron(1)")
+                this.passable = false;
+                break;
+
             case RawTile.Debug.Spend:
                 this.node = new Interactable(Interactable.NodeTypes.GENERATE, 1, 1, Interactable.Alignment.CENTER);
                 this.image = 'Images.Interactables.Debug.SpendTouching';
@@ -55,6 +65,18 @@ class Interactable{
     //We use this to pass around as strings and eval
     static ChopTree(_amount){
         GameManager.resources.Wood += _amount
+    }
+
+    static MineRock(_amount){
+        GameManager.resources.Rock += _amount;
+    }
+
+    static SmeltRockIntoIron(_amount){
+        if(GameManager.resources.Rock - _amount >= 0 && GameManager.resources.Wood - 1 >= 0){
+            GameManager.resources.Wood -= 1;
+            GameManager.resources.Rock -= _amount;
+            GameManager.resources.Iron += _amount * 2; //HARDCODED BS
+        }
     }
     
     static Damage(_amount){

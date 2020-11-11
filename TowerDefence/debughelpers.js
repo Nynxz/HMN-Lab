@@ -16,7 +16,7 @@ class DebugHelpers{
 
     static toggleButtons(){
         if(!DebugHelpers.isShowingButtons){
-
+            MapEditor.debugLoadSaveMapButtons();
             new DebugButton('Regen Floor', 25, 25, () => {
                 //Map._generateFloorTiles();
                 Map._generateAndyGrid();
@@ -140,9 +140,9 @@ class DebugHelpers{
         saveJSON(map, MapEditor.mapInputs.value(), true);
     }
 
-    static loadMap(){
+    static loadMap(_level){
         LayerManager.Layers.GroundFloorInteractables.clear();
-        loadJSON('/TowerDefence/maps/' + MapEditor.mapInputs.value() + '.json', (map) => {
+        loadJSON('/TowerDefence/maps/' + _level + '.json', (map) => {
                 
             Map.pathGrid = new Array();
     

@@ -52,7 +52,8 @@ class Controls{
 
         //Debug //Space
         if(keyWentDown(32)){
-            GameManager.allZombies.push(new Zombie("Zombie", 100, mouseX, mouseY));
+            ZombieSpawner.spawnWave()
+            //GameManager.allZombies.push(new Zombie("Zombie", 100, mouseX, mouseY));
         }
     }
 

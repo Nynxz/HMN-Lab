@@ -18,6 +18,8 @@ class Menu {
 
     static createMainMenu(){
 
+             // //Toggle Debug Buttons
+       
         //These are buttons, we pass in an Image, "scale", position, then bind function to onMousePressed
 
         let startButton = new MenuButton(Images.Menu.LavaStartButton, 3, width/2, height/4)

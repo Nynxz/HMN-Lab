@@ -30,15 +30,22 @@ class LayerManager{
 
         LayerManager.Layers.PauseMenuGroup = new Group();
 
+        LayerManager.Layers.Grid = createGraphics(1440, 816);
+        LayerManager.Layers.Grid.isEnabled = false;
+
         LayerManager.Layers.FogOfWar= createGraphics(1440, 816);
         LayerManager.Layers.FogOfWar.isEnabled = true;
 
         LayerManager.Layers.HUDGroup = new Group();
         LayerManager.Layers.HUDGroup.isEnabled = true;
 
+        LayerManager.Layers.HUDLayer = createGraphics(1440, 816);
+        LayerManager.Layers.HUDLayer.isEnabled = true;
+
         LayerManager.Layers.Master = createGraphics(1440, 816);
         LayerManager.Layers.Master.isEnabled = true;
         
+
 
     }
 
@@ -59,7 +66,9 @@ class LayerManager{
 
         //LayerManager.Layers.PlayerTools
 
-
+       if(LayerManager.Layers.Grid.isEnabled){
+            image(LayerManager.Layers.Grid, 0, 0);
+        }
 
         if(LayerManager.Layers.GroundFloorInteractables.isEnabled){
             image(LayerManager.Layers.GroundFloorInteractables, 0, 0);
@@ -84,11 +93,17 @@ class LayerManager{
         if(LayerManager.Layers.HUDGroup.isEnabled){
             LayerManager.Layers.HUDGroup.draw();
         }
+
+        if(LayerManager.Layers.HUDLayer.isEnabled){
+            image(LayerManager.Layers.HUDLayer, 0, 0);
+        }
         
 
         if(LayerManager.Layers.Master.isEnabled){
             image(LayerManager.Layers.Master, 0, 0);
         }
+
+
 
         LayerManager.Layers.PauseMenuGroup.draw();
         
@@ -100,6 +115,7 @@ class LayerManager{
         
         LayerManager.Layers.Effects.clear();  
         LayerManager.Layers.GroundFloorExtras.clear();
+        LayerManager.Layers.HUDLayer.clear();
     }
     //#endregion
 }

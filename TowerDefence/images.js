@@ -10,6 +10,7 @@ class Images{
     static MapEditor = {};
     static PlayerSelected = {};
     static Shop = {};
+    static Weapons = {Bullets : {}};
 
     static loadAllImages(){
         
@@ -38,6 +39,10 @@ class Images{
         Images._loadDebugWall();
         Images._loadMapEditorAssets();
         Images._loadZombieAnimations();
+    }
+
+    static _loadWeaponAssets(){
+        Images.Weapons.Bullets.Basic = loadImage('/TowerDefence/assets/effects/bullet1.png');
     }
 
     static _loadDebugInteractables(){

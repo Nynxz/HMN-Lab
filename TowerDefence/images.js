@@ -62,6 +62,10 @@ class Images{
         soundBreakingTree = loadSound("TowerDefence/assets/sound/102971__robinhood76__01954-breaking-tree.mp3");
 
         soundOwl = loadSound("TowerDefence/assets/sound/25945__inchadney__owl.mp3");
+
+        soundOwl_1 = loadSound("TowerDefence/assets/sound/25945__inchadney__owl_1.mp3");
+        soundOwl_2 = loadSound("TowerDefence/assets/sound/25945__inchadney__owl_2.mp3");
+
         soundFire1 = loadSound("TowerDefence/assets/sound/fire2.mp3");
         soundFire2 = loadSound("TowerDefence/assets/sound/fire2b.mp3");
         soundFire3 = loadSound("TowerDefence/assets/sound/fire3.mp3");
@@ -83,6 +87,9 @@ to play each sound
         soundBreakingTree.play();
 
         soundOwl.play();
+        soundOwl_1.play();
+        soundOwl_2.play();
+
         soundFire1.play();
         soundFire2.play();
         soundFire3.play();

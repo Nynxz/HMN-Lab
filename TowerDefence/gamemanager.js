@@ -119,6 +119,7 @@ class GameManager {
 
         GameManager.allZombies.forEach(zombie => {
             zombie.moveZombie();
+            zombie.drawInfo();
         })
 
         //TODO: MOVE TO CONTROLS

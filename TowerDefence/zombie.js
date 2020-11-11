@@ -13,8 +13,8 @@ class Zombie extends PathingActor{
         PathingActor.Actors.push(this);
 
         this.sprite = this.createZombie(_x, _y);
-        this.healthBar = new StatsBar(this.health, 50, 10, 0, -50, "red");
-        
+        this.healthBar = new StatsBar(this.health, 200, 10, 0, -50, "grey");
+        this.health = 50;
         this.currentTarget = 0;
         this.path = [];
         this.nextPoint = {x: _x, y: _y};
@@ -120,5 +120,13 @@ class Zombie extends PathingActor{
             //this.sprite.position.y += walkSpeed;
             this.sprite.changeAnimation('walkdown');
         }
+        
     }
+    drawInfo() {
+        LayerManager.Layers.Effects.noStroke();
+        this.healthBar.refreshBar(
+          this.sprite.position.x,
+          this.sprite.position.y,
+          this.health);
+        }
 }

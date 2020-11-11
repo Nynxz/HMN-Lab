@@ -19,10 +19,12 @@ class HUD {
     drawResources(){
       text("Wood: " + GameManager.resources.Wood,width-300,300);
     }
+    
     drawHUD() {
         let HUD = createSprite(width-(this.containerWidth/2),height-this.containerHeight/2,this.containerWidth,this.containerHeight);
         HUD.shapeColor=this.color;
     }
+
     drawActivePlayerHeader() {
         textAlign(LEFT);
         textSize(15);
@@ -69,5 +71,5 @@ class HUD {
     refreshHUD() {
         this.drawGameClock();
         this.drawResources();
-      }
+    }
 }

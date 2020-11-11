@@ -69,5 +69,5 @@ class HUD {
     refreshHUD() {
         this.drawGameClock();
         this.drawResources();
-    }
+      }
 }

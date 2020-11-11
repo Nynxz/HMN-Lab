@@ -75,9 +75,7 @@ class Player extends PathingActor {
     if(this.currentTask != null){
       if(dist(this.sprite.position.x, this.sprite.position.y, (this.currentTask.pos.x * Map.tileSize) + (Map.tileSize/2), (this.currentTask.pos.y* Map.tileSize) + (Map.tileSize/2)) < 25){
         if(frameCount % 60 == 0){
-          if(this.currentTask.node.effect.resource == "wood"){
-            GameManager.resources.Wood += this.currentTask.node.effect.amount
-          }
+          eval(this.currentTask.node.info.effect);
         }
       }
     }

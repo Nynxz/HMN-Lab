@@ -2,7 +2,12 @@ class Zombie extends PathingActor{
     static allZombies = [];
     constructor(_name, _health, _x, _y) {
         let tile = Map.getTileAtWorldPosition( _x, _y);
-        super(Map.floorTiles, _name, 100, {x: tile.pos.x, y: tile.pos.y});
+        if(tile){
+            super(Map.floorTiles, _name, 100, {x: tile.pos.x, y: tile.pos.y});
+        } else {
+            super(Map.floorTiles, _name, 100, {x: _x, y: _y});
+        }
+        
         this.id = PathingActor.idCount;
         PathingActor.idCount++;
         PathingActor.Actors.push(this);

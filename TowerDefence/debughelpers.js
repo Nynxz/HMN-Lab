@@ -79,7 +79,7 @@ class DebugHelpers{
         fill(255);
         noStroke();
         stroke(0);
-        text("FPS: " + fps.toFixed(2), 10, height - 10);
+        text("FPS: " + fps.toFixed(2), 10, 0 + 20);
     }
 
 
@@ -141,6 +141,7 @@ class DebugHelpers{
     }
 
     static loadMap(){
+        LayerManager.Layers.GroundFloorInteractables.clear();
         loadJSON('/TowerDefence/maps/' + MapEditor.mapInputs.value() + '.json', (map) => {
                 
             Map.pathGrid = new Array();
@@ -152,13 +153,14 @@ class DebugHelpers{
                 }
             }       
             //Optimisation TODO, check in above loop for a node that needs children, if node, push to an array
-            //loop through array of known nodes that require children
+            //loop through array of known nodes that require children - not super needed, doesnt bog game
             for (let y = 0; y < Map.mapHeight; y++) {
                 for (let x = 0; x < Map.mapWidth; x++) {
                     Map.pathGrid[y][x].getChildrenNodes();         
                 }
             }    
             Map.floorTiles =  Map.pathGrid;
+            DebugHelpers.RecalculatePathing()
         });
     }
 }

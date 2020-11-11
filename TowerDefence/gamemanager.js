@@ -23,9 +23,9 @@ class GameManager {
         GameManager.pathfindingWorkerPlayer.addEventListener('message', function(e) {
             switch(e.data.type){
                 case 'find':
-                    console.log('eData:', e.data.path)
+                    //console.log('eData:', e.data.path)
                     PathingActor.Actors[e.data.from].path = e.data.path;
-                    console.log('actor: ', PathingActor.Actors[e.data.from]);
+                    //console.log('actor: ', PathingActor.Actors[e.data.from]);
                     if(PathingActor.Actors[e.data.from].path.length > 0){
                         PathingActor.Actors[e.data.from].pathIndex = 0;
                         PathingActor.Actors[e.data.from].walking = true;
@@ -38,16 +38,16 @@ class GameManager {
                     }
                 break;
             }
-			console.log("VALUE: ", e.data);
+			//console.log("VALUE: ", e.data);
         }, false);
 
         GameManager.pathfindingWorker = new Worker('pathfindingwebworker.js');
         GameManager.pathfindingWorker.addEventListener('message', function(e) {
             switch(e.data.type){
                 case 'find':
-                    console.log('eData:', e.data.path)
+                    //console.log('eData:', e.data.path)
                     PathingActor.Actors[e.data.from].path = e.data.path;
-                    console.log('actor: ', PathingActor.Actors[e.data.from]);
+                    //console.log('actor: ', PathingActor.Actors[e.data.from]);
                     if(PathingActor.Actors[e.data.from].path.length > 0){
                         PathingActor.Actors[e.data.from].pathIndex = 0;
                         PathingActor.Actors[e.data.from].walking = true;
@@ -59,7 +59,7 @@ class GameManager {
                     }
                 break;
             }
-			console.log("VALUE: ", e.data);
+			//console.log("VALUE: ", e.data);
         }, false);
         
 
@@ -79,6 +79,8 @@ class GameManager {
         //Toggle Debug Buttons
         DebugHelpers.toggleButtons();
     
+        Shop.initShop();
+
         //We Create a pathfinding instance
         //GameManager.pathfinding = new Pathfinding();
 
@@ -119,13 +121,13 @@ class GameManager {
         })
 
         //TODO: MOVE TO CONTROLS
-        if(keyDown(17) && mouseWentDown(LEFT) && !GameManager.gamePaused && mouseX < width && mouseY < height && mouseX > 0 && mouseX > 0){
-            //TODO: Implement a "getSprite" or "getActor" or something, stop using onMousePressed for selection of players
-            //console.log(Map.activeTile);
-            if(GameManager.activePlayer){
-                GameManager.activePlayer.WWfindPath(mouseX, mouseY);
-            }
-        }
+        // if(keyDown(17) && mouseWentDown(LEFT) && !GameManager.gamePaused && mouseX < width && mouseY < height && mouseX > 0 && mouseX > 0){
+        //TODO: Implement a "getSprite" or "getActor" or something, stop using onMousePressed for selection of players
+        //     //console.log(Map.activeTile);
+        //     if(GameManager.activePlayer){
+        //         GameManager.activePlayer.WWfindPath(mouseX, mouseY);
+        //     }
+        // }
 
         if(GameManager.activePlayer){
             if(GameManager.activePlayer.walking){

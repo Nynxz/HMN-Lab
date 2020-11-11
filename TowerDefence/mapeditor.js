@@ -32,8 +32,20 @@ class MapEditor{
 
     static createButtons(){
 
-        MapEditor.mapInputs = createInput('');
-        MapEditor.mapInputs.position(width - 150, height - 50);
+        let SpikeButton = new MenuButton(Images.MapEditor.SpikeButton, 1, width - 100, 300);
+        SpikeButton.sprite.onMousePressed = function(){
+            Map.activeTile = [];
+            if(MapEditor.itemToPlace != null){
+                console.log("OFF")
+                MapEditor.itemToPlace = null
+            } else {
+                MapEditor.itemToPlace = new RawTile(RawTile.Type.Spike);
+                console.log(MapEditor.tileToPlace);
+            }
+        }
+        SpikeButton.sprite.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
+
+
         
         let WallButton = new MenuButton(Images.MapEditor.WallButton, 1, width - 100, 400);
         WallButton.sprite.onMousePressed = function(){
@@ -65,12 +77,19 @@ class MapEditor{
         BlankButton.sprite.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
 
 
+        MapEditor.debugLoadSaveMapButtons();
+
+    }
+
+    static debugLoadSaveMapButtons(){
+
+        MapEditor.mapInputs = createInput('');
+        MapEditor.mapInputs.position(width - 150, height - 50);
 
         new DebugButton('Export Map', width - 250, height - 25, () => {
-            DebugHelpers.ExportMap();
+            DebugHelpers.exportMap();
         });
         
-
         new DebugButton('Load Map', width - 250, height - 50, () => {
             DebugHelpers.loadMap();
 

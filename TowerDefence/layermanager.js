@@ -11,15 +11,15 @@ class LayerManager{
 
         LayerManager.Layers.GroundFloorInteractables = createGraphics(1440, 816);
         LayerManager.Layers.GroundFloorInteractables.isEnabled = true;
-
+        
         LayerManager.Layers.HouseFloor
         LayerManager.Layers.HouseWalls
         LayerManager.Layers.HouseInteractables
         LayerManager.Layers.EnemySprites
-
+        
         LayerManager.Layers.PlayerCharactersGroup = new Group();
         LayerManager.Layers.PlayerCharactersGroup.isEnabled = true;
-
+        
         LayerManager.Layers.PlayerTools
 
         LayerManager.Layers.Effects = createGraphics(1440, 816);

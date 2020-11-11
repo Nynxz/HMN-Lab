@@ -25,7 +25,7 @@ class RawTile{
             break;
 
             case RawTile.Type.Spike:
-                this.info = new Interactable('Images.Interactables.Spike1', 1, 1, Interactable.Alignment.BOTTOMCENTER, "Interactable.ChopTree(1)");
+                this.info = new Interactable('Images.Interactables.Spike1', 1, 1, Interactable.Alignment.BOTTOMCENTER, "actor.damage(1)");
                 this.passable = true;
             break;
             
@@ -53,8 +53,15 @@ class Interactable{
 
     //EFFECTS
     //We use this to pass around as strings and eval
-    static ChopTree(amount){
-        GameManager.resources.Wood += amount;
+    static ChopTree(_amount){
+        GameManager.resources.Wood += _amount
+    }
+    
+    static Damage(_amount){
+        return {
+            effect: 'damage',
+            amount: _amount
+        }
     }
 }
 

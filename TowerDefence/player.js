@@ -25,7 +25,6 @@ class PathingActor extends Actor {
   constructor(_map, _name, _initalHealth, _startV2) {
     super(_name, _initalHealth);
 
-
     this.map = _map;
     this.start = { x: _startV2.x, y: _startV2.y };
 
@@ -57,8 +56,8 @@ class Player extends PathingActor {
     this.selected = false;
 
     this.sprite = this.debugCreatePlayer(_x, _y, 2); //2 = initial ammo
-    this.healthBar = new StatsBar(this.health, 200, 10, 0, -50, "red");
-    this.staminaBar = new StatsBar(this.stamina, 200, 10, 0, -70, "blue");
+    this.healthBar = new StatsBar(200, 10, 0, -50, "red");
+    this.staminaBar = new StatsBar(200, 10, 0, -70, "blue");
     this.currentTask = null;
 
     this.nextPoint = { x: _x, y: _y };
@@ -73,8 +72,9 @@ class Player extends PathingActor {
 
   doWork(){
     if(this.currentTask != null){
-      if(dist(this.sprite.position.x, this.sprite.position.y, (this.currentTask.pos.x * Map.tileSize) + (Map.tileSize/2), (this.currentTask.pos.y* Map.tileSize) + (Map.tileSize/2)) < 25){
+      if(dist(this.sprite.position.x, this.sprite.position.y, (this.currentTask.pos.x * Map.tileSize) + (Map.tileSize/2), (this.currentTask.pos.y* Map.tileSize) + (Map.tileSize/2)) < 50){
         if(frameCount % 60 == 0){
+          if(this.currentTask.node.type != 'spike')
           eval(this.currentTask.node.info.effect);
         }
       }
@@ -91,16 +91,12 @@ class Player extends PathingActor {
 }
 
   andyMovement() {
+
     //check if Knight is close to their next movement point
     //console.log(this.sprite.position.x)
     //console.log(this.nextPoint.x)
     this.doWork();
-    if (
-      Math.abs(this.sprite.position.x - this.nextPoint.x) +
-        Math.abs(this.sprite.position.y - this.nextPoint.y) <
-        1 &&
-      this.path.length > 1
-    ) {
+    if (Math.abs(this.sprite.position.x - this.nextPoint.x) + Math.abs(this.sprite.position.y - this.nextPoint.y) < 1 && this.path.length > 1) {
       this.pathIndex += 1;
       if (this.pathIndex == this.path.length) {
         //this means we have reached the end

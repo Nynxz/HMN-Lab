@@ -27,7 +27,7 @@ class Tile{
                     //Tile has a Node
                     if(this.tileToPlace.node){
                         console.log(this);
-                        this.passable = false;
+                        this.passable = this.tileToPlace.passable;
                         this.node = this.tileToPlace.node;
                         this.node.children = [];
              

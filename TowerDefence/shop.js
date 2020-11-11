@@ -8,7 +8,7 @@ class Shop{
     static initShop(){
         let padding = 25
         Shop.ShopTab = createSprite(175 + padding, height+100);
-        Shop.ShopTab.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
+        Shop.ShopTab.addToGroup(LayerManager.Layers.HUDGroup);
         Shop.ShopTab.addImage(Images.Shop.ShopTabLeft);
         Shop.ShopTab.scale = .5;
         let movementDifference = 200;

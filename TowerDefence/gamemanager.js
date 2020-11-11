@@ -86,6 +86,7 @@ class GameManager {
 
         //We load the map we generated from Map.generateMap
         //GameManager.pathfinding.loadGrid(Map.floorTiles, 0, 0, false);
+        LayerManager.Layers.FogOfWar.image(Images.Map.FogOfWar, 0, 0, width, height);
     }
 
     static refreshGame() {
@@ -99,7 +100,15 @@ class GameManager {
 
         //For Each Player
         GameManager.allPlayers.forEach(player => {
-            
+
+
+            let tile = Map.getTileAtWorldPosition(player.sprite.position.x, player.sprite.position.y+Map.tileSize);
+            if(tile.node)
+            if(tile.node.type == 'spike'){
+                console.log("Spike")
+                let actor = player;
+                eval(tile.node.info.effect)
+            }
             //Draw their HP/Stamina Bar
             player.drawInfo();
 
@@ -109,16 +118,25 @@ class GameManager {
             //If the player is selected, mark it
             if(player.isSelected)
                 player._selected();
-                if(keyIsDown(37)&& GameManager.activePlayer) {
+                if(keyIsDown(37)&& GameManager.activePlayer && frameCount % 2 == 0) {
                 let projectile = createSprite(GameManager.activePlayer.sprite.position.x, GameManager.activePlayer.sprite.position.y, 50, 50);
+                    projectile.addImage(Images.Weapons.Bullets.Basic);
+                    projectile.rotateToDirection  = true;
                     //We need to draw to a layer
-                    projectile.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
-                    projectile.setSpeed(3,mouseX,mouseY);
+                    projectile.addToGroup(LayerManager.Layers.BulletsGroup);
+                    projectile.attractionPoint(3, mouseX, mouseY)
                 }
             });
 
         GameManager.allZombies.forEach(zombie => {
             zombie.moveZombie();
+        })
+
+        LayerManager.Layers.BulletsGroup.forEach(bullet => {
+            let tile = Map.getTileAtWorldPosition(bullet.position.x, bullet.position.y);
+            if(tile.passable == false || bullet.position.x < 20 || bullet.position.y < 20 || bullet.position.x > width-20 || bullet.position.y > height-20){
+                bullet.life = 1;
+            }
         })
 
         //TODO: MOVE TO CONTROLS

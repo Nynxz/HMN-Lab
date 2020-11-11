@@ -25,6 +25,22 @@ class Zombie extends PathingActor{
         this.WWfindPlayer();
     }
 
+    damage(amount){
+        this.health = constrain(this.health - amount, 0, this.health);
+        if (this.health == 0) {
+          this.die();
+        }
+    }
+
+    die() {    
+        Zombie.allZombies.forEach((zombie, i) => {
+          if (zombie === this) {
+            Zombie.allZombies.splice(i, 1);
+          }
+        });
+        this.sprite.remove();
+      }
+
     WWfindPlayer(){
         let obj = {
             type: 'find',
@@ -53,6 +69,13 @@ class Zombie extends PathingActor{
     }
 
     moveZombie(){
+        let tile = Map.getTileAtWorldPosition(this.sprite.position.x, this.sprite.position.y+Map.tileSize);
+        if(tile.node)
+        if(tile.node.type == 'spike'){
+            console.log("Spike")
+            let actor = this;
+            eval(tile.node.info.effect)
+        }
         //TODO: MOVE THIS
         if(GameManager.allPlayers.length > 0)
         if(dist(this.sprite.position.x, this.sprite.position.y, GameManager.allPlayers[0].sprite.position.x, GameManager.allPlayers[0].sprite.position.y) < 25){

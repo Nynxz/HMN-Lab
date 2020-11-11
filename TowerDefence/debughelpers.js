@@ -116,28 +116,28 @@ class DebugHelpers{
 
     static exportMap(){
         let map = []
-            console.log(Map.floorTiles);
-            Map.floorTiles.forEach((col, y) => {
-                map.push([]);
-                col.forEach(tile =>{
-                    let temp = tile;
-                    delete temp.id;
-                    delete temp.Path;
-                    delete temp.parentNode;
-                    if(temp.tileToPlace.node){
-                        delete temp.tileToPlace.node.children;
+        console.log(Map.floorTiles);
+        Map.floorTiles.forEach((col, y) => {
+            map.push([]);
+            col.forEach(tile =>{
+                let temp = tile;
+                delete temp.id;
+                delete temp.Path;
+                delete temp.parentNode;
+                if(temp.tileToPlace.node){
+                    delete temp.tileToPlace.node.children;
 
-                    }
-                    delete temp.arrayToStore;
-                    if(temp.node){
-                        delete temp.node.children;
-                    }
-                    //delete temp.image;
-                    map[y].push(temp);
-                })
+                }
+                delete temp.arrayToStore;
+                if(temp.node){
+                    delete temp.node.children;
+                }
+                //delete temp.image;
+                map[y].push(temp);
             })
-            console.log(map);
-            saveJSON(map, MapEditor.mapInputs.value(), true);
+        })
+        console.log(map);
+        saveJSON(map, MapEditor.mapInputs.value(), true);
     }
 
     static loadMap(){

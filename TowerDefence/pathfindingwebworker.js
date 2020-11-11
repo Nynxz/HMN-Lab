@@ -15,6 +15,7 @@ self.addEventListener('message', function(e) {
     let payload = e.data.payload;
 
     switch(type){
+        
         case 'load':
             _loadMap(payload.grid, 0,0, false);
         break;

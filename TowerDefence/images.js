@@ -39,6 +39,7 @@ class Images{
         Images._loadDebugWall();
         Images._loadMapEditorAssets();
         Images._loadZombieAnimations();
+        Images._loadWeaponAssets();
     }
 
     static _loadWeaponAssets(){
@@ -83,6 +84,7 @@ class Images{
         Images.Map.GrassFlower = loadImage("/TowerDefence/assets/Sprites/Grass.png");
 
         Images.Map.Wall = loadImage("/TowerDefence/assets/Sprites/Wall.png");
+        Images.Map.FogOfWar = loadImage("/TowerDefence/assets/fog_of_war.png");
     }
 
 

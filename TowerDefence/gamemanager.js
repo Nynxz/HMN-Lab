@@ -130,6 +130,7 @@ class GameManager {
 
         GameManager.allZombies.forEach(zombie => {
             zombie.moveZombie();
+            zombie.drawInfo();
         })
 
         LayerManager.Layers.BulletsGroup.forEach(bullet => {

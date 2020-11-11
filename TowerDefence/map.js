@@ -135,7 +135,7 @@ class Map{
     //We call this to return a Tile or  TODO > Tile's
     //TODO: Add swap if multiple tiles?
     static getTileAtWorldPosition(_x, _y){
-        if(_x < width && _y < height){
+        if(_x < width && _y < height && _x > 0 && _y > 0){
             //Magic? :eyes: - grabs the tile from the 2d array 
             //TODO: Add some security checks maybe.. 
             // console.log("FLOOR TILES")

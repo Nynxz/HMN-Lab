@@ -20,7 +20,7 @@ class RawTile{
             break;
 
             case RawTile.Type.Tree:
-                this.info = new Interactable('Images.Interactables.Tree1', 3, 6, Interactable.Alignment.BOTTOMCENTER, "Interactable.ChopTree(1)");
+                this.info = new Interactable('Images.Interactables.Tree1', 5, 8, Interactable.Alignment.BOTTOMCENTER, "Interactable.ChopTree(1)");
                 this.passable = true;
             break;
 

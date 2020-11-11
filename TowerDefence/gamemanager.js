@@ -66,10 +66,11 @@ class GameManager {
                         zombie.Parent.path = e.data.path;
                         zombie.Parent.walking = true;
                         zombie.Parent.pathIndex = 0;
-                        zombie.nextPoint = e.data.path[0];
+                        zombie.Parent.nextPoint = e.data.path[0];
                         zombie.position.x = e.data.path[0].x;
                         zombie.position.y = e.data.path[0].y;
                         zombie.Parent.findingPath = false;
+                        zombie.velocity = {x: 0, y: 0}
                     });
                 break;
             }

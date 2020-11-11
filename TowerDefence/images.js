@@ -1,3 +1,22 @@
+let soundMmagnumPistol22Shot;
+let soundGunshot9mm;
+let soundGunPumpAction;
+
+let soundMining;
+let soundSmithHammer;
+let soundChoppingWood;
+let soundChop;
+
+let soundBreakingTree;
+
+let soundOwl;
+let soundFire1;
+let soundFire2;
+let soundFire3;
+let soundFire4;
+
+let soundClick;
+
 class Images{
 
     static Player = {SpriteSheets: { Walking :{ }}};
@@ -31,6 +50,47 @@ class Images{
 
     static _loadSoundEffects(){
         //Import Sound
+        soundMmagnumPistol22Shot = loadSound("TowerDefence/assets/sound/427594__michorvath__22-magnum-pistol-shot.mp3");
+        soundGunshot9mm = loadSound("TowerDefence/assets/sound/244138__mnslugger20__9mm-gunshot.mp3");
+        soundGunPumpAction = loadSound("TowerDefence/assets/sound/12-Gauge-Pump-Action-Shotgun-Close-Gunshot-A-www.fesliyanstudios.com.mp3");
+
+        soundMining = loadSound("TowerDefence/assets/sound/240801__ryanconway__pickaxe-mining-stone.mp3");
+        soundSmithHammer = loadSound("TowerDefence/assets/sound/365193__cylon8472__smith-hammer2.mp3");
+        soundChoppingWood = loadSound("TowerDefence/assets/sound/419928__14fpanskasilovsky-petr__chopping-wood.mp3");
+        soundChop = loadSound("TowerDefence/assets/sound/23700__hazure__chop.mp3");
+
+        soundBreakingTree = loadSound("TowerDefence/assets/sound/102971__robinhood76__01954-breaking-tree.mp3");
+
+        soundOwl = loadSound("TowerDefence/assets/sound/25945__inchadney__owl.mp3");
+        soundFire1 = loadSound("TowerDefence/assets/sound/fire2.mp3");
+        soundFire2 = loadSound("TowerDefence/assets/sound/fire2b.mp3");
+        soundFire3 = loadSound("TowerDefence/assets/sound/fire3.mp3");
+        soundFire4 = loadSound("TowerDefence/assets/sound/fire7s.mp3");
+
+        soundClick = loadSound("TowerDefence/assets/sound/487452__ranner__click.mp3");
+
+/*
+to play each sound
+        soundMmagnumMpistol22-shot.play();
+        soundGunshot9mm.play();
+        soundGunPumpAction.play();
+
+        soundMining.play();
+        soundSmithHammer.play();
+        soundChoppingWood.play();
+        soundChop.play();
+
+        soundBreakingTree.play();
+
+        soundOwl.play();
+        soundFire1.play();
+        soundFire2.play();
+        soundFire3.play();
+        soundFire4.play();
+
+        soundClick.play();
+*/
+
     }
 
     static _loadEffects(){

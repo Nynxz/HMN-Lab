@@ -33,7 +33,6 @@ class Controls{
         }
 
         if(mouseWentDown(RIGHT)){
-    
             if(s == SceneManager.Scenes.InGame || s == SceneManager.Scenes.MapEditor){
                 if(GameManager.activePlayer){
                     let tile = Map.getTileAtWorldPosition(mouseX, mouseY);

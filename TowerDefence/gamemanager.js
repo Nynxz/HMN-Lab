@@ -113,6 +113,7 @@ class GameManager {
                 let projectile = createSprite(GameManager.activePlayer.sprite.position.x, GameManager.activePlayer.sprite.position.y, 50, 50);
                     //We need to draw to a layer
                     projectile.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
+                    projectile.setSpeed(3,mouseX,mouseY);
                 }
             });
 

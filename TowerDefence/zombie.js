@@ -13,7 +13,7 @@ class Zombie extends PathingActor{
         PathingActor.Actors.push(this);
 
         this.sprite = this.createZombie(_x, _y);
-        
+        this.healthBar = new StatsBar(this.health, 50, 10, 0, -50, "red");
         
         this.currentTarget = 0;
         this.path = [];

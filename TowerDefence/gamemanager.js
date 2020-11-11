@@ -62,6 +62,7 @@ class GameManager {
                 break;
                 case 'findHorde':
                     //console.log('eData:', e.data.path)
+                    if(e.data.from <= Horde.allHordes.length-1)
                     Horde.allHordes[e.data.from].hordeMembers.forEach(zombie => {
                         zombie.Parent.path = e.data.path;
                         zombie.Parent.walking = true;

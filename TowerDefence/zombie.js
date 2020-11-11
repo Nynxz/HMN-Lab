@@ -1,7 +1,7 @@
 class ZombieSpawner{
 
-    static difficultyModifier = 2;
-    static startingAmount = 3;
+    static difficultyModifier = 1;
+    static startingAmount = 2;
     static offsetMin = 50;
     static offsetMax = 200;
     static spawnWave(){
@@ -127,7 +127,7 @@ class Zombie extends PathingActor{
 
     WWfindPlayer(){
         let madeHorde = false;
-        LayerManager.Layers.PlayerCharactersGroup.overlap(LayerManager.Layers.PlayerCharactersGroup, (actor1, actor2) => {
+        LayerManager.Layers.ZombieGroup.overlap(LayerManager.Layers.ZombieGroup, (actor1, actor2) => {
             if(actor1.Parent instanceof Zombie && actor2.Parent instanceof Zombie)
             if(!actor1.Parent.inHorde && !actor2.Parent.inHorde && !madeHorde){
                 console.log("MAKE HORDE")
@@ -137,6 +137,21 @@ class Zombie extends PathingActor{
                 actor2.Parent.horde.addZombie(actor1);
             } else if(!actor2.Parent.inHorde){
                 actor1.Parent.horde.addZombie(actor2);
+            } else if (actor1.Parent.horde !== actor2.Parent.horde && actor1.Parent.inHorde && actor2.Parent.inHorde && actor1.Parent.horde.hordeMembers[0] == actor1){
+                console.log("HAP")
+                let oldID = actor2.Parent.horde.id;
+                actor2.Parent.horde.hordeMembers.forEach(zombie => {
+                    actor1.Parent.horde.addZombie(zombie);
+                });
+                
+
+                // Horde.id--;
+                // //Horde.allHordes.splice(oldID, 1);
+                // /Horde.allHordes.forEach((el, idx) => {
+                //     if(idx >= oldID){
+                //         el.id--;
+                //     }
+                // })
             }
         })
         
@@ -167,10 +182,10 @@ class Zombie extends PathingActor{
         console.log("Creating Zombie");
         let sprite = createSprite(x, y);
         //TODO: Move to new Layer
-        sprite.addToGroup(LayerManager.Layers.PlayerCharactersGroup) 
+        sprite.addToGroup(LayerManager.Layers.ZombieGroup) 
         sprite.Parent = this;
         sprite.scale = 1;
-        sprite.debug = true;
+        //sprite.debug = true;
         sprite.addAnimation('walkup', Images.Zombies.Regular.Up);
         sprite.addAnimation('walkdown', Images.Zombies.Regular.Down);
         sprite.addAnimation('walkleft', Images.Zombies.Regular.Left);
@@ -199,7 +214,7 @@ class Zombie extends PathingActor{
         }    
         
         if(!GameManager.gamePaused && this.path)
-        if (Math.abs(this.sprite.position.x - this.nextPoint.x) + Math.abs(this.sprite.position.y - this.nextPoint.y) < 1 && this.path.length > 1) {
+        if (Math.abs(this.sprite.position.x - this.nextPoint.x) + Math.abs(this.sprite.position.y - this.nextPoint.y) < 5 && this.path.length > 1) {
 
             this.pathIndex += 1;
             if (this.pathIndex == this.path.length) { 

@@ -20,6 +20,9 @@ class LayerManager{
         LayerManager.Layers.PlayerCharactersGroup = new Group();
         LayerManager.Layers.PlayerCharactersGroup.isEnabled = true;
 
+        LayerManager.Layers.ZombieGroup = new Group();
+        LayerManager.Layers.ZombieGroup.isEnabled = true;
+
         LayerManager.Layers.BulletsGroup = new Group();
         LayerManager.Layers.BulletsGroup.isEnabled = true;
 
@@ -76,6 +79,10 @@ class LayerManager{
 
         if(LayerManager.Layers.PlayerCharactersGroup.isEnabled){
             LayerManager.Layers.PlayerCharactersGroup.draw();
+        }
+
+        if(LayerManager.Layers.ZombieGroup.isEnabled){
+            LayerManager.Layers.ZombieGroup.draw();
         }
 
         if(LayerManager.Layers.Effects.isEnabled){

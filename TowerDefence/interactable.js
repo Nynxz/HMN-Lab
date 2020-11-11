@@ -65,14 +65,18 @@ class Interactable{
     //We use this to pass around as strings and eval
     static ChopTree(_amount){
         GameManager.resources.Wood += _amount
+        //Play Wood Chopping Sound
     }
 
     static MineRock(_amount){
         GameManager.resources.Rock += _amount;
+        //Play Mining 'tink' Sound
     }
 
     static SmeltRockIntoIron(_amount){
+        
         if(GameManager.resources.Rock - _amount >= 0 && GameManager.resources.Wood - 1 >= 0){
+            //Fire Crackling Sound?
             GameManager.resources.Wood -= 1;
             GameManager.resources.Rock -= _amount;
             GameManager.resources.Iron += _amount * 2; //HARDCODED BS

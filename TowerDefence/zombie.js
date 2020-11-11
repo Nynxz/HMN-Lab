@@ -46,24 +46,32 @@ class Horde {
     }
 
     addZombie(_zombie){
-        _zombie.inHorde = true;
-        _zombie.horde = this;
-        this.hordePath.push(_zombie);
+        _zombie.Parent.inHorde = true;
+        _zombie.Parent.horde = this;
+        this.hordeMembers.push(_zombie);
+        this.findHordePath();
     }
 
     findHordePath(){
-       // this.hordePath = 
+       this.hordeMembers.forEach(zombie => {
+            console.log(zombie);
+            zombie.Parent.path = [];
+            zombie.Parent.walking = false;
+            zombie.velocity = {x: 0, y: 0};
+            zombie.Parent.pathIndex = 0;
+            zombie.Parent.nextPoint = 0;
+       });
         let obj = {
             type: 'findHorde',
             from: this.id,
-            payload: {x1: this.hordePath[0].sprite.position.x, y1: this.hordePath[0].sprite.position.y, x2: GameManager.allPlayers[0].sprite.position.x, y2: GameManager.allPlayers[0].sprite.position.y}
+            payload: {x1: this.hordeMembers[0].position.x, y1: this.hordeMembers[0].position.y, x2: GameManager.allPlayers[0].sprite.position.x, y2: GameManager.allPlayers[0].sprite.position.y}
         }
         GameManager.pathfindingWorker.postMessage(obj);
     }
 
     hordeMovement(){
         this.hordeMembers.forEach(zombie => {
-            //
+            
         })
     }
 
@@ -119,23 +127,26 @@ class Zombie extends PathingActor{
       }
 
     WWfindPlayer(){
+        let madeHorde = false;
         LayerManager.Layers.PlayerCharactersGroup.overlap(LayerManager.Layers.PlayerCharactersGroup, (actor1, actor2) => {
             if(actor1.Parent instanceof Zombie && actor2.Parent instanceof Zombie)
-            if(!actor1.Parent.inHorde && !actor2.Parent.inHorde){
+            if(!actor1.Parent.inHorde && !actor2.Parent.inHorde && !madeHorde){
                 console.log("MAKE HORDE")
-                new Horde(actor1.Parent, actor2.Parent);
+                new Horde(actor1, actor2);
+                //madeHorde = true;
             } else if(!actor1.Parent.inHorde){
                 actor2.Parent.horde.addZombie(actor1);
             } else if(!actor2.Parent.inHorde){
                 actor1.Parent.horde.addZombie(actor2);
             }
         })
-
+        
         let obj = {
             type: 'find',
             from: this.id,
             payload: {x1: this.sprite.position.x, y1: this.sprite.position.y, x2: GameManager.allPlayers[0].sprite.position.x, y2: GameManager.allPlayers[0].sprite.position.y}
         }
+        if(!this.inHorde)
         GameManager.pathfindingWorker.postMessage(obj);
     }
 
@@ -160,7 +171,6 @@ class Zombie extends PathingActor{
     moveZombie(){
         //Add to Horde
 
-        
         let tile = Map.getTileAtWorldPosition(this.sprite.position.x, this.sprite.position.y+Map.tileSize);
         if(tile)
         if(tile.node)
@@ -175,7 +185,7 @@ class Zombie extends PathingActor{
             GameManager.allPlayers[0].damage(0.001);
         }    
         
-        if(!GameManager.gamePaused && this.path && !this.inHorde)
+        if(!GameManager.gamePaused && this.path)
         if (Math.abs(this.sprite.position.x - this.nextPoint.x) + Math.abs(this.sprite.position.y - this.nextPoint.y) < 1 && this.path.length > 1) {
 
             this.pathIndex += 1;
@@ -188,7 +198,12 @@ class Zombie extends PathingActor{
                 this.sprite.velocity ={x: 0, y: 0};
 
                 this.walking = false;
-                this.WWfindPlayer();
+                if(!this.inHorde)
+                    this.WWfindPlayer();
+                else{
+                    if(this.horde.hordeMembers[0].Parent == this)
+                    this.horde.findHordePath();
+                }
                 this.findingPath = false;
             } else if(this.walking){
                 
@@ -202,15 +217,24 @@ class Zombie extends PathingActor{
             }
         } else if(this.pathIndex == 0 && this.path.length > 0 && this.findingPath == false){
             if(dist(this.sprite.position.x, this.sprite.position.y, GameManager.allPlayers[0].sprite.position.x, GameManager.allPlayers[0].sprite.position.y) > 25){
+                if(!this.inHorde)
                 this.WWfindPlayer();
+                else{
+                    if(this.horde.hordeMembers[0].Parent == this)
+                    this.horde.findHordePath();
+                }
                 this.findingPath = true;
             }
-            this.pathIndex = 0;
-            this.nextPoint = this.path[0];
-            this.sprite.velocity = {
-                x: (this.nextPoint.x - this.sprite.position.x)/15,
-                y: (this.nextPoint.y - this.sprite.position.y)/15
+            if(!this.findingPath){
+                this.pathIndex = 0;
+                console.log(this);
+                this.nextPoint = this.path[0];
+                this.sprite.velocity = {
+                    x: (this.nextPoint.x - this.sprite.position.x)/15,
+                    y: (this.nextPoint.y - this.sprite.position.y)/15
+                }
             }
+
         }
         
         this._playAnimations();

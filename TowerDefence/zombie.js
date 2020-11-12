@@ -50,6 +50,11 @@ class Horde {
             LayerManager.Layers.ZombieGroupLeaders.remove(_zombie);
             _zombie.addToGroup(LayerManager.Layers.ZombieGroup)
         }
+        if(this.hordeMembers.length>2){
+            LayerManager.Layers.ZombieGroupLeaders.remove(_zombie);
+            _zombie.addToGroup(LayerManager.Layers.ZombieGroup)
+            _zombie.visible = false;
+        }
         _zombie.Parent.inHorde = true;
         _zombie.Parent.horde = this;
         this.hordeMembers.push(_zombie);
@@ -75,10 +80,8 @@ class Horde {
         GameManager.pathfindingWorker.postMessage(obj);
     }
 
-    hordeMovement(){
-        this.hordeMembers.forEach(zombie => {
-            
-        })
+    refreshHordeInformation(){
+        LayerManager.Layers.HUDLayer.text(this.hordeMembers.length + " Zombies", this.hordeMembers[0].position.x, this.hordeMembers[0].position.y - 25);
     }
 
     
@@ -128,8 +131,18 @@ class Zombie extends PathingActor{
             if (zombie === this) {
                 GameManager.allZombies.splice(i, 1);
             }
-          });
+        });
+        
+        if(this.inHorde){
+            this.horde.hordeMembers.forEach((el, idx) => {
+                if(el === this.sprite){
+                    this.horde.hordeMembers.splice(idx, 1);
+                }
+            })
+        }
+
         this.sprite.remove();
+        
       }
 
     WWfindPlayer(){
@@ -221,12 +234,24 @@ class Zombie extends PathingActor{
         if(dist(this.sprite.position.x, this.sprite.position.y, GameManager.allPlayers[0].sprite.position.x, GameManager.allPlayers[0].sprite.position.y) < 25){
             GameManager.allPlayers[0].damage(0.001);
         }    
+
+        if(dist(this.sprite.position.x, this.sprite.position.y, GameManager.allPlayers[0].sprite.position.x, GameManager.allPlayers[0].sprite.position.y) < 120 && frameCount % 600 == 0){
+            this.pathIndex = 0;
+            this.path = []
+            
+            this.nextPoint = {x: this.sprite.position.x, y: this.sprite.position.y};
+            this.sprite.velocity ={x: 0, y: 0};
+
+            this.walking = false;
+            this.WWfindPlayer();
+            this.findingPath = false;
+        }
         
         if(!GameManager.gamePaused && this.path.length > 0)
-        if (Math.abs(this.sprite.position.x - this.nextPoint.x) + Math.abs(this.sprite.position.y - this.nextPoint.y) < 5 && this.path.length > 1) {
+        if (Math.abs(this.sprite.position.x - this.nextPoint.x) + Math.abs(this.sprite.position.y - this.nextPoint.y) < 1 && this.path.length > 1) {
 
             this.pathIndex += 1;
-            if (this.pathIndex == this.path.length) { 
+            if (this.pathIndex >= this.path.length) { 
                 
                 this.pathIndex = 0;
                 this.path = []
@@ -238,14 +263,18 @@ class Zombie extends PathingActor{
                 this.WWfindPlayer();
                 this.findingPath = false;
             } else if(this.walking){
-                
-                //next point is first index of array
-                this.nextPoint = this.path[this.pathIndex];
-                this.sprite.velocity = {
-                    x: (this.nextPoint.x - this.sprite.position.x)/20,
-                    y: (this.nextPoint.y - this.sprite.position.y)/20
-                }
-                
+                if(this.nextPoint){
+                    //next point is first index of array
+                    this.nextPoint = this.path[this.pathIndex];
+                    this.sprite.velocity = {
+                        x: (this.nextPoint.x - this.sprite.position.x)/20,
+                        y: (this.nextPoint.y - this.sprite.position.y)/20
+                    }
+                }else {
+                    this.WWfindPlayer();
+                    this.walking = false;
+                    this.findingPath = true;
+                }                
             }
         } else if(this.pathIndex == 0 && this.path.length > 0 && this.findingPath == false){
             if(dist(this.sprite.position.x, this.sprite.position.y, GameManager.allPlayers[0].sprite.position.x, GameManager.allPlayers[0].sprite.position.y) > 25){
@@ -293,10 +322,12 @@ class Zombie extends PathingActor{
         
     }
     drawInfo() {
-        LayerManager.Layers.Effects.noStroke();
-        this.healthBar.refreshBar(
-          this.sprite.position.x,
-          this.sprite.position.y,
-          this.health);
+        if(this.sprite.visible){
+            LayerManager.Layers.Effects.noStroke();
+            this.healthBar.refreshBar(
+              this.sprite.position.x,
+              this.sprite.position.y,
+              this.health);
+            }
         }
 }

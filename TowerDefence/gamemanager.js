@@ -188,16 +188,30 @@ class GameManager {
             });
 
         GameManager.allZombies.forEach(zombie => {
+            if(zombie.inHorde){
+                if(zombie.horde.hordeMembers[0] === zombie.sprite){
+                    zombie.horde.refreshHordeInformation();
+                }
+            }
             zombie.moveZombie();
             zombie.drawInfo();
         });
 
 
-        LayerManager.Layers.PlayerCharactersGroup.overlap(LayerManager.Layers.BulletsGroup, (actor, bullet) => {
+        LayerManager.Layers.ZombieGroup.overlap(LayerManager.Layers.BulletsGroup, (actor, bullet) => {
             if(actor.Parent instanceof Zombie){
                 console.log("HITTING")
                 actor.Parent.damage(15);
-                bullet.life = 1;
+                bullet.remove();
+            }
+           
+        });
+
+        LayerManager.Layers.ZombieGroupLeaders.overlap(LayerManager.Layers.BulletsGroup, (actor, bullet) => {
+            if(actor.Parent instanceof Zombie){
+                console.log("HITTING")
+                actor.Parent.damage(15);
+                bullet.remove();
             }
            
         });

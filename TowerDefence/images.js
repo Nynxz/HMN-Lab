@@ -12,6 +12,7 @@ class Images{
     static PlayerSelected = {};
     static Shop = {};
     static Weapons = {Bullets : {}};
+    static SoundEffects= {};
 
     static Sound = {Shooting: {}, Work: {}, Level : {}, Effects: {}, UI: {}}
 

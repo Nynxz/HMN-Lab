@@ -44,7 +44,7 @@ class HUD {
         textSize(15);
         fill(255);
         text(this.hr + ":" + this.min1 + this.min2,width-300,200);
-        if(this.min2<=10 && frameCount%60 == 0){
+        if(this.min2<=10){
             this.min2++; 
             }
             if(this.min2 ==10 && this.min1 <5) {
@@ -59,10 +59,18 @@ class HUD {
             if(this.hr<12) {
               //console.log("day");
               text("DAY TIME",width-300,220);
+              textSize(20);
+              textAlign(CENTER);
+              text("It's day time. Collect wood from the trees, and set traps.",width/2,height-100);
+              text("Left-click on a person, and then click on a tree to collect wood.",width/2,height-70);
             }
             if(this.hr>=12) {
               //console.log("night");
               text("NIGHTIME",width-300,220);
+              textSize(20);
+              textAlign(CENTER);
+              text("Aim at zombies with the cursor and fire using the Left Arrow.",width/2,height-100);
+              text("Defeat the zombies and survive until morning.",width/2,height-70);
             }
             if(this.hr==24){
               this.hr =0;
@@ -70,11 +78,9 @@ class HUD {
               this.min2 = 0;
             }
     }
-    drawTutorial() {
-     text("") 
-    }
     refreshHUD() {
         this.drawGameClock();
         this.drawResources();
+
     }
 }

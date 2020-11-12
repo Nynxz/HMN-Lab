@@ -70,6 +70,9 @@ class HUD {
               this.min2 = 0;
             }
     }
+    drawTutorial() {
+     text("") 
+    }
     refreshHUD() {
         this.drawGameClock();
         this.drawResources();

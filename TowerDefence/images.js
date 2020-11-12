@@ -30,6 +30,7 @@ class Images{
     static PlayerSelected = {};
     static Shop = {};
     static Weapons = {Bullets : {}};
+    static SoundEffects= {};
 
     static loadAllImages(){
         
@@ -50,28 +51,28 @@ class Images{
 
     static _loadSoundEffects(){
         //Import Sound
-        soundMmagnumPistol22Shot = loadSound("TowerDefence/assets/sound/427594__michorvath__22-magnum-pistol-shot.mp3");
-        soundGunshot9mm = loadSound("TowerDefence/assets/sound/244138__mnslugger20__9mm-gunshot.mp3");
-        soundGunPumpAction = loadSound("TowerDefence/assets/sound/12-Gauge-Pump-Action-Shotgun-Close-Gunshot-A-www.fesliyanstudios.com.mp3");
+        Images.SoundEffects.soundMmagnumPistol22Shot = loadSound("/TowerDefence/assets/sound/427594__michorvath__22-magnum-pistol-shot.mp3");
+        Images.SoundEffects.soundGunshot9mm = loadSound("/TowerDefence/assets/sound/244138__mnslugger20__9mm-gunshot.mp3");
+        Images.SoundEffects.soundGunPumpAction = loadSound("/TowerDefence/assets/sound/12-Gauge-Pump-Action-Shotgun-Close-Gunshot-A-www.fesliyanstudios.com.mp3");
 
-        soundMining = loadSound("TowerDefence/assets/sound/240801__ryanconway__pickaxe-mining-stone.mp3");
-        soundSmithHammer = loadSound("TowerDefence/assets/sound/365193__cylon8472__smith-hammer2.mp3");
-        soundChoppingWood = loadSound("TowerDefence/assets/sound/419928__14fpanskasilovsky-petr__chopping-wood.mp3");
-        soundChop = loadSound("TowerDefence/assets/sound/23700__hazure__chop.mp3");
+        Images.SoundEffects.soundMining = loadSound("/TowerDefence/assets/sound/240801__ryanconway__pickaxe-mining-stone.mp3");
+        Images.SoundEffects.soundSmithHammer = loadSound("/TowerDefence/assets/sound/365193__cylon8472__smith-hammer2.mp3");
+        Images.SoundEffects.soundChoppingWood = loadSound("/TowerDefence/assets/sound/419928__14fpanskasilovsky-petr__chopping-wood.mp3");
+        Images.SoundEffects.soundChop = loadSound("/TowerDefence/assets/sound/23700__hazure__chop.mp3");
 
-        soundBreakingTree = loadSound("TowerDefence/assets/sound/102971__robinhood76__01954-breaking-tree.mp3");
+        Images.SoundEffects.soundBreakingTree = loadSound("/TowerDefence/assets/sound/102971__robinhood76__01954-breaking-tree.mp3");
 
-        soundOwl = loadSound("TowerDefence/assets/sound/25945__inchadney__owl.mp3");
+        Images.SoundEffects.soundOwl = loadSound("/TowerDefence/assets/sound/25945__inchadney__owl.mp3");
 
-        soundOwl_1 = loadSound("TowerDefence/assets/sound/25945__inchadney__owl_1.mp3");
-        soundOwl_2 = loadSound("TowerDefence/assets/sound/25945__inchadney__owl_2.mp3");
+        Images.SoundEffects.soundOwl_1 = loadSound("/TowerDefence/assets/sound/25945__inchadney__owl_1.mp3");
+        Images.SoundEffects.soundOwl_2 = loadSound("/TowerDefence/assets/sound/25945__inchadney__owl_2.mp3");
 
-        soundFire1 = loadSound("TowerDefence/assets/sound/fire2.mp3");
-        soundFire2 = loadSound("TowerDefence/assets/sound/fire2b.mp3");
-        soundFire3 = loadSound("TowerDefence/assets/sound/fire3.mp3");
-        soundFire4 = loadSound("TowerDefence/assets/sound/fire7s.mp3");
+        Images.SoundEffects.soundFire1 = loadSound("/TowerDefence/assets/sound/fire2.mp3");
+        Images.SoundEffects.soundFire2 = loadSound("/TowerDefence/assets/sound/fire2b.mp3");
+        Images.SoundEffects.soundFire3 = loadSound("/TowerDefence/assets/sound/fire3.mp3");
+        Images.SoundEffects.soundFire4 = loadSound("/TowerDefence/assets/sound/fire7s.mp3");
 
-        soundClick = loadSound("TowerDefence/assets/sound/487452__ranner__click.mp3");
+        Images.SoundEffects.soundClick = loadSound("/TowerDefence/assets/sound/487452__ranner__click.mp3");
 
 /*
 to play each sound

@@ -62,17 +62,29 @@ class GameManager {
                 break;
                 case 'findHorde':
                     //console.log('eData:', e.data.path)
-                    if(e.data.from <= Horde.allHordes.length-1)
-                    Horde.allHordes[e.data.from].hordeMembers.forEach(zombie => {
-                        zombie.Parent.path = e.data.path;
-                        zombie.Parent.walking = true;
-                        zombie.Parent.pathIndex = 0;
-                        zombie.Parent.nextPoint = e.data.path[0];
-                        zombie.position.x = e.data.path[0].x;
-                        zombie.position.y = e.data.path[0].y;
-                        zombie.Parent.findingPath = false;
-                        zombie.velocity = {x: 0, y: 0}
-                    });
+                    let horde = null;
+                    Horde.allHordes.forEach(el => {
+                        if(el.id == e.data.from){
+                            horde = el
+                        }
+                    })
+                    if(horde != null){
+                        console.log("Got path: ", e.data.path);
+                        console.log("SETTING HORDE PATH");
+                        horde.hordePath = e.data.path;
+                        horde.hordeMembers.forEach(zombie => {
+                            zombie.Parent.path = e.data.path;
+                            zombie.Parent.walking = true;
+                            zombie.Parent.pathIndex = 0;
+                            zombie.Parent.nextPoint = e.data.path[0];
+                            zombie.position.x = e.data.path[0].x;
+                            zombie.position.y = e.data.path[0].y;
+                            zombie.Parent.findingPath = false;
+                            zombie.velocity = {x: 0, y: 0}
+                        });
+                    }
+
+
                 break;
             }
 			//console.log("VALUE: ", e.data);

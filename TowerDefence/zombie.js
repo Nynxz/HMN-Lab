@@ -46,9 +46,16 @@ class Horde {
     }
 
     addZombie(_zombie){
+        if(this.hordeMembers.length>0){
+            LayerManager.Layers.ZombieGroupLeaders.remove(_zombie);
+            _zombie.addToGroup(LayerManager.Layers.ZombieGroup)
+        }
         _zombie.Parent.inHorde = true;
         _zombie.Parent.horde = this;
         this.hordeMembers.push(_zombie);
+        if(this.hordePath.length > 0){
+            _zombie.Parent.path = this.hordePath;
+        }
         //this.findHordePath();
     }
 
@@ -127,8 +134,10 @@ class Zombie extends PathingActor{
 
     WWfindPlayer(){
         let madeHorde = false;
-        LayerManager.Layers.ZombieGroup.overlap(LayerManager.Layers.ZombieGroup, (actor1, actor2) => {
-            if(actor1.Parent instanceof Zombie && actor2.Parent instanceof Zombie)
+        //Hording Code - JANK AF - Just make more webworkers
+        if(true)
+        LayerManager.Layers.ZombieGroupLeaders.overlap(LayerManager.Layers.ZombieGroupLeaders, (actor1, actor2) => {
+            console.log("LOOP");
             if(!actor1.Parent.inHorde && !actor2.Parent.inHorde && !madeHorde){
                 console.log("MAKE HORDE")
                 new Horde(actor1, actor2);
@@ -143,7 +152,7 @@ class Zombie extends PathingActor{
                 actor2.Parent.horde.hordeMembers.forEach(zombie => {
                     actor1.Parent.horde.addZombie(zombie);
                 });
-                
+                Horde.allHordes.splice(oldID, 1);
 
                 // Horde.id--;
                 // //Horde.allHordes.splice(oldID, 1);
@@ -157,6 +166,7 @@ class Zombie extends PathingActor{
         
         let obj;
         if(!this.inHorde){
+            console.log("FINDING ZOMBIE PATH");
             obj  = {
                 type: 'find',
                 from: this.id,
@@ -172,9 +182,8 @@ class Zombie extends PathingActor{
                 payload: {x1: this.sprite.position.x, y1: this.sprite.position.y, x2: GameManager.allPlayers[0].sprite.position.x, y2: GameManager.allPlayers[0].sprite.position.y}
             }
             GameManager.pathfindingWorker.postMessage(obj);
-        } else {
-            
         }
+
         this.sprite.velocity = {x: 0, y: 0};
     }
 
@@ -182,7 +191,7 @@ class Zombie extends PathingActor{
         console.log("Creating Zombie");
         let sprite = createSprite(x, y);
         //TODO: Move to new Layer
-        sprite.addToGroup(LayerManager.Layers.ZombieGroup) 
+        sprite.addToGroup(LayerManager.Layers.ZombieGroupLeaders) 
         sprite.Parent = this;
         sprite.scale = 1;
         //sprite.debug = true;
@@ -213,7 +222,7 @@ class Zombie extends PathingActor{
             GameManager.allPlayers[0].damage(0.001);
         }    
         
-        if(!GameManager.gamePaused && this.path)
+        if(!GameManager.gamePaused && this.path.length > 0)
         if (Math.abs(this.sprite.position.x - this.nextPoint.x) + Math.abs(this.sprite.position.y - this.nextPoint.y) < 5 && this.path.length > 1) {
 
             this.pathIndex += 1;
@@ -233,8 +242,8 @@ class Zombie extends PathingActor{
                 //next point is first index of array
                 this.nextPoint = this.path[this.pathIndex];
                 this.sprite.velocity = {
-                    x: (this.nextPoint.x - this.sprite.position.x)/15,
-                    y: (this.nextPoint.y - this.sprite.position.y)/15
+                    x: (this.nextPoint.x - this.sprite.position.x)/20,
+                    y: (this.nextPoint.y - this.sprite.position.y)/20
                 }
                 
             }
@@ -253,7 +262,10 @@ class Zombie extends PathingActor{
                 }
             }
 
+        } else if (this.path.length == 0 && this.findingPath == false){
+
         }
+        
         
         this._playAnimations();
     }

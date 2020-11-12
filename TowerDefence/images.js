@@ -72,7 +72,7 @@ class Images{
         Images.SoundEffects.soundFire3 = loadSound("/TowerDefence/assets/sound/fire3.mp3");
         Images.SoundEffects.soundFire4 = loadSound("/TowerDefence/assets/sound/fire7s.mp3");
 
-        Imagses.SoundEffects.soundClick = loadSound("/TowerDefence/assets/sound/487452__ranner__click.mp3");
+        Images.SoundEffects.soundClick = loadSound("/TowerDefence/assets/sound/487452__ranner__click.mp3");
 
 /*
 to play each sound

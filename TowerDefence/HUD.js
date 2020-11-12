@@ -37,6 +37,7 @@ class HUD {
         text("Health" + " " + hp,width-300,75);
         let stam = GameManager.activePlayer ? GameManager.activePlayer.stamina : " NO PLAYER";
         text("Stamina" + " " + stam,width-300,125);
+        text("Score: " + GameManager.score,width-300,100);
     }
 
    drawGameClock() {

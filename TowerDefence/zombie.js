@@ -142,6 +142,7 @@ class Zombie extends PathingActor{
         }
 
         this.sprite.remove();
+        GameManager.score+=100;
         
       }
 

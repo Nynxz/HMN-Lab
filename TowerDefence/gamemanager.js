@@ -14,6 +14,7 @@ class GameManager {
     static pathfindingWorker;
 
     static resources = {Wood: 250, Rock: 0, Iron: 250}
+    static score = 0;
 
     //We call this once to initalise the main game.
     static initGame(){

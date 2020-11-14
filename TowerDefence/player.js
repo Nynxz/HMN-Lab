@@ -38,6 +38,12 @@ class PathingActor extends Actor {
     console.log("ACTOR MAP", this.map.length);
 
     this.generating = true;
+
+    this.slowed = false;
+  }
+
+  damageBarricade(){
+    this.slowed = true
   }
 }
 
@@ -68,14 +74,23 @@ class Player extends PathingActor {
     // this.test = new Player("Test", 100, 50, 50);
     // console.log(this);
     this.ammo = 2;
+
+    this.speed = 15;
   }
 
   doWork(){
+    let tile = Map.getTileAtWorldPosition(this.sprite.position.x, this.sprite.position.y + Map.tileSize);
+    if(tile.node)
+    if(tile.node.type == 'spike' || tile.node.type == 'barricade'){
+        let actor = this;
+        eval(tile.node.info.effect)
+    }
+
     if(this.currentTask != null){
       if(dist(this.sprite.position.x, this.sprite.position.y, (this.currentTask.pos.x * Map.tileSize) + (Map.tileSize/2), (this.currentTask.pos.y* Map.tileSize) + (Map.tileSize/2)) < 50){
         if(frameCount % 60 == 0){
-          if(this.currentTask.node.type != 'spike')
-          eval(this.currentTask.node.info.effect);
+          if(this.currentTask.node.type != 'spike' && this.currentTask.node.type != 'barricade')
+            eval(this.currentTask.node.info.effect);
         }
       }
     }
@@ -93,21 +108,18 @@ class Player extends PathingActor {
 }
 
   andyMovement() {
+    this.slowed = false;
+
 
     //check if Knight is close to their next movement point
     //console.log(this.sprite.position.x)
     //console.log(this.nextPoint.x)
     this.doWork();
     if (Math.abs(this.sprite.position.x - this.nextPoint.x) + Math.abs(this.sprite.position.y - this.nextPoint.y) < 1 && this.path.length > 1) {
+      //console.log("IN RANGE OF NEXT POINT")
       this.pathIndex += 1;
       if (this.pathIndex == this.path.length) {
-        //this means we have reached the end
-        //generate a new random goal for our knight to get to.
-        // goal.x = Math.random() * 800;
-        // goal.y = Math.random() * 600;
-
-        // //calculate path to new goal
-        // path = pathfinding.findPath(knight.position.x, knight.position.y, goal.x, goal.y);
+        console.log("ENDING PATH")
         this.pathIndex = 0;
         this.path = [];
 
@@ -116,16 +128,25 @@ class Player extends PathingActor {
         this.sprite.velocity.x = 0;
         this.sprite.velocity.y = 0;
         this.walking = false;
+        
       } else if (this.walking) {
+        //console.log("WALKING PATH")
         //next point is first index of array
         this.nextPoint = this.path[this.pathIndex];
+        let speed = 15;
+        if(this.slowed){
+            speed = 45
+        }
 
         this.sprite.velocity.x =
-          (this.nextPoint.x - this.sprite.position.x) / 15;
+          (this.nextPoint.x - this.sprite.position.x) / speed;
         this.sprite.velocity.y =
-          (this.nextPoint.y - this.sprite.position.y) / 15;
+          (this.nextPoint.y - this.sprite.position.y) / speed;
+        //console.log(this.sprite.velocity)
       }
     } else if (this.pathIndex == 0 && this.path.length > 0) {
+      //console.log("STARTING PATH")
+
       this.nextPoint = this.path[0];
       this.sprite.velocity.x = (this.nextPoint.x - this.sprite.position.x) / 15;
       this.sprite.velocity.y = (this.nextPoint.y - this.sprite.position.y) / 15;
@@ -168,7 +189,7 @@ class Player extends PathingActor {
   _playAnimations(){
     this.sprite.animation.frameDelay = 8;
 
-    if (this.sprite.velocity.x > 0.2) {
+    if (this.sprite.velocity.x > 0.1) {
       //this.sprite.position.x += walkSpeed;
       this.sprite.changeAnimation("walkright");
     } else if (this.sprite.velocity.x < -0.1) {

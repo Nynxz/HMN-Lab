@@ -17,9 +17,7 @@ class HUD {
     }
 
     drawResources(){
-      text("Wood: " + GameManager.resources.Wood,width-300,300);
-      text("Rock: " + GameManager.resources.Rock,width-300,350);
-      text("Iron: " + GameManager.resources.Iron,width-300,400);
+
     }
     
     drawHUD() {
@@ -38,6 +36,9 @@ class HUD {
         let stam = GameManager.activePlayer ? GameManager.activePlayer.stamina : " NO PLAYER";
         text("Stamina" + " " + stam,width-300,125);
         text("Score: " + GameManager.score,width-300,100);
+        text("Wood: " + GameManager.resources.Wood,width-300,300);
+        text("Rock: " + GameManager.resources.Rock,width-300,350);
+        text("Iron: " + GameManager.resources.Iron,width-300,400);
     }
 
    drawGameClock() {

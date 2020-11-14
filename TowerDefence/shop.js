@@ -83,13 +83,13 @@ class Shop{
         
         new ShopButton(Images.Shop.ShopButtonSpikes, new RawTile(RawTile.Type.Spike), ["iron"], [10]);
 
-        new ShopButton(Images.Shop.ShopButtonTurret1, new RawTile(RawTile.Type.Turret) , ["iron", "wood"], [10, 5]);
+        new ShopButton(Images.Shop.ShopButtonTurret1, new RawTile(RawTile.Type.TurretBasic) , ["iron", "wood"], [10, 5]);
 
-        new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
-        new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
-        new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
-        new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
-        new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
+        //new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
+        //new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
+        //new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
+        //new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
+        //new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
 
         let y = 0, x = 0;
         Shop.ShopButtons.forEach((button) => {
@@ -122,11 +122,16 @@ class Shop{
                 if(tile.passable && !tile.node && DebugHelpers.checkForSpriteAtMouse())
                 if(Shop.checkResource(Shop.currentShopSelectionCost.resource, Shop.currentShopSelectionCost.amount)) {
                     if(Shop.currentShopSelection.info instanceof RawTurret){
-                        console.log("PLACING A TURRET");
+                        console.log(Shop.currentShopSelection);
                         console.log(Turret.checkPlacement(mouseX, mouseY))
-                        if(Turret.checkPlacement(mouseX, mouseY) && tile.passable){
-                            tile.passable = true
-                            new Turret(Shop.currentShopSelection.info.image, tile.pos.x * Map.tileSize + (Map.tileSize/2), tile.pos.y * Map.tileSize + (Map.tileSize/2));
+                        if(Turret.checkPlacement(mouseX, mouseY) && !tile.node){
+                            tile.node = {type: Shop.currentShopSelection.info.type + " Turret"}
+                            new Turret(Shop.currentShopSelection.info.image,
+                                 tile.pos.x * Map.tileSize + (Map.tileSize/2),
+                                 tile.pos.y * Map.tileSize + (Map.tileSize/2),
+                                 Shop.currentShopSelection.info.range,
+                                 Shop.currentShopSelection.info.type);
+                            Shop.removeResource(Shop.currentShopSelectionCost.resource, Shop.currentShopSelectionCost.amount)    
                         }
                         //Check Around Clicked Tile for Passable
                             //If all are passble, Place a turret with RawTurret Information

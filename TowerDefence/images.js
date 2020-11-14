@@ -157,6 +157,7 @@ to play each sound
         Images.Menu.EditorButton = loadImage('/TowerDefence/assets/menu/buttons/editorButton.png');
         
         Images.Menu.LavaStartButton = loadImage('/TowerDefence/assets/menu/buttons/greenLavaStartButton.png');
+        Images.Menu.MenuBackground = loadImage('/TowerDefence/assets/menubackgroundgrass.png');
     }
 
     static _loadDebugWall(){

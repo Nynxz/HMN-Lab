@@ -152,16 +152,30 @@ class Zombie extends PathingActor{
         this.sprite.remove();
         GameManager.score+=100;
         
-      }
+    }
+
+
+    findClosestPlayer(){
+        let closestDistance;
+        let closestIdx = 0
+        GameManager.allPlayers.forEach((player, idx) => {
+            let d = dist(player.sprite.position.x, player.sprite.position.y, this.sprite.position.x, this.sprite.position.y)
+            if(idx == 0){
+                closestDistance = d
+            } else if(d < closestDistance){
+                closestIdx = idx;
+                closestDistance = d
+            }
+        })
+        return GameManager.allPlayers[closestIdx];
+    }
 
     WWfindPlayer(){
         let madeHorde = false;
         //Hording Code - JANK AF - Just make more webworkers
         if(true)
         LayerManager.Layers.ZombieGroupLeaders.overlap(LayerManager.Layers.ZombieGroupLeaders, (actor1, actor2) => {
-            console.log("LOOP");
             if(!actor1.Parent.inHorde && !actor2.Parent.inHorde && !madeHorde){
-                console.log("MAKE HORDE")
                 new Horde(actor1, actor2);
                 //madeHorde = true;
             } else if(!actor1.Parent.inHorde){
@@ -169,7 +183,6 @@ class Zombie extends PathingActor{
             } else if(!actor2.Parent.inHorde){
                 actor1.Parent.horde.addZombie(actor2);
             } else if (actor1.Parent.horde !== actor2.Parent.horde && actor1.Parent.inHorde && actor2.Parent.inHorde && actor1.Parent.horde.hordeMembers[0] == actor1){
-                console.log("HAP")
                 let oldID = actor2.Parent.horde.id;
                 actor2.Parent.horde.hordeMembers.forEach(zombie => {
                     actor1.Parent.horde.addZombie(zombie);
@@ -187,21 +200,20 @@ class Zombie extends PathingActor{
         })
         
         let obj;
+        let closestPlayer = this.findClosestPlayer();
         if(!this.inHorde){
-            console.log("FINDING ZOMBIE PATH");
             obj  = {
                 type: 'find',
                 from: this.id,
-                payload: {x1: this.sprite.position.x, y1: this.sprite.position.y, x2: GameManager.allPlayers[0].sprite.position.x, y2: GameManager.allPlayers[0].sprite.position.y}
+                payload: {x1: this.sprite.position.x, y1: this.sprite.position.y, x2: closestPlayer.sprite.position.x, y2: closestPlayer.sprite.position.y}
             }
             GameManager.pathfindingWorker.postMessage(obj);
         }
         else if (this.sprite.Parent.horde.hordeMembers[0] == this.sprite) {
-            console.log("FINDING HORDE LEADER PATH")
             obj = {
                 type: 'findHorde',
                 from: this.horde.id,
-                payload: {x1: this.sprite.position.x, y1: this.sprite.position.y, x2: GameManager.allPlayers[0].sprite.position.x, y2: GameManager.allPlayers[0].sprite.position.y}
+                payload: {x1: this.sprite.position.x, y1: this.sprite.position.y, x2: closestPlayer.sprite.position.x, y2: closestPlayer.sprite.position.y}
             }
             GameManager.pathfindingWorker.postMessage(obj);
         }
@@ -216,7 +228,7 @@ class Zombie extends PathingActor{
         sprite.addToGroup(LayerManager.Layers.ZombieGroupLeaders) 
         sprite.Parent = this;
         sprite.scale = 1;
-        //sprite.debug = true;
+        sprite.debug = true;
         sprite.addAnimation('walkup', Images.Zombies.Regular.Up);
         sprite.addAnimation('walkdown', Images.Zombies.Regular.Down);
         sprite.addAnimation('walkleft', Images.Zombies.Regular.Left);
@@ -229,12 +241,12 @@ class Zombie extends PathingActor{
 
     moveZombie(){
         //Add to Horde
+        this.slowed = false;
 
         let tile = Map.getTileAtWorldPosition(this.sprite.position.x, this.sprite.position.y+Map.tileSize);
         if(tile)
         if(tile.node)
-        if(tile.node.type == 'spike'){
-            console.log("SPIKE")
+        if(tile.node.type == 'spike' || tile.node.type == 'barricade'){
             let actor = this;
             eval(tile.node.info.effect)
         }
@@ -244,20 +256,20 @@ class Zombie extends PathingActor{
             GameManager.allPlayers[0].damage(0.001);
         }    
 
-        if(dist(this.sprite.position.x, this.sprite.position.y, GameManager.allPlayers[0].sprite.position.x, GameManager.allPlayers[0].sprite.position.y) < 120 && frameCount % 600 == 0){
-            this.pathIndex = 0;
-            this.path = []
+        // if(dist(this.sprite.position.x, this.sprite.position.y, GameManager.allPlayers[0].sprite.position.x, GameManager.allPlayers[0].sprite.position.y) < 120 && frameCount % 600 == 0){
+        //     this.pathIndex = 0;
+        //     this.path = []
             
-            this.nextPoint = {x: this.sprite.position.x, y: this.sprite.position.y};
-            this.sprite.velocity ={x: 0, y: 0};
+        //     this.nextPoint = {x: this.sprite.position.x, y: this.sprite.position.y};
+        //     this.sprite.velocity ={x: 0, y: 0};
 
-            this.walking = false;
-            this.WWfindPlayer();
-            this.findingPath = false;
-        }
+        //     this.walking = false;
+        //     this.WWfindPlayer();
+        //     this.findingPath = false;
+        // }
         
-        if(!GameManager.gamePaused && this.path.length > 0)
-        if (Math.abs(this.sprite.position.x - this.nextPoint.x) + Math.abs(this.sprite.position.y - this.nextPoint.y) < 1 && this.path.length > 1) {
+        if(this.path.length > 0)
+        if (Math.abs(this.sprite.position.x - this.nextPoint.x) + Math.abs(this.sprite.position.y - this.nextPoint.y) < 1 && this.path.length > 0) {
 
             this.pathIndex += 1;
             if (this.pathIndex >= this.path.length) { 
@@ -270,16 +282,24 @@ class Zombie extends PathingActor{
 
                 this.walking = false;
                 this.WWfindPlayer();
-                this.findingPath = false;
+                this.findingPath = true;
             } else if(this.walking){
                 if(this.nextPoint){
                     //next point is first index of array
                     this.nextPoint = this.path[this.pathIndex];
-                    this.sprite.velocity = {
-                        x: (this.nextPoint.x - this.sprite.position.x)/20,
-                        y: (this.nextPoint.y - this.sprite.position.y)/20
+                    let speed = 30;
+                    if(this.slowed){
+                        speed = 60
+     
                     }
+                    this.sprite.velocity ={x: 0, y: 0};
+                    this.sprite.attractionPoint(1, this.nextPoint.x , this.nextPoint.y) 
+                    // this.sprite.velocity = {
+                    //     x: (this.nextPoint.x - this.sprite.position.x) / speed,
+                    //     y: (this.nextPoint.y - this.sprite.position.y) / speed
+                    // }
                 }else {
+                    this.sprite.velocity ={x: 0, y: 0};
                     this.WWfindPlayer();
                     this.walking = false;
                     this.findingPath = true;
@@ -287,30 +307,34 @@ class Zombie extends PathingActor{
             }
         } else if(this.pathIndex == 0 && this.path.length > 0 && this.findingPath == false){
             if(dist(this.sprite.position.x, this.sprite.position.y, GameManager.allPlayers[0].sprite.position.x, GameManager.allPlayers[0].sprite.position.y) > 25){
+                this.walking = false;
                 this.WWfindPlayer();
                 this.findingPath = true;
             }
             if(!this.findingPath){
+                this.WWfindPlayer();
+                this.findingPath = true;
                 this.pathIndex = 0;
                 //console.log(this);
-                this.nextPoint = this.path[0];
-                this.sprite.velocity = {
-                    x: (this.nextPoint.x - this.sprite.position.x)/15,
-                    y: (this.nextPoint.y - this.sprite.position.y)/15
-                }
+                //this.nextPoint = this.path[0];
+                //Move from 'spawning outside' to the edge of the pathing map
+                this.sprite.attractionPoint(.1, this.sprite.position.x , this.sprite.position.y) 
+                //this.sprite.velocity = {x: this.nextPoint.x , y: this.nextPoint.y}
+                    // x: (this.nextPoint.x - this.sprite.position.x) / speed,
+                    // y: (this.nextPoint.y - this.sprite.position.y) / speed
+                
             }
 
         } else if (this.path.length == 0 && this.findingPath == false){
-
+            this.WWfindPlayer();
+            this.findingPath = true;
+            this.sprite.velocity ={x: 0, y: 0};
         }
         
         
         this._playAnimations();
     }
 
-    damageBarricade(){
-        console.log("Breaking TIle");
-    }
     _playAnimations(){
         this.sprite.animation.frameDelay = 8;
 

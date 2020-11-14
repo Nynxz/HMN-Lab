@@ -47,13 +47,13 @@ class DebugHelpers{
             });
 
             //Toggle Layers
-            new DebugButton('Toggle Ground Layer', 350, height - 25, () => {
+            new DebugButton('Toggle Ground Layer', 25, 125, () => {
                 LayerManager.Layers.GroundFloor.isEnabled = !LayerManager.Layers.GroundFloor.isEnabled;
             });
-            new DebugButton('Toggle Effects Layer', 500, height - 25, () => {
+            new DebugButton('Toggle Effects Layer', 25, 150, () => {
                 LayerManager.Layers.Effects.isEnabled = !LayerManager.Layers.Effects.isEnabled;
             });
-            new DebugButton('Toggle Interactable Layer', 650, height - 25, () => {
+            new DebugButton('Toggle Interactable Layer', 25, 175, () => {
                 LayerManager.Layers.GroundFloorInteractables.isEnabled = !LayerManager.Layers.GroundFloorInteractables.isEnabled;
             });
 
@@ -70,6 +70,9 @@ class DebugHelpers{
             DebugHelpers.buttons = [];
             DebugHelpers.isShowingButtons = false;
         }
+
+       
+
     }
 
     static drawFPS(){

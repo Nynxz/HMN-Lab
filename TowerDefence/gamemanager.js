@@ -70,8 +70,8 @@ class GameManager {
                         }
                     })
                     if(horde != null){
-                        console.log("Got path: ", e.data.path);
-                        console.log("SETTING HORDE PATH");
+                        //console.log("Got path: ", e.data.path);
+                        //console.log("SETTING HORDE PATH");
                         horde.hordePath = e.data.path;
                         horde.hordeMembers.forEach(zombie => {
                             zombie.Parent.path = e.data.path;
@@ -133,16 +133,19 @@ class GameManager {
                 LayerManager.Layers.HUDLayer.text("Type: " + typeStr, mouseX + 10, mouseY-35)
                 switch(typeStr){
                     case 'spike':
-                        LayerManager.Layers.HUDLayer.text("Info: Deals Damage to \n Players & Zombies", mouseX + 10, mouseY-15);
+                        LayerManager.Layers.HUDLayer.text("Info: \n Deals Damage to \n Players & Zombies", mouseX + 10, mouseY-15);
                     break;
                     case 'tree':
-                        LayerManager.Layers.HUDLayer.text("Info: Generates Wood", mouseX + 10, mouseY-15);
+                        LayerManager.Layers.HUDLayer.text("Info: \n Generates Wood", mouseX + 10, mouseY-15);
                     break;
                     case 'furnace':
-                        LayerManager.Layers.HUDLayer.text("Info: Turns 1 Wood & \n 1 Rock into 1 Iron", mouseX + 10, mouseY-15);
+                        LayerManager.Layers.HUDLayer.text("Info: \n Turns 1 Wood & 1 Rock \n into 1 Iron", mouseX + 10, mouseY-15);
                     break;
                     case 'rock':
-                        LayerManager.Layers.HUDLayer.text("Info: Generates Rock", mouseX + 10, mouseY-15);
+                        LayerManager.Layers.HUDLayer.text("Info: \n Generates Rock", mouseX + 10, mouseY-15);
+                    break;
+                    case 'basic Turret':
+                        LayerManager.Layers.HUDLayer.text("Info: \n Shoots Basic Bullets \n That Collide with Walls", mouseX + 10, mouseY-15);
                     break;
                 }
 
@@ -160,14 +163,6 @@ class GameManager {
         //For Each Player
         GameManager.allPlayers.forEach(player => {
 
-
-            let tile = Map.getTileAtWorldPosition(player.sprite.position.x, player.sprite.position.y+Map.tileSize);
-            if(tile.node)
-            if(tile.node.type == 'spike'){
-                console.log("Spike")
-                let actor = player;
-                eval(tile.node.info.effect)
-            }
             //Draw their HP/Stamina Bar
             player.drawInfo();
 
@@ -175,9 +170,9 @@ class GameManager {
             player.andyMovement()
             
             //If the player is selected, mark it
-            if(player.isSelected)
+            if(player.isSelected){
                 player._selected();
-                if(keyIsDown(37)&& GameManager.activePlayer && frameCount % 12 == 0) {
+                if(keyIsDown(37) && GameManager.activePlayer && frameCount % 12 == 0) {
                 let projectile = createSprite(GameManager.activePlayer.sprite.position.x, GameManager.activePlayer.sprite.position.y, 50, 50);
                     projectile.addImage(Images.Weapons.Bullets.Basic);
                     projectile.rotateToDirection  = true;
@@ -187,6 +182,7 @@ class GameManager {
                     projectile.setCollider("circle", 0,0, 16);
                     projectile.debug = true;
                 }
+            }
             });
 
         GameManager.allZombies.forEach(zombie => {
@@ -224,6 +220,14 @@ class GameManager {
                 bullet.life = 1;
             }
         })
+        
+        // LayerManager.Layers.ZombieGroupLeaders.collide(LayerManager.Layers.PlayerCharactersGroup, () => {
+        //     console.log("COLLDING")
+        // })
+        // LayerManager.Layers.ZombieGroup.collide(LayerManager.Layers.PlayerCharactersGroup, () => {
+        //     console.log("COLLDING")
+        // })
+
 
         //TODO: MOVE TO CONTROLS
         // if(keyDown(17) && mouseWentDown(LEFT) && !GameManager.gamePaused && mouseX < width && mouseY < height && mouseX > 0 && mouseX > 0){

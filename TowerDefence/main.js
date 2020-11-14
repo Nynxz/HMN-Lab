@@ -48,7 +48,7 @@ function draw() {
 		case SceneManager.Scenes.MainMenu:
 			//Placeholders
 			background("blue");
-
+			image(Images.Menu.MenuBackground, 0, 0, width, height);
 			drawSprites();
 		
 		break;

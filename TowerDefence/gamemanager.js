@@ -118,7 +118,7 @@ class GameManager {
         //We load the map we generated from Map.generateMap
         //GameManager.pathfinding.loadGrid(Map.floorTiles, 0, 0, false);
         for(let i=0;i<3;i++){
-            let player = new Player(this.randomNames[i], floor(random(255)), width/2-150+150*i, height/2);
+            let player = new Player(random(this.randomNames), floor(random(255)), width/2-150+150*i, height/2);
         GameManager.allPlayers.push(player);    
     }
         

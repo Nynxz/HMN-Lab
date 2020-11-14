@@ -46,7 +46,7 @@ class HUD {
         textSize(15);
         fill(255);
         text(this.hr + ":" + this.min1 + this.min2,width-300,200);
-        if(this.min2<=10){
+        if(this.min2<=10 && frameCount%60==0){
             this.min2++; 
             }
             if(this.min2 ==10 && this.min1 <5) {

@@ -2,7 +2,8 @@
 //p5.disableFriendlyErrors = true; // disables FES "FRIENDLY ERROR SYSTEM"
 //Disable Default Right Click, Bypass with Shift RightCick, why we do this? because right click is cool
 document.addEventListener('contextmenu', event => event.preventDefault()); 
-
+let y1=0;
+let y2;
 function preload() {
 
 	//We load all our assets
@@ -15,6 +16,7 @@ function setup() {
 	//TODO: MAKE SETTING
 	createCanvas(1440, 816);
 	background("green");
+	y2=height;
 	
 	//If Our Current Scene is defaulted to MainMenu, we create it
 	if(SceneManager.CurrentScene == SceneManager.Scenes.MainMenu){
@@ -48,7 +50,16 @@ function draw() {
 		case SceneManager.Scenes.MainMenu:
 			//Placeholders
 			background("blue");
-			image(Images.Menu.MenuBackground, 0, 0, width, height);
+			image(Images.Menu.MenuBackground, 0, y1, width, height+5);
+			image(Images.Menu.MenuBackground, 0, y2, width, height+5);
+			y1-=2;
+			y2-=2;
+			if(y1<-height){
+				y1=height;
+			}
+			if(y2<-height){
+				y2 = height;
+			}
 			drawSprites();
 		
 		break;

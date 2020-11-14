@@ -15,6 +15,7 @@ class GameManager {
 
     static resources = {Wood: 250, Rock: 0, Iron: 250}
     static score = 0;
+    static randomNames =['Alessandro','Charlie','Elsie','Gabriel','Cameron','Jacob','Will','Sydney','Manuel','Xander','Chana'];
 
     //We call this once to initalise the main game.
     static initGame(){
@@ -116,6 +117,11 @@ class GameManager {
 
         //We load the map we generated from Map.generateMap
         //GameManager.pathfinding.loadGrid(Map.floorTiles, 0, 0, false);
+        for(let i=0;i<3;i++){
+            let player = new Player(this.randomNames[i], floor(random(255)), width/2-150+150*i, height/2);
+        GameManager.allPlayers.push(player);    
+    }
+        
         LayerManager.Layers.FogOfWar.image(Images.Map.FogOfWar, 0, 0, width, height);
     }
 

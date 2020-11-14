@@ -72,6 +72,7 @@ class HUD {
               textAlign(CENTER);
               text("Aim at zombies with the cursor and fire using the Left Arrow.",width/2,height-100);
               text("Defeat the zombies and survive until morning.",width/2,height-70);
+              image(Images.Effects.nightOverlay,0,0);
             }
             if(this.hr==24){
               this.hr =0;

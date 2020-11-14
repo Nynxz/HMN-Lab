@@ -115,10 +115,18 @@ class Zombie extends PathingActor{
     }
 
     damage(amount){
-        this.health = constrain(this.health - amount, 0, this.health);
-        if (this.health == 0) {
-          this.die();
+        if(this.inHorde){
+            this.horde.hordeMembers[this.horde.hordeMembers.length - 1].Parent.health = constrain(this.horde.hordeMembers[this.horde.hordeMembers.length - 1].Parent.health - amount, 0, this.horde.hordeMembers[this.horde.hordeMembers.length - 1].Parent.health);
+            if (this.horde.hordeMembers[this.horde.hordeMembers.length - 1].Parent.health == 0) {
+                this.horde.hordeMembers[this.horde.hordeMembers.length - 1].Parent.die();
+            }
+        } else {
+            this.health = constrain(this.health - amount, 0, this.health);
+            if (this.health == 0) {
+              this.die();
+            }
         }
+       
     }
 
     die() {    
@@ -299,6 +307,9 @@ class Zombie extends PathingActor{
         this._playAnimations();
     }
 
+    damageBarricade(){
+        console.log("Breaking TIle");
+    }
     _playAnimations(){
         this.sprite.animation.frameDelay = 8;
 

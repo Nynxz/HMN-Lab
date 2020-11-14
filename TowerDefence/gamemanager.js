@@ -13,7 +13,7 @@ class GameManager {
 
     static pathfindingWorker;
 
-    static resources = {Wood: 50, Rock: 0, Iron: 0}
+    static resources = {Wood: 250, Rock: 0, Iron: 250}
 
     //We call this once to initalise the main game.
     static initGame(){
@@ -119,9 +119,10 @@ class GameManager {
     }
 
     static refreshGame() {
-        Shop.refreshShopSelection();
+        
 
         if(frameCount % 1 == 0 && mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height){
+            Shop.refreshShopSelection();
             let tile = Map.getTileAtWorldPosition(mouseX, mouseY);
             if(tile.parentNode || tile.node){
                 LayerManager.Layers.HUDLayer.fill(255,255,255, 100);
@@ -258,6 +259,12 @@ class GameManager {
         //Debug Interactable Spawners
         if(keyWentDown("s")){
            // let spend = new Interactable(Images.Interactables.Debug.SpendTouching, mouseX, mouseY, Interactable.Type.Spend, Interactable.Range.Touching);
+        }
+
+        if(Turret.allTurrets.length > 0){
+            Turret.allTurrets.forEach(turret =>{
+                turret.refreshTurret();
+            })
         }
     }
     static refreshHUD() {   

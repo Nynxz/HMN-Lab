@@ -109,8 +109,11 @@ to play each sound
 
         Images.Interactables.Tree1 = loadImage('/TowerDefence/assets/interactables/tree_1.png');
         Images.Interactables.Spike1 = loadImage('/TowerDefence/assets/Tiles/Spikes/spike1.png');
+        Images.Interactables.Barricade = loadImage('/TowerDefence/assets/Tiles/woodenBarricade.png');
         Images.Interactables.Rock = loadImage('/TowerDefence/assets/Tiles/Rock_Pile.png');
         Images.Interactables.Furnace = loadImage('/TowerDefence/assets/interactables/furnace.png');
+
+        Images.Interactables.Turret1 = loadImage('/TowerDefence/assets/interactables/turret1.png');
     }
 
     static _loadDebugPlayerAnimations(){
@@ -178,5 +181,6 @@ to play each sound
         Images.Shop.ShopTabLeft = loadImage('/TowerDefence/assets/shop/shoptableft.png');
         Images.Shop.ShopButtonBarricade = loadImage('/TowerDefence/assets/shop/barricadeButton.png');
         Images.Shop.ShopButtonSpikes = loadImage('/TowerDefence/assets/shop/spikeButton.png');
+        Images.Shop.ShopButtonTurret1 = loadImage('/TowerDefence/assets/shop/turret1Button.png');
     }
 }

@@ -91,6 +91,22 @@ class DebugHelpers{
         }
     }
 
+    static checkForSpriteAtMouse(){
+        let notFound = true;
+        // for (let i = 0; i < LayerManager.Layers.HUDGROUP.length; i++) {
+        //     if(LayerManager.Layers.HUDGROUP[i].overlapPixel(mouseX, mouseY)){
+        //         return false;
+        //     }
+        // }
+        LayerManager.Layers.HUDGroup.forEach(sprite => {
+            if(sprite.overlapPoint(mouseX, mouseY)){
+                console.log("found: ", sprite)
+                notFound = false;
+            }
+        })
+        return notFound;
+    }
+
     static pathingHeuristic(a, b){
 
         //let d = dist(a.x, a.y, b.x, b.y);

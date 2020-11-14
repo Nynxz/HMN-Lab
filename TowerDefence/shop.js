@@ -6,11 +6,13 @@ class Shop{
     static ShopButtons = [];
 
     static currentShopSelection;
+    static currentShopSelectionCost;
 
     static initShop(){
         Shop.ShopButtons = [];
         Shop.isShopTabOpen = false;
         Shop.currentShopSelection = null;
+        Shop.currentShopSelectionCost = null;
         Shop.drawGrid();
         let padding = 25
         Shop.ShopTab = createSprite(175 + padding, height+100);
@@ -27,6 +29,7 @@ class Shop{
                     button.sprite.position.y += movementDifference;
                 });
                 Shop.currentShopSelection = null;
+                Shop.currentShopSelectionCost = null;
                 LayerManager.Layers.Grid.isEnabled = false;
             } else {
                 Shop.ShopTab.position.y -= movementDifference;
@@ -43,10 +46,45 @@ class Shop{
         Shop.initShopButtons();
     }
 
+    static checkResource(_resource, _amount){
+        let currentlyValid = true;
+        for(let i = 0; i < _resource.length; i++){
+            switch(_resource[i]){
+                case 'wood':
+                    if(!(GameManager.resources.Wood >= _amount[i]))
+                        currentlyValid = false;
+                        break;
+                case 'iron':
+                    if(!(GameManager.resources.Iron >= _amount[i]))
+                        currentlyValid = false;
+                        break;
+            }
+        }
+        
+       return currentlyValid;
+    }
+
+    static removeResource(_resource, _amount){
+        for(let i = 0; i < _resource.length; i++){
+            switch(_resource[i]){
+                case 'wood':
+                    GameManager.resources.Wood -= _amount[i]
+                    break;
+                case 'iron':
+                    GameManager.resources.Iron -= _amount[i]
+                    break;
+            }
+        }
+    }
+
     static initShopButtons(){
-        new ShopButton(Images.Shop.ShopButtonBarricade, "Barricade", "10 Wood");
-        new ShopButton(Images.Shop.ShopButtonSpikes, new RawTile(RawTile.Type.Spike), "10 Metal");
-        new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
+        new ShopButton(Images.Shop.ShopButtonBarricade, new RawTile(RawTile.Type.Barricade), ["wood"], [10]);
+        
+        
+        new ShopButton(Images.Shop.ShopButtonSpikes, new RawTile(RawTile.Type.Spike), ["iron"], [10]);
+
+        new ShopButton(Images.Shop.ShopButtonTurret1, new RawTile(RawTile.Type.Turret) , ["iron", "wood"], [10, 5]);
+
         new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
         new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
         new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
@@ -68,9 +106,46 @@ class Shop{
 
     static refreshShopSelection(){
         if(Shop.currentShopSelection){
-           
-            LayerManager.Layers.HUDLayer.imageMode(CENTER);
-            LayerManager.Layers.HUDLayer.image(eval(Shop.currentShopSelection.info.image), mouseX, mouseY, Map.tileSize, Map.tileSize);
+            if(Shop.currentShopSelection.info instanceof RawTurret){
+                LayerManager.Layers.HUDLayer.imageMode(CENTER);
+                LayerManager.Layers.HUDLayer.image(eval(Shop.currentShopSelection.info.image), mouseX, mouseY, Map.tileSize*6, Map.tileSize*6);
+            }else {
+                LayerManager.Layers.HUDLayer.imageMode(CENTER);
+                LayerManager.Layers.HUDLayer.image(eval(Shop.currentShopSelection.info.image), mouseX, mouseY, Map.tileSize, Map.tileSize);
+            }
+
+            
+            if(mouseWentUp(LEFT) && DebugHelpers.checkForSpriteAtMouse()){
+                console.log(DebugHelpers.checkForSpriteAtMouse())
+                console.log("PAINTING")
+                let tile = Map.getTileAtWorldPosition(mouseX, mouseY);
+                if(tile.passable && !tile.node && DebugHelpers.checkForSpriteAtMouse())
+                if(Shop.checkResource(Shop.currentShopSelectionCost.resource, Shop.currentShopSelectionCost.amount)) {
+                    if(Shop.currentShopSelection.info instanceof RawTurret){
+                        console.log("PLACING A TURRET");
+                        console.log(Turret.checkPlacement(mouseX, mouseY))
+                        if(Turret.checkPlacement(mouseX, mouseY) && tile.passable){
+                            tile.passable = true
+                            new Turret(Shop.currentShopSelection.info.image, tile.pos.x * Map.tileSize + (Map.tileSize/2), tile.pos.y * Map.tileSize + (Map.tileSize/2));
+                        }
+                        //Check Around Clicked Tile for Passable
+                            //If all are passble, Place a turret with RawTurret Information
+                    }else{
+                        let tileToPlace = new RawTile(RawTile.Type.Grass);
+                        let x = tile.pos.x;
+                        let y = tile.pos.y;
+    
+                        tileToPlace.pos = {x: tile.pos.x, y: tile.pos.y};
+                        tileToPlace.node = Shop.currentShopSelection;
+                        Shop.removeResource(Shop.currentShopSelectionCost.resource, Shop.currentShopSelectionCost.amount)
+    
+                        let newTile = new PathingPoint(Map.floorTiles, tileToPlace);
+                        newTile.getChildrenNodes();
+                        Map.floorTiles[y][x] = newTile;
+                    }
+                    
+                }
+            }
         }
     }
 
@@ -89,15 +164,20 @@ class Shop{
 }
 
 class ShopButton{
-    constructor(_img, _itemToPlace, _cost){
+    constructor(_img, _itemToPlace, _costResource, _costAmount){
         this.img = _img;
         this.itemToPlace = _itemToPlace;
-        this.cost = _cost;
+
+        this.costResource = _costResource;
+        this.costAmount = _costAmount;
+
         this.sprite = createSprite(-100, -100);
         this.sprite.addImage(this.img);
         this.sprite.addToGroup(LayerManager.Layers.HUDGroup);
-        this.sprite.onMouseReleased = () => {
+        this.sprite.debug = true;
+        this.sprite.onMousePressed = () => {
             Shop.currentShopSelection = this.itemToPlace;
+            Shop.currentShopSelectionCost = {resource: _costResource, amount: _costAmount};
             console.log("Cost: ", this.cost, "| Item to Place: ", this.itemToPlace);
         };
         Shop.ShopButtons.push(this);

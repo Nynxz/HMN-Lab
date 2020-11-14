@@ -1,6 +1,6 @@
 //IDK ABOUT THIS
 class RawTile{
-    static Type = {Grass: 'grass', Flower: 'flower', Wall: 'wall', Tree: 'tree', Spike: 'spike', Rock: 'rock', Furnace: 'furnace'};
+    static Type = {Grass: 'grass', Flower: 'flower', Wall: 'wall', Tree: 'tree', Spike: 'spike',Barricade: 'barricade', Rock: 'rock', Furnace: 'furnace', Turret: 'turret'};
 
     static EFFECT = {Spend: 'spend', Generate: 'generate'};
     
@@ -34,10 +34,23 @@ class RawTile{
                 this.passable = false;
             break;
 
+            case RawTile.Type.Barricade:
+                this.info = new Interactable('Images.Interactables.Barricade', 1, 1, Interactable.Alignment.CENTER, "actor.damageBarricade()")
+                this.passable = true;
+            break;
+
+            case RawTile.Type.Turret:
+                //this.info = new Turret(Images.Interactables.Turret1, mouseX, mouseY);
+                this.info = new RawTurret(Images.Interactables.Turret1, 3, 3, 'shoot');
+                this.passable = true;
+            break;
+
+
+
             case RawTile.Type.Furnace:
                 this.info = new Interactable('Images.Interactables.Furnace', 3, 3, Interactable.Alignment.BOTTOMCENTER, "Interactable.SmeltRockIntoIron(1)")
                 this.passable = false;
-                break;
+            break;
 
             case RawTile.Debug.Spend:
                 this.node = new Interactable(Interactable.NodeTypes.GENERATE, 1, 1, Interactable.Alignment.CENTER);

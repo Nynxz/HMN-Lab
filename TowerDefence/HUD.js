@@ -7,7 +7,7 @@ class HUD {
         this.score=_score;
         this.activePlayerName=_activePlayerName;
         this.color = "black";
-        this.activePlayerHeadingText = "Active Player:"
+        this.activePlayerHeadingText = "Active Player"
         this.activePlayer= GameManager.activePlayer;
         this.HUD = this.drawHUD();
         this.activePlayerHeaderText = this.drawActivePlayerHeader();
@@ -26,16 +26,16 @@ class HUD {
     }
 
     drawActivePlayerHeader() {
-        textAlign(LEFT);
+        textAlign(RIGHT);
         textSize(20);
         fill(255);
         
-        let name = GameManager.activePlayer ? GameManager.activePlayer.name : "NO PLAYER ";
-        text(this.activePlayerHeadingText + " " + name,80,height-130);
+        let name = GameManager.activePlayer ? GameManager.activePlayer.name : "NO PLAYER";
+        text(this.activePlayerHeadingText + " " + name,width-80,height-210);
         let hp = GameManager.activePlayer ? GameManager.activePlayer.health : " NO PLAYER";
-        text("Health" + " " + hp,80,height-100);
+        text("Health" + " " + hp,width-80,height-180);
         let stam = GameManager.activePlayer ? GameManager.activePlayer.stamina : " NO PLAYER";
-        text("Stamina" + " " + stam,80,height-70);
+        text("Stamina" + " " + stam,width-80,height-150);
         
         textAlign(RIGHT);
         text("Wood: " + GameManager.resources.Wood,width-80,160);

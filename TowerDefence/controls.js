@@ -19,7 +19,6 @@ class Controls{
         if(mouseWentDown(LEFT) && keyDown(17)){
             if(s == SceneManager.Scenes.InGame || s == SceneManager.Scenes.MapEditor){
                 let tile = Map.getTileAtWorldPosition(mouseX, mouseY);
-                console.log(tile)
                 if(tile && !Map.activeTile.includes(tile)){//If we have a tile
                     Map.activeTile = new Array();
                     Map.activeTile.push(tile);
@@ -37,10 +36,8 @@ class Controls{
                 if(GameManager.activePlayer){
                     let tile = Map.getTileAtWorldPosition(mouseX, mouseY);
                     if(tile.node){
-                        console.log("SETTING TASK to PARENT");
                         GameManager.activePlayer.currentTask = tile;
                     } else if(tile.parentNode){
-                        console.log("SETTING TASK to PARENT from CHILD");
                         GameManager.activePlayer.currentTask = tile.parentNode;
                     }
                     GameManager.activePlayer.WWfindPath(mouseX, mouseY);

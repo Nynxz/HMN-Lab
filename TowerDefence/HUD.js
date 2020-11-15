@@ -27,26 +27,31 @@ class HUD {
 
     drawActivePlayerHeader() {
         textAlign(LEFT);
-        textSize(15);
+        textSize(20);
         fill(255);
-        let name = GameManager.activePlayer ? GameManager.activePlayer.name : " NO PLAYER";
-        text(this.activePlayerHeadingText + " " + name,width-300,25);
+        
+        let name = GameManager.activePlayer ? GameManager.activePlayer.name : "NO PLAYER ";
+        text(this.activePlayerHeadingText + " " + name,80,height-130);
         let hp = GameManager.activePlayer ? GameManager.activePlayer.health : " NO PLAYER";
-        text("Health" + " " + hp,width-300,75);
+        text("Health" + " " + hp,80,height-100);
         let stam = GameManager.activePlayer ? GameManager.activePlayer.stamina : " NO PLAYER";
-        text("Stamina" + " " + stam,width-300,125);
-        text("Score: " + GameManager.score,width-300,100);
-        text("Wood: " + GameManager.resources.Wood,width-300,300);
-        text("Rock: " + GameManager.resources.Rock,width-300,350);
-        text("Iron: " + GameManager.resources.Iron,width-300,400);
+        text("Stamina" + " " + stam,80,height-70);
+        
+        textAlign(RIGHT);
+        text("Wood: " + GameManager.resources.Wood,width-80,160);
+        text("Rock: " + GameManager.resources.Rock,width-80,180);
+        text("Iron: " + GameManager.resources.Iron,width-80,200);
+        
+        textSize(25);
+        text("Score: " + GameManager.score,width-80,height-100);
     }
 
    drawGameClock() {
-      textAlign(LEFT);
-        textSize(15);
+      textAlign(RIGHT);
+        textSize(25);
         fill(255);
-        text(this.hr + ":" + this.min1 + this.min2,width-300,200);
-        if(this.min2<=10 && frameCount%60==0){
+        text(this.hr + ":" + this.min1 + this.min2,width-80,90);
+        if(this.min2<=10){
             this.min2++; 
             }
             if(this.min2 ==10 && this.min1 <5) {
@@ -60,7 +65,7 @@ class HUD {
             }
             if(this.hr<12) {
               //console.log("day");
-              text("DAY TIME",width-300,220);
+              text("DAY",width-80,120);
               textSize(20);
               textAlign(CENTER);
               text("It's day time. Collect wood from the trees, and set traps.",width/2,height-100);
@@ -68,7 +73,7 @@ class HUD {
             }
             if(this.hr>=12) {
               //console.log("night");
-              text("NIGHTIME",width-300,220);
+              text("NIGHT",width-80,120);
               textSize(20);
               textAlign(CENTER);
               text("Aim at zombies with the cursor and fire using the Left Arrow.",width/2,height-100);

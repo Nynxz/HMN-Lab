@@ -135,7 +135,6 @@ class DebugHelpers{
 
     static exportMap(){
         let map = []
-        console.log(Map.floorTiles);
         Map.floorTiles.forEach((col, y) => {
             map.push([]);
             col.forEach(tile =>{

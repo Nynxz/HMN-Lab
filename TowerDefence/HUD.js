@@ -31,11 +31,11 @@ class HUD {
         fill(255);
         
         let name = GameManager.activePlayer ? GameManager.activePlayer.name : "NO PLAYER ";
-        text(this.activePlayerHeadingText + " " + name,80,height-130);
+        text(this.activePlayerHeadingText + " " + name,80,250);
         let hp = GameManager.activePlayer ? GameManager.activePlayer.health : " NO PLAYER";
-        text("Health" + " " + hp,80,height-100);
+        text("Health" + " " + hp,80,220);
         let stam = GameManager.activePlayer ? GameManager.activePlayer.stamina : " NO PLAYER";
-        text("Stamina" + " " + stam,80,height-70);
+        text("Stamina" + " " + stam,80,190);
         
         textAlign(RIGHT);
         text("Wood: " + GameManager.resources.Wood,width-80,160);

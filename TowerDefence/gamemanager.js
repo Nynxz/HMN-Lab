@@ -20,7 +20,6 @@ class GameManager {
     //We call this once to initalise the main game.
     static initGame(){
 
-        
 
         //TODO: MOVE TO THREADMANAGER?
         GameManager.pathfindingWorkerPlayer = new Worker('pathfindingwebworker.js');
@@ -126,6 +125,10 @@ class GameManager {
     }
 
     static refreshGame() {
+
+        if(GameManager.debugHUD.hr > 12 && GameManager.debugHUD.hr % 2 == 0 &&  GameManager.debugHUD.min1 == 5 && GameManager.debugHUD.min2 == 8 ){
+            ZombieSpawner.spawnWave();
+        }
         
 
         if(frameCount % 1 == 0 && mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height){
@@ -185,8 +188,8 @@ class GameManager {
                     //We need to draw to a layer
                     projectile.addToGroup(LayerManager.Layers.BulletsGroup);
                     projectile.attractionPoint(3, mouseX, mouseY)
-                    projectile.setCollider("circle", 0,0, 16);
-                    projectile.debug = true;
+                    projectile.setCollider("circle", 0,0, 11);
+                    projectile.debug = false;
                 }
             }
             });
@@ -196,28 +199,26 @@ class GameManager {
                 if(zombie.horde.hordeMembers[0] === zombie.sprite){
                     zombie.horde.refreshHordeInformation();
                 }
-            }
+            } 
             zombie.moveZombie();
             zombie.drawInfo();
         });
 
 
-        LayerManager.Layers.ZombieGroup.overlap(LayerManager.Layers.BulletsGroup, (actor, bullet) => {
-            if(actor.Parent instanceof Zombie){
-                console.log("HITTING")
-                actor.Parent.damage(15);
-                bullet.remove();
-            }
-           
-        });
+        // LayerManager.Layers.ZombieGroup.overlap(LayerManager.Layers.BulletsGroup, (actor, bullet) => {
+        //     if(actor.Parent instanceof Zombie){
+        //         //console.log("HITTING")
+        //         actor.Parent.damage(15);
+        //         bullet.remove();
+        //     }
+        // });
 
         LayerManager.Layers.ZombieGroupLeaders.overlap(LayerManager.Layers.BulletsGroup, (actor, bullet) => {
             if(actor.Parent instanceof Zombie){
-                console.log("HITTING")
+                //console.log("HITTING")
                 actor.Parent.damage(15);
                 bullet.remove();
-            }
-           
+            }    
         });
 
         LayerManager.Layers.BulletsGroup.forEach(bullet => {

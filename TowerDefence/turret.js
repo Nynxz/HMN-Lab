@@ -9,11 +9,12 @@ class RawTurret{
 }
 
 class Turret{
-    static type = {Basic: 'basic', NoWall: 'nowall'}
+    static type = {Basic: 'basic', NoWall: 'nowall', Fast: 'fast'}
     static allTurrets = [];
 
     static basicTurrets =[];
     static nowallTurrets = [];
+    static fastTurrets = [];
     constructor(_img, _x, _y, _range, _type ){
         this.image =  _img;
         this.x = _x;
@@ -39,6 +40,9 @@ class Turret{
         }
         if(this.type == Turret.type.NoWall){
             Turret.nowallTurrets.push(this)
+        }
+        if(this.type == Turret.type.Fast){
+            Turret.fastTurrets.push(this)
         }
 
     }
@@ -70,15 +74,16 @@ class Turret{
     
             });
             let closestZombie = GameManager.allZombies[closestIDX];
-            LayerManager.Layers.HUDLayer.fill('green');
-            LayerManager.Layers.HUDLayer.line(closestZombie.sprite.position.x, closestZombie.sprite.position.y, this.sprite.position.x, this.sprite.position.y)
+           //LayerManager.Layers.HUDLayer.fill('green');
+           //LayerManager.Layers.HUDLayer.line(closestZombie.sprite.position.x, closestZombie.sprite.position.y, this.sprite.position.x, this.sprite.position.y)
             LayerManager.Layers.HUDLayer.fill('black');
             
             
             if(closestD < this.range){
                 angleMode(DEGREES);
                 this.sprite.rotation = -atan2(this.sprite.position.x - closestZombie.sprite.position.x, this.sprite.position.y - closestZombie.sprite.position.y) ;
-                if(frameCount % 120 == 0){
+                
+                if((frameCount % 120 == 0 && this.type == Turret.type.Basic) || (frameCount % 30 == 0 && this.type == Turret.type.Fast)){
                     console.log("SHOOTING")
                     let projectile = createSprite(this.sprite.position.x, this.sprite.position.y, 50, 50);
                     projectile.addImage(Images.Weapons.Bullets.Basic);
@@ -86,8 +91,8 @@ class Turret{
                     //We need to draw to a layer
                     projectile.addToGroup(LayerManager.Layers.BulletsGroup);
                     projectile.attractionPoint(3, closestZombie.sprite.position.x, closestZombie.sprite.position.y)
-                    projectile.setCollider("circle", 0,0, 16);
-                    projectile.debug = true;
+                    projectile.setCollider("circle", 0,0, 11);
+                    projectile.debug = false;
                 }
   
                 

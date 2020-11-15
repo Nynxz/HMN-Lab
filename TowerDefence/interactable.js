@@ -9,7 +9,9 @@ class RawTile{
         Barricade: 'barricade', 
         Rock: 'rock', 
         Furnace: 'furnace', 
-        TurretBasic: 'turretbasic'};
+        TurretBasic: 'turretbasic',
+        TurretFast: 'turretfast',
+        Floor: 'floor'};
 
     static EFFECT = {Spend: 'spend', Generate: 'generate'};
     
@@ -23,10 +25,17 @@ class RawTile{
                 this.passable = true;
             break;
 
+            case RawTile.Type.Floor:
+                this.image = 'Images.Map.Floor';
+                this.passable = true;
+            break;
+
             case RawTile.Type.Wall:
                 this.image = 'Images.WallDebug.Lava';
                 this.passable = false;
             break;
+
+
 
             case RawTile.Type.Tree:
                 this.info = new Interactable('Images.Interactables.Tree1', 3, 3, Interactable.Alignment.BOTTOMCENTER, "Interactable.ChopTree(1)");
@@ -50,7 +59,13 @@ class RawTile{
 
             case RawTile.Type.TurretBasic:
                 //this.info = new Turret(Images.Interactables.Turret1, mouseX, mouseY);
-                this.info = new RawTurret(Images.Interactables.Turret1, 3, 3, 250, Turret.type.Basic);
+                this.info = new RawTurret(Images.Interactables.Turret1, 3, 3, 300, Turret.type.Basic);
+                this.passable = true;
+            break;
+
+            case RawTile.Type.TurretFast:
+                //this.info = new Turret(Images.Interactables.Turret1, mouseX, mouseY);
+                this.info = new RawTurret(Images.Interactables.TurretFast, 3, 3, 250, Turret.type.Fast);
                 this.passable = true;
             break;
 
@@ -61,10 +76,10 @@ class RawTile{
                 this.passable = false;
             break;
 
-            case RawTile.Debug.Spend:
-                this.node = new Interactable(Interactable.NodeTypes.GENERATE, 1, 1, Interactable.Alignment.CENTER);
-                this.image = 'Images.Interactables.Debug.SpendTouching';
-                this.passable = false;
+            // case RawTile.Debug.Spend:
+            //     this.node = new Interactable(Interactable.NodeTypes.GENERATE, 1, 1, Interactable.Alignment.CENTER);
+            //     this.image = 'Images.Interactables.Debug.SpendTouching';
+            //     this.passable = false;
         }
     }
 }

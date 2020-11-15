@@ -34,8 +34,8 @@ function setup() {
 		DebugHelpers.buttons.pop();
 	}
 
-	DebugHelpers.toggleButtons();
-	MapEditor.debugLoadSaveMapButtons();
+	//DebugHelpers.toggleButtons();
+	//MapEditor.debugLoadSaveMapButtons();
 }
 
 function draw() {

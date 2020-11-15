@@ -11,20 +11,22 @@ class ZombieSpawner{
             let randomSide = random(['N','S','E','W']);
             switch(randomSide){
                 case 'N':
-                    new Zombie('Rando Zombie Boi', 100, random(0 + ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier, width - ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier), random(0 - ZombieSpawner.offsetMin, 0 - ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier))
+                    new Zombie('Rando Zombie Boi', 100 * ZombieSpawner.difficultyModifier, random(0 + ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier, width - ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier), random(0 - ZombieSpawner.offsetMin, 0 - ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier))
                 break;
                 case 'E':
-                    new Zombie('Rando Zombie Boi', 100, random(width + ZombieSpawner.offsetMin, width + ZombieSpawner.offsetMax), random(0 + ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier, height - ZombieSpawner.offsetMax))
+                    new Zombie('Rando Zombie Boi', 100 * ZombieSpawner.difficultyModifier, random(width + ZombieSpawner.offsetMin, width + ZombieSpawner.offsetMax), random(0 + ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier, height - ZombieSpawner.offsetMax))
                 break;
                 case 'S':
-                    new Zombie('Rando Zombie Boi', 100, random(0 + ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier, width - ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier), random(height + ZombieSpawner.offsetMin, height + ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier))
+                    new Zombie('Rando Zombie Boi', 100 * ZombieSpawner.difficultyModifier, random(0 + ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier, width - ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier), random(height + ZombieSpawner.offsetMin, height + ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier))
                 break;
                 case 'W':
-                    new Zombie('Rando Zombie Boi', 100, random(0 - ZombieSpawner.offsetMin, 0 - ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier), random(0 - ZombieSpawner.offsetMin, height - ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier))
+                    new Zombie('Rando Zombie Boi', 100 * ZombieSpawner.difficultyModifier, random(0 - ZombieSpawner.offsetMin, 0 - ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier), random(0 - ZombieSpawner.offsetMin, height - ZombieSpawner.offsetMax / ZombieSpawner.difficultyModifier))
                 break;
             }
         }
         
+        this.difficultyModifier += 0.05;
+        this.startingAmount+=0.05;
     }
 }
 
@@ -201,23 +203,25 @@ class Zombie extends PathingActor{
         
         let obj;
         let closestPlayer = this.findClosestPlayer();
-        if(!this.inHorde){
-            obj  = {
-                type: 'find',
-                from: this.id,
-                payload: {x1: this.sprite.position.x, y1: this.sprite.position.y, x2: closestPlayer.sprite.position.x, y2: closestPlayer.sprite.position.y}
+        if(closestPlayer){
+            if(!this.inHorde){
+                obj  = {
+                    type: 'find',
+                    from: this.id,
+                    payload: {x1: this.sprite.position.x, y1: this.sprite.position.y, x2: closestPlayer.sprite.position.x, y2: closestPlayer.sprite.position.y}
+                }
+                GameManager.pathfindingWorker.postMessage(obj);
             }
-            GameManager.pathfindingWorker.postMessage(obj);
+            else if (this.sprite.Parent.horde.hordeMembers[0] == this.sprite) {
+                obj = {
+                    type: 'findHorde',
+                    from: this.horde.id,
+                    payload: {x1: this.sprite.position.x, y1: this.sprite.position.y, x2: closestPlayer.sprite.position.x, y2: closestPlayer.sprite.position.y}
+                }
+                GameManager.pathfindingWorker.postMessage(obj);
+            }    
         }
-        else if (this.sprite.Parent.horde.hordeMembers[0] == this.sprite) {
-            obj = {
-                type: 'findHorde',
-                from: this.horde.id,
-                payload: {x1: this.sprite.position.x, y1: this.sprite.position.y, x2: closestPlayer.sprite.position.x, y2: closestPlayer.sprite.position.y}
-            }
-            GameManager.pathfindingWorker.postMessage(obj);
-        }
-
+        
         this.sprite.velocity = {x: 0, y: 0};
     }
 
@@ -228,7 +232,8 @@ class Zombie extends PathingActor{
         sprite.addToGroup(LayerManager.Layers.ZombieGroupLeaders) 
         sprite.Parent = this;
         sprite.scale = 1;
-        sprite.debug = true;
+        sprite.debug = false;
+        sprite.setCollider('rectangle', 0, +5, Map.tileSize*1, Map.tileSize*2)
         sprite.addAnimation('walkup', Images.Zombies.Regular.Up);
         sprite.addAnimation('walkdown', Images.Zombies.Regular.Down);
         sprite.addAnimation('walkleft', Images.Zombies.Regular.Left);
@@ -249,12 +254,17 @@ class Zombie extends PathingActor{
         if(tile.node.type == 'spike' || tile.node.type == 'barricade'){
             let actor = this;
             eval(tile.node.info.effect)
+            //console.log(tile.node)
         }
         //TODO: MOVE THIS
-        if(GameManager.allPlayers.length > 0)
-        if(dist(this.sprite.position.x, this.sprite.position.y, GameManager.allPlayers[0].sprite.position.x, GameManager.allPlayers[0].sprite.position.y) < 25){
-            GameManager.allPlayers[0].damage(0.001);
-        }    
+        if(GameManager.allPlayers.length > 0){
+            let closestPlayer = this.findClosestPlayer();
+            if(dist(this.sprite.position.x, this.sprite.position.y, closestPlayer.sprite.position.x,closestPlayer.sprite.position.y) < 25){
+                
+                closestPlayer.damage(.05);
+            }    
+        }
+
 
         // if(dist(this.sprite.position.x, this.sprite.position.y, GameManager.allPlayers[0].sprite.position.x, GameManager.allPlayers[0].sprite.position.y) < 120 && frameCount % 600 == 0){
         //     this.pathIndex = 0;
@@ -287,17 +297,12 @@ class Zombie extends PathingActor{
                 if(this.nextPoint){
                     //next point is first index of array
                     this.nextPoint = this.path[this.pathIndex];
-                    let speed = 30;
+                    let speed = 1;
                     if(this.slowed){
-                        speed = 60
-     
+                        speed = .3
                     }
                     this.sprite.velocity ={x: 0, y: 0};
-                    this.sprite.attractionPoint(1, this.nextPoint.x , this.nextPoint.y) 
-                    // this.sprite.velocity = {
-                    //     x: (this.nextPoint.x - this.sprite.position.x) / speed,
-                    //     y: (this.nextPoint.y - this.sprite.position.y) / speed
-                    // }
+                    this.sprite.attractionPoint(speed, this.nextPoint.x , this.nextPoint.y) 
                 }else {
                     this.sprite.velocity ={x: 0, y: 0};
                     this.WWfindPlayer();

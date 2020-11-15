@@ -13,12 +13,13 @@ class MapEditor{
             })
         }
         
-        if(mouseDown(RIGHT)  && !keyIsDown(17)){
+        if(mouseDown(RIGHT)  && !keyIsDown(17) && MapEditor.tileToPlace){
             let tile = Map.getTileAtWorldPosition(mouseX, mouseY);
             if(tile){
                 let x = tile.pos.x;
                 let y = tile.pos.y;
                 MapEditor.tileToPlace.pos = {x: tile.pos.x, y: tile.pos.y};
+                if(MapEditor.itemToPlace)
                 MapEditor.tileToPlace.node = MapEditor.itemToPlace;
               
                 let newTile = new PathingPoint(Map.floorTiles, MapEditor.tileToPlace);
@@ -102,6 +103,14 @@ class MapEditor{
         BlankButton.sprite.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
 
 
+        
+        let FloorButton = new MenuButton(Images.MapEditor.FloorButton, 1, width - 100, 700);
+        FloorButton.sprite.onMousePressed = function(){
+            Map.activeTile = [];
+            MapEditor.tileToPlace = new RawTile(RawTile.Type.Floor);
+            console.log(MapEditor.tileToPlace);
+        }
+        FloorButton.sprite.addToGroup(LayerManager.Layers.PlayerCharactersGroup);
         
 
     }

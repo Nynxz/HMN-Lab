@@ -115,6 +115,7 @@ to play each sound
         Images.Interactables.Furnace = loadImage('/TowerDefence/assets/interactables/furnace.png');
 
         Images.Interactables.Turret1 = loadImage('/TowerDefence/assets/interactables/turret1.png');
+        Images.Interactables.TurretFast = loadImage('/TowerDefence/assets/interactables/turretfast.png');
     }
 
     static _loadDebugPlayerAnimations(){
@@ -147,6 +148,7 @@ to play each sound
 
         Images.Map.Wall = loadImage("/TowerDefence/assets/Sprites/Wall.png");
         Images.Map.FogOfWar = loadImage("/TowerDefence/assets/fog_of_war.png");
+        Images.Map.Floor = loadImage("/TowerDefence/assets/Sprites/woodenfloor.png");
     }
 
 
@@ -173,6 +175,7 @@ to play each sound
         Images.MapEditor.SpikeButton = loadImage('/TowerDefence/assets/MapEditor/SpikePaintButton.png');
         Images.MapEditor.RockButton = loadImage('/TowerDefence/assets/MapEditor/RockPaintButton.png');
         Images.MapEditor.FurnaceButton = loadImage('/TowerDefence/assets/MapEditor/FurnacePaintButton.png');
+        Images.MapEditor.FloorButton = loadImage('/TowerDefence/assets/MapEditor/FloorPaintButton.png');
     }
 
     static _loadPlayerSelectedImage() {
@@ -184,5 +187,6 @@ to play each sound
         Images.Shop.ShopButtonBarricade = loadImage('/TowerDefence/assets/shop/barricadeButton.png');
         Images.Shop.ShopButtonSpikes = loadImage('/TowerDefence/assets/shop/spikeButton.png');
         Images.Shop.ShopButtonTurret1 = loadImage('/TowerDefence/assets/shop/turret1Button.png');
+        Images.Shop.ShopButtonTurretFast = loadImage('/TowerDefence/assets/shop/turretFastButton.png');
     }
 }

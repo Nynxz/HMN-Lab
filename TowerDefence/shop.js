@@ -19,7 +19,7 @@ class Shop{
         Shop.ShopTab.addToGroup(LayerManager.Layers.HUDGroup);
         Shop.ShopTab.addImage(Images.Shop.ShopTabLeft);
         Shop.ShopTab.scale = .5;
-        let movementDifference = 200;
+        let movementDifference = 125;
         Shop.ShopTab.setCollider("rectangle", 0, -125, Shop.ShopTab.width, 100);
         Shop.ShopTab.onMouseReleased = () => {
             if(Shop.isShopTabOpen){
@@ -41,7 +41,7 @@ class Shop{
                 
             }
         }
-        Shop.ShopTab.debug = true;
+        Shop.ShopTab.debug = false;
 
         Shop.initShopButtons();
     }
@@ -83,7 +83,9 @@ class Shop{
         
         new ShopButton(Images.Shop.ShopButtonSpikes, new RawTile(RawTile.Type.Spike), ["iron"], [10]);
 
-        new ShopButton(Images.Shop.ShopButtonTurret1, new RawTile(RawTile.Type.TurretBasic) , ["iron", "wood"], [10, 5]);
+        new ShopButton(Images.Shop.ShopButtonTurret1, new RawTile(RawTile.Type.TurretBasic) , ["iron", "wood"], [15, 5]);
+
+        new ShopButton(Images.Shop.ShopButtonTurretFast, new RawTile(RawTile.Type.TurretFast) , ["iron", "wood"], [25, 10]);
 
         //new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
         //new ShopButton(Images.Shop.ShopButtonBarricade, "item", "cost");
@@ -105,7 +107,7 @@ class Shop{
     }
 
     static refreshShopSelection(){
-        if(Shop.currentShopSelection){
+        if(Shop.currentShopSelection && Shop.checkResource(Shop.currentShopSelectionCost.resource, Shop.currentShopSelectionCost.amount)){
             if(Shop.currentShopSelection.info instanceof RawTurret){
                 LayerManager.Layers.HUDLayer.imageMode(CENTER);
                 LayerManager.Layers.HUDLayer.image(eval(Shop.currentShopSelection.info.image), mouseX, mouseY, Map.tileSize*6, Map.tileSize*6);
@@ -136,7 +138,8 @@ class Shop{
                         //Check Around Clicked Tile for Passable
                             //If all are passble, Place a turret with RawTurret Information
                     }else{
-                        let tileToPlace = new RawTile(RawTile.Type.Grass);
+
+                        let tileToPlace = tile.tileToPlace;
                         let x = tile.pos.x;
                         let y = tile.pos.y;
     
@@ -152,6 +155,12 @@ class Shop{
                 }
             }
         }
+
+        Shop.ShopButtons.forEach(button => {
+            if(button.hovering){
+                button.sprite.onMouseOver();
+            }
+        })
     }
 
     static drawGrid(){
@@ -179,12 +188,31 @@ class ShopButton{
         this.sprite = createSprite(-100, -100);
         this.sprite.addImage(this.img);
         this.sprite.addToGroup(LayerManager.Layers.HUDGroup);
-        this.sprite.debug = true;
+        this.sprite.debug = false;
         this.sprite.onMousePressed = () => {
             Shop.currentShopSelection = this.itemToPlace;
             Shop.currentShopSelectionCost = {resource: _costResource, amount: _costAmount};
             console.log("Cost: ", this.cost, "| Item to Place: ", this.itemToPlace);
         };
+
+        this.sprite.onMouseOver = () => {
+            this.hovering = true;
+            if(Shop.checkResource(this.costResource, this.costAmount)){
+                LayerManager.Layers.HUDLayer.fill('green');
+            } else {
+                LayerManager.Layers.HUDLayer.fill('red');
+            }
+            LayerManager.Layers.HUDLayer.rect(mouseX, mouseY - 50, 75, 50);
+            LayerManager.Layers.HUDLayer.fill('black');
+            LayerManager.Layers.HUDLayer.text("COST " + this.itemToPlace.type, mouseX, mouseY - 50)
+            this.costResource.forEach((cost, idx) => {
+                LayerManager.Layers.HUDLayer.text("  " + cost + " : " + this.costAmount[idx], mouseX, mouseY - 40 + (10 * idx));
+            })
+        }
+        this.sprite.onMouseOut = () => {
+            this.hovering = false;
+        }
+        this.hovering = false
         Shop.ShopButtons.push(this);
     }
 }

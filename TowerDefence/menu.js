@@ -28,7 +28,7 @@ class Menu {
             allSprites.clear();
             SceneManager.CurrentScene = SceneManager.Scenes.InGame;
             GameManager.initGame();
-            MapEditor.debugLoadSaveMapButtons();
+            //MapEditor.debugLoadSaveMapButtons();
         };
         
         let optionButton = new MenuButton(Images.Menu.OptionsButton, 1, width/2, (height/4)* 3);
@@ -67,6 +67,7 @@ class Menu {
             console.log("LOADING MAP EDITOR");
 
             MapEditor.createButtons();
+            MapEditor.debugLoadSaveMapButtons();
         }
 
     }
@@ -88,8 +89,7 @@ class Menu {
         //TODO: Implement a better pause
         console.log("CREATING BACK MENU");
         let back = Menu.createBackButton(SceneManager.Scenes.MainMenu, function(){
-            Menu.createMainMenu();
-            GameManager.allPlayers = [];
+            location.reload();
         });
         //Add to a group so we can wipe it easily
         back.sprite.addToGroup(LayerManager.Layers.PauseMenuGroup);

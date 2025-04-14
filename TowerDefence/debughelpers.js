@@ -160,7 +160,7 @@ class DebugHelpers{
 
     static loadMap(_level){
         LayerManager.Layers.GroundFloorInteractables.clear();
-        loadJSON('/TowerDefence/maps/' + _level + '.json', (map) => {
+        loadJSON('HMN-Lab/TowerDefence/maps/' + _level + '.json', (map) => {
                 
             Map.pathGrid = new Array();
     

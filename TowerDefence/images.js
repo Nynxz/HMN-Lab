@@ -84,8 +84,8 @@ to play each sound
     }
 
     static _loadEffects(){
-        Images.Effects.Fire1 = loadSpriteSheet('/HMN-Lab/TowerDefence/assets/effects/fire1/fire1_100x.png', 100, 100, 60);
-        Images.Effects.Fire2 = loadSpriteSheet('/HMN-Lab/TowerDefence/assets/effects/fire1/_46x60test.png', 46, 60, 60);
+        //Images.Effects.Fire1 = loadSpriteSheet('/HMN-Lab/TowerDefence/assets/effects/fire1/fire1_100x.png', 100, 100, 60);
+        //Images.Effects.Fire2 = loadSpriteSheet('/HMN-Lab/TowerDefence/assets/effects/fire1/_46x60test.png', 46, 60, 60);
         Images.Effects.nightOverlay = loadImage('/HMN-Lab/TowerDefence/assets/effects/NightOverlay.png');
     }
 
